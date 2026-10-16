@@ -18,10 +18,9 @@
 \lrstatus{draft}          % draft | reviewed | final
 
 \newcommand{\Z}{\mathcal{Z}}
-\newcommand{\Th}{\Theta}
+\newcommand{\Mc}{\mathcal{M}}
+\newcommand{\Lf}{\mathsf{L}}
 \newcommand{\Hc}{\mathcal{H}}
-\newcommand{\A}{\mathsf{A}}
-\newcommand{\M}{\mathsf{M}}
 \newcommand{\U}{\mathsf{U}}
 \newcommand{\Enc}{\mathsf{Enc}}
 \newcommand{\View}{\mathsf{View}}
@@ -34,8 +33,8 @@
 %%----------------------------------------------------------------------------
 \lrscope
 The question is whether every threat model in the multi-party learning
-literature can be written with one set of objects: datasets, learning
-functions, a hypothesis class, and the models in it. The adversary is then
+literature can be written with three objects: data, a model space, and a
+learning function from a model, a dataset and a hypothesis class to a model. The adversary is then
 fixed by what it sees, what it chooses, and one of three goals, with no named
 attack families. The method is to define the interface, map the papers placed on
 2026-10-16 onto it, and instantiate it on HE-OFT (KSK26) and on FedAvg, in the
@@ -43,9 +42,10 @@ terms and symbols of HE-OFT.
 
 %%----------------------------------------------------------------------------
 \lrresult
-Every adversary that the sweeps report is a triple: a view of the outputs of
-the protocol's learning functions, a set of protocol inputs it chooses, and a
-goal that is one of distinguish, invert or steer. Membership inference is a
+On three primitives, data, a model space and a learning function that maps a
+model, a dataset and a hypothesis class to a model, every adversary the sweeps
+report is a triple: a view of node values, the node arguments and outputs it
+sets, and a goal that is one of distinguish, invert or steer. Membership inference is a
 discriminator, reconstruction and model extraction are function inversion, and
 poisoning and backdoors are steering. Proven: the strength order between two
 adversaries is post-processing of views together with inclusion of choices, so
@@ -86,27 +86,47 @@ when $Q$ label queries reach what the shared head reveals, and this is open.
 
 %%----------------------------------------------------------------------------
 \lrmethod
-\subsection*{Objects}
-Let $\Z = \mathcal{X}\times\mathcal{Y}$ be the data space. A dataset
-$D \in \Z^{*}$ is a finite multiset. Client $j \in \{1,\dots,N\}$ holds $D_j$
-of size $n_j$, and $\Dpre$ is the pretraining dataset. Let
-$\Th \subseteq \mathbb{R}^p$ be the parameter space and
-$\Hc = \{h_\theta : \theta \in \Th\}$, $h_\theta : \mathcal{X}\to\mathcal{Y}$,
-the hypothesis class. A model is one $h_\theta$.
+\subsection*{The three primitives}
+The interface has three primitives, data, a model space and a learning
+function, and assumes no structure on any of them.
 
-A \emph{learning function} is a randomized map
-$\A : \Z^{*}\times\Th \to \Th$, where $\A(D;\theta)$ is the model obtained by
-training on $D$ from $\theta$. Pretraining, $K$ steps of SGD, LoRA with a frozen
-down-projection, and head training are all learning functions. The update map
-is $\U(D;\theta) = \A(D;\theta) - \theta$. For one gradient step
-$\U(D;\theta) = -\eta\nabla_\theta \ell(D;\theta)$, the derivative of the
-dataset's loss evaluated at the point $\theta$. A \emph{merge} is a map
-$\M : \Th^{N} \to \Th$.
+Data. Let $\Z$ be a data space, an arbitrary set. An example $z \in \Z$ may be a
+labeled pair, an unlabeled input, a token sequence, or one party's block of
+features. A dataset $D \in \Z^{*}$ is a finite multiset, and two datasets of one
+protocol may live in different spaces, as an unlabeled pretraining corpus
+$\Dpre$ and a labeled fine-tuning set $D_j$ do. Client $j \in \{1,\dots,N\}$
+holds $D_j$ of size $n_j$. The partition is horizontal when each client holds
+whole examples, and vertical when every example is split into blocks and client
+$j$ holds one block of each, as in vertical and split learning.
 
-A protocol is a finite directed acyclic graph whose nodes apply learning
-functions, merges and the query map $x \mapsto h_{\theta}(x)$. Every node value
-$v$ is a function of $(\Dpre, D_1,\dots,D_N)$, the honest randomness, and the
-adversary's choices.
+Models. Let $\Mc$ be a model space, an arbitrary set. A model $m \in \Mc$ is
+used through an evaluation map $\mathsf{ev} : \Mc \times \mathcal{U} \to
+\mathcal{O}$ from a model and a query to an output, which may be a score vector,
+a label, a loss, a generated sequence or an embedding. A hypothesis class is a
+subset $\Hc \subseteq \Mc$. A parameterized class $\theta \mapsto m_\theta$ is
+one instance and not an assumption.
+
+Learning function. A learning function is a randomized map
+\[
+\Lf : \Mc \times \Z^{*} \times 2^{\Mc} \to \Mc, \qquad (m, D, \Hc) \mapsto \Lf(m, D, \Hc),
+\]
+from a starting model, a dataset and a hypothesis class to a model, which lies
+in $\Hc$ for every learning function in the placed papers. The loss, the
+optimizer and the number of steps are internal to $\Lf$. Pretraining is
+$\Lf(m_{\mathrm{init}}, \Dpre, \Mc)$. Training with frozen parts passes the class
+of models that agree with $m$ outside the trained parameters, so LoRA and head
+training differ from full fine-tuning only in $\Hc$. Aggregation is a learning
+function whose data space is $\Mc$ itself: its dataset is the multiset of client
+models, FedAvg is their mean, a robust aggregator is a robust estimator of
+location, and HE-OFT's merge is a weighted mean. When $\Mc$ is a vector space
+the update is $\U(m,D,\Hc) = \Lf(m,D,\Hc) - m$, and for one gradient step it is
+the derivative of the dataset's loss evaluated at $m$.
+
+A protocol is a finite directed acyclic graph. Each node applies a learning
+function or an evaluation map to arguments $(m, D, \Hc)$ that come from
+datasets, public objects or earlier nodes, and it emits an output. Every node
+value is a function of the datasets, the honest randomness and the adversary's
+choices.
 
 \subsection*{The adversary}
 Each node value reaches the adversary through a channel
@@ -116,16 +136,25 @@ adversary does not hold, added noise, or nothing. A decryption policy releases
 $g(v)$ for some functions $g$ of encrypted values, and for approximate HE the
 released value carries the decryption noise as well. The view is
 \[
-\View = \bigl(\kappa_v(v)\bigr)_{v\in S}\ \text{together with oracle access to } x \mapsto o(h_{\theta}(x)),
+\View = \bigl(\kappa_v(v)\bigr)_{v\in S}\ \text{together with oracle access to } \mathsf{ev}(m^{*}, \cdot),
 \]
-for the set $S$ of node values it sees and an output map $o$ (identity for
-scores, $\arg\max$ for labels, the loss for loss access).
+for the set $S$ of node values it sees and the served model $m^{*}$. The
+evaluation map of the served model fixes what an answer reveals.
 
-The choices $C$ are the protocol inputs the adversary sets: its own dataset,
-its own update, the point $\theta$ at which honest clients evaluate $\U$, the
-merge $\M$, the learning function $\A$ that clients run, query points, and the
-ciphertexts presented for decryption. A semi-honest adversary chooses nothing
-but query points. Every malicious model in the placed papers chooses more.
+The choices $C$ are the arguments and outputs of nodes that the adversary sets.
+\begin{itemize}
+\item A data argument: its own dataset, or poisoned examples.
+\item A model argument: the model broadcast to clients, or a different one for
+  each client.
+\item A class argument: the architecture, or an inserted module.
+\item The learning function of a node: training code shipped to clients, the
+  loss that trains a client's layers, or the aggregation rule and schedule.
+\item The output of a node: an arbitrary update, a returned gradient, or a
+  ciphertext presented for decryption.
+\item Queries $u$ to the served model.
+\end{itemize}
+A semi-honest adversary chooses queries only. Every malicious model in the
+placed papers chooses more.
 
 The goal is one of three games, each with a baseline, the best value reached
 from public knowledge alone.
@@ -137,15 +166,16 @@ from public knowledge alone.
   $D_j$. Telling a pretraining member from a fine-tuning member is
   $z \in \Dpre$ against $z \in D_j$. HE-OFT's content game is this goal with
   $D_j \in \{D_0, D_1\}$ of equal size.
-\item Invert. A target $\tau$ of the datasets or the model, and a tolerance
+\item Invert. A target $\tau$ of the datasets or the models, and a tolerance
   $\eta$. The adversary wins when $d(\hat\tau, \tau) \le \eta$. Reconstruction
-  takes $\tau$ a record of $D_j$, and model extraction takes $\tau = \theta^{*}$
-  from the query oracle, scored by fidelity.
-\item Steer. A target set $T \subseteq \Th$. The adversary wins when the trained
+  takes $\tau$ a record of $D_j$, and model extraction takes $\tau$ a model that
+  agrees with $m^{*}$ on queries, scored by fidelity.
+\item Steer. A target set $T \subseteq \Mc$. The adversary wins when the trained
   model lands in $T$ under its choices, while a defender's discriminator between
-  honest and adversarial updates has advantage at most $\delta$. Untargeted
-  poisoning takes $T$ the models of high risk, and a backdoor takes $T$ the
-  models that send a trigger set to a fixed label.
+  honest and adversarial outputs has advantage at most $\delta$. Untargeted
+  poisoning takes $T$ the models of high expected loss, and a backdoor takes $T$
+  the models whose outputs on triggered queries satisfy a predicate the
+  adversary fixes, such as a target label or a target completion.
 \end{itemize}
 The stealth constraint on steering is itself a distinguish game, played by the
 defender. A client that tests whether the server deviated plays the same game.
@@ -174,12 +204,12 @@ Instances, as the sweeps report them unless marked:
   parameters (Sablayrolles et al., ICML 2019, from memory). Separation claimed
   for SGD (Suri, Zhang and Evans, TMLR 2024, outside the venue rule).
 \item Each client's update against the sum, invert. Collapse when the server
-  chooses a different $\theta$ for each client, since $\Sigma$ then equals one
+  chooses a different model argument for each client, since $\Sigma$ then equals one
   update (Pasquini, Francati and Ateniese, CCS 2022).
-\item Honest against chosen $\theta$, invert. Separation by construction,
+\item Honest against chosen model argument, invert. Separation by construction,
   proven under an RIP condition (ARES, Gong et al., S\&P 2026) and empirical
   (SEER, Garov et al., ICLR 2024, and LOKI, Zhao et al., S\&P 2024).
-\item Chosen $\theta$ through a local DP channel, distinguish. Proven lower
+\item Chosen model argument through a local DP channel, distinguish. Proven lower
   bounds for every LDP mechanism (Nguyen et al., ICML 2025).
 \item Steer with one's dataset against steer with one's update. Proven
   separation in stability for convex losses (Boudou et al., ICML 2026).
@@ -189,52 +219,54 @@ Instances, as the sweeps report them unless marked:
 \end{itemize}
 
 \subsection*{HE-OFT on the interface}
-The pretraining dataset gives the backbone $\varphi$, public and frozen. Client
-$j$ runs one learning function on $D_j$ from $\varphi$ and the public head
-initializer $\theta_0$, and obtains its adapter $A_j$, kept local, and its head
-$h_j$. Its update is $\Enc(\mathrm{diag}(g_j)\Delta_j)$ and $\Enc(g_j)$, with
-$\Delta_j = h_j - \theta_0$ and $g_j$ the per-class counts. The merge is the
-coverage-weighted average. Row $c$ of the shared head is $\theta_0$ plus
-$\sum_j n_{j,c}\Delta_{j,c}/\sum_j n_{j,c}$, evaluated under encryption. The
-shared head $\theta^{*}$ is never decrypted. A querier encrypts its own
-features, the server applies $\theta^{*}$ and an encrypted argmax, masks every
-slot but the label, and a quorum of $t$ clients key-switches the label to the
-querier, up to $Q$ times per client.
+Pretraining on $\Dpre$ gives the backbone $\varphi$, public and frozen. Client
+$j$ runs $\Lf(m_0, D_j, \Hc_j)$, where $m_0$ is the backbone with the shared
+adapter initialization and the public head initializer $\theta_0$, and $\Hc_j$
+holds the backbone and the adapter's down-projection fixed. The output is the
+adapter $A_j$, kept local, and the head $h_j$. The node emits
+$\Enc(\mathrm{diag}(g_j)\Delta_j)$ and $\Enc(g_j)$, with
+$\Delta_j = h_j - \theta_0$ and $g_j$ the per-class counts. The aggregation node
+is a learning function on the heads, the coverage-weighted mean, whose row $c$
+is $\theta_0$ plus $\sum_j n_{j,c}\Delta_{j,c}/\sum_j n_{j,c}$, evaluated under
+encryption. The served model is the shared head $\theta^{*}$ on the querier's
+own features, and its evaluation map returns the label alone. A quorum of $t$
+clients key-switches each label to the querier, up to $Q$ times per client.
 \begin{itemize}
 \item Semi-honest server with $t-1$ clients. The view is ciphertexts, the
   public counts $n_j$, the selected index and the coalition's own answers.
   Proven simulation security under IND-CPA and a smudging hypothesis. The paper
   reports that its measured configuration does not meet that hypothesis and
   recommends $2^{25}$ smudging with a duplicate-query check (KSK26).
-\item Deviating clients, honest server. The choices are the clients' uploads,
-  shares and arbitrary feature vectors as queries. The distinguish goal is
-  bounded by a negligible term plus what $Q_{\mathrm{tot}}$ label queries give,
-  under three readings on deviating messages that HE-OFT does not enforce by
-  proofs. No steering claim is made. Proven, from the merge formula: since no
-  check ties $g_j$ to $n_j$ or to the data, a client that reports a large
-  $g_{j,c}$ moves row $c$ of $\theta^{*}$ as close to its own $\Delta_{j,c}$ as
-  it likes.
+\item Deviating clients, honest server. The choices are node outputs (uploads,
+  shares) and queries, including arbitrary feature vectors. The distinguish
+  goal is bounded by a negligible term plus what $Q_{\mathrm{tot}}$ label queries
+  give, under three readings on deviating messages that HE-OFT does not enforce
+  by proofs. No steering claim is made. Proven, from the aggregation formula:
+  since no check ties $g_j$ to $n_j$ or to the data, a client that reports a
+  large $g_{j,c}$ moves row $c$ of $\theta^{*}$ as close to its own
+  $\Delta_{j,c}$ as it likes.
 \item Deviating server. Its choices include the ciphertext presented to the
-  quorum. HE-OFT proves that a client's decision to contribute a share cannot
-  depend on the plaintext, so no protocol in which clients decrypt what the
-  server presents admits a deviating server, and at four classes one request
-  carries the whole head (KSK26). The paper names a checker that recomputes the
-  deterministic serving circuit, or verifiable HE, as the remedy.
+  quorum, a node output. HE-OFT proves that a client's decision to contribute a
+  share cannot depend on the plaintext, so no protocol in which clients decrypt
+  what the server presents admits a deviating server, and at four classes one
+  request carries the whole head (KSK26). The paper names a checker that
+  recomputes the deterministic serving circuit, or verifiable HE, as the remedy.
 \end{itemize}
 
 \subsection*{FedAvg, split and vertical learning on the interface}
-In FedAvg, $\A$ is $K$ local SGD steps and the server sees $\U(D_j;\theta)$ at
-honest points, or $\Sigma_j\,\U(D_j;\theta)$ under secure aggregation. Gradient
-inversion is the invert game on $D_j \mapsto \U(D_j;\theta)$. A malicious server
-chooses $\theta$ to make that map injective with a computable inverse (ARES and
-LOKI), or chooses it per client to remove $\Sigma$ (Pasquini, Francati and
-Ateniese). With LoRA, $\U$ is confined to the adapter, and it stays invertible
-from the low-rank gradient while the token count is below the embedding
-dimension (DAGER, Petrov et al., NeurIPS 2024). In split learning the view is
-the client's features and their gradient, and a malicious server chooses the
-loss that trains the client's layers, so its choices contain $\A$ itself
-(Pasquini, Ateniese and Bernaschi, CCS 2021). In vertical learning the label
-holder chooses the gradients it returns, and the URVFL attack uses this to
-invert the other parties' features (Yao et al., NDSS 2025).
+In FedAvg each client node runs $K$ local SGD steps, $\Lf(m_t, D_j, \Mc)$, and
+the server sees each update $\U(m_t, D_j, \Mc)$, or only their sum under secure
+aggregation. Gradient inversion is the invert game on
+$D_j \mapsto \U(m_t, D_j, \Mc)$. A malicious server sets the model and class
+arguments so that this map is injective with a computable inverse (ARES and
+LOKI), or sets a different model argument per client to remove $\Sigma$
+(Pasquini, Francati and Ateniese). With LoRA the class argument confines the
+update to the adapter, and the update stays invertible while the token count is
+below the embedding dimension (DAGER, Petrov et al., NeurIPS 2024). In split
+learning the view is the client's features and their gradient, and a malicious
+server sets the learning function that trains the client's layers (Pasquini,
+Ateniese and Bernaschi, CCS 2021). In vertical learning the label holder sets
+the output of its node, the gradients it returns, and the URVFL attack uses this
+to invert the other parties' features (Yao et al., NDSS 2025).
 
 \end{document}

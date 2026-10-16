@@ -62,12 +62,17 @@ paper, unchanged. The second block is the adversary interface of
 | privacy | the training data, and what an adversary learns about it | the protocol's secrecy guarantee |
 | local | never transmitted | private, as a synonym |
 | plaintext, ciphertext | always | in the clear, public for unencrypted |
-| dataset | a finite multiset of labeled examples, D_j for client j and D_pre for pretraining | the data, the corpus |
-| learning function | a randomized map from a dataset and a starting point to a model | the training algorithm, the optimizer |
-| hypothesis class | the set of models a learning function can output | the model family |
-| model | one member of the hypothesis class, given by its parameters | the network, the weights, as a synonym |
+| data space | the set Z examples come from, with no structure assumed: a labeled pair, an unlabeled input, a token sequence, or one party's block of features. Ruling, Halil 2026-10-16: never X × Y, because that assumes supervision | the input space, when Z is meant |
+| dataset | a finite multiset of examples, labeled or not, D_j for client j and D_pre for pretraining. Two datasets of one protocol may live in different data spaces | the data, the corpus |
+| loss | a map from a model and one example to a real number, labels not required (the general setting of learning, Vapnik; Shalev-Shwartz et al. JMLR 2010) | the objective, the criterion, as synonyms |
+| horizontal, vertical | how datasets are split among parties: whole examples per party, or one block of every example per party (vertical and split learning) | sample-partitioned, feature-partitioned, as names |
+| model space | the set M of models, with no structure assumed. Ruling, Halil 2026-10-16: the interface has three primitives, data, model space and learning function, at the highest generality | the parameter space, when M is meant |
+| learning function | a randomized map L(m, D, H) from a starting model m, a dataset D and a hypothesis class H ⊆ M to a model. Loss, optimizer and step count are internal to it. Aggregation is a learning function whose data are the client models | the training algorithm, the optimizer, the merge as a separate object |
+| evaluation map | ev(m, u), the output of model m on query u: a score vector, a label, a loss, a generated sequence or an embedding | the query map, the API |
+| hypothesis class | the subset H of the model space a learning function searches. Frozen and trained parts are expressed by it, so LoRA and head training are full training on a smaller H | the model family, the architecture, as synonyms |
+| model | one element m of the model space: a classifier, a density, a generator or an encoder. A parameterization is an instance, not an assumption | the network, the weights, as synonyms |
 | view | everything an adversary sees, each value through its channel, plus its query answers | observations, access |
-| choices | the protocol inputs an adversary sets | capabilities |
+| choices | the node arguments (data, model, class, learning function) and node outputs an adversary sets, and its queries | capabilities |
 | distinguish | the goal of telling two hypotheses about the datasets apart, played by a discriminator | membership inference, property inference, as names |
 | invert | the goal of recovering a target from the view within a tolerance, function inversion | reconstruction, extraction, as names |
 | steer | the goal of choosing inputs so the trained model lands in a target set | poisoning, backdoor, as names |
@@ -93,8 +98,12 @@ HE-OFT's symbols are kept with their meaning. The interface adds the rest.
 | θ* | the shared head | KSK26 |
 | Enc | encryption under the collective public key | KSK26 |
 | t, Q | decryption threshold, per-client allowance | KSK26 |
-| Θ, H, h_θ | parameter space, hypothesis class, the model with parameters θ | interface report |
-| A, U, M | learning function, update map U(D; θ) = A(D; θ) − θ, merge | interface report |
+| Z, D | data space (an arbitrary set), dataset (a finite multiset over Z) | interface report |
+| M, H, m | model space, hypothesis class H ⊆ M, a model | interface report |
+| L(m, D, H) | learning function | interface report |
+| ev(m, u) | evaluation map, model m on query u | interface report |
+| U(m, D, H) | update L(m, D, H) − m, when M is a vector space | interface report |
+| m* | the served model | interface report |
 | View, C | an adversary's view and its choices | interface report |
 
 ## Current state
