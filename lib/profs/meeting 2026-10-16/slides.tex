@@ -1,0 +1,415 @@
+\documentclass[aspectratio=169,10pt]{beamer}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+
+% ---------------------------------------------------------------- design
+\definecolor{kred}{RGB}{178,28,36}
+\definecolor{kgrey}{RGB}{90,90,90}
+
+\usetheme{default}
+\usecolortheme{default}
+\setbeamercolor{structure}{fg=kred}
+\setbeamercolor{frametitle}{fg=kred,bg=white}
+\setbeamercolor{title}{fg=kred}
+\setbeamercolor{itemize item}{fg=kred}
+\setbeamercolor{itemize subitem}{fg=kgrey}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\raisebox{0.15ex}{\tiny$\blacksquare$}}
+\setbeamertemplate{itemize subitem}{\raisebox{0.15ex}{\tiny$\square$}}
+\setbeamertemplate{enumerate items}[default]
+\setbeamerfont{frametitle}{series=\bfseries,size=\large}
+\setbeamerfont{title}{series=\bfseries}
+\setbeamertemplate{footline}{%
+  \hspace{2ex}\textcolor{kgrey}{\tiny HE-ML, group meeting, 16 October 2026}%
+  \hfill\textcolor{kgrey}{\tiny\insertframenumber}\hspace{2ex}\vspace{1ex}}
+\setlength{\leftmargini}{1.4em}
+\setlength{\tabcolsep}{4pt}
+
+\hypersetup{colorlinks=true,urlcolor=kred,linkcolor=kred}
+
+\newcommand{\redline}{\textcolor{kred}{\rule{\textwidth}{1pt}}}
+\newcommand{\Z}{\mathcal{Z}}
+\newcommand{\Mc}{\mathcal{M}}
+\newcommand{\Hc}{\mathcal{H}}
+\newcommand{\Lf}{\mathsf{L}}
+\newcommand{\ev}{\mathsf{ev}}
+\newcommand{\Qtot}{Q_{\mathrm{tot}}}
+
+\title{HE-ML}
+\subtitle{Threat models in multi-party learning}
+\author{Halil \.{I}brahim Kanpak}
+\date{16 October 2026}
+
+\begin{document}
+
+% ================================================================ 1
+\begin{frame}[plain]
+  \vfill
+  {\Huge\textbf{\textcolor{kred}{HE-ML}}}\\[0.4em]
+  {\large Threat models in multi-party learning, 2023 to 2026}\\[1.2em]
+  \redline\\[0.8em]
+  {\small Halil \.{I}brahim Kanpak, Ko\c{c} University \hfill meeting, 16 October 2026}
+  \vfill
+\end{frame}
+
+% ================================================================ 2
+\begin{frame}{CURE and HE-OFT}
+  \begin{itemize}
+    \item CURE pairs one client with one server. The client computes in plaintext and the server computes under encryption.
+    \item HE-OFT runs one-shot federated fine-tuning under multiparty CKKS (arXiv 2610.08255, submitted to IEEE TNSE). No party holds a client's update or either of the two shared heads in plaintext. A querier learns one label per query, up to an allowance $Q$, and a quorum of $t$ clients decrypts each label.
+    \item Both carry proofs against semi-honest parties, HE-OFT's under a smudging hypothesis. Theorem 1 of HE-OFT covers a semi-honest server with up to $t-1$ clients.
+    \item With an honest server, HE-OFT bounds what $t-1$ deviating clients learn through $\Qtot=(t-1)Q$ label queries. HE-OFT also proves that no protocol in which clients decrypt what the server presents is secure against a deviating server.
+    \item HE-OFT claims no integrity against deviating clients and no bound on what a deviating client can do to the shared head.
+  \end{itemize}
+  \vspace{0.5em}
+  \redline\\[0.4em]
+  This study asks what the field claims once some parties deviate, and which of those claims it proves.
+\end{frame}
+
+% ================================================================ 3
+\begin{frame}{The study}
+  \small
+  \begin{itemize}
+    \item We keep the setting abstract: a set of data owners, possibly an aggregator, and a training protocol among them. In the ledger the roles are clients, the server, and a querier or eavesdropper. 241 of the 350 coded papers name federated learning as their setting.
+    \item We screened top venues only, for 2023 to 2026: IEEE S\&P, USENIX Security, CCS, NDSS, PoPETs, CRYPTO, EUROCRYPT, ASIACRYPT, NeurIPS, ICML and ICLR. We added three earlier anchors that fixed a threat model.
+    \item Six language-model screeners read each venue's own accepted-paper list. We kept a paper when two or more parties train or fine-tune on data or models they hold, and the contribution concerns privacy or security against an adversary. Each dropped paper carries its reason.
+    \item Every kept PDF went to Drive with a note. We call such a paper placed. A language-model coder read each placed paper and wrote one ledger row per adversarial coalition, on 22 columns. The columns record what the coalition sees, knows and sets, its goal, the protection and the checks it faces, the evidence, and the comparison between two adversaries it settles. This screening and coding is the sweep.
+    \item The repository HE-ML takes its terms from HE-OFT and is at github.com/hkanpak21/HE-ML.
+  \end{itemize}
+  \vspace{0.3em}
+  \redline\\[0.3em]
+  Every note except HE-OFT's comes from a model's extraction. Each count that follows counts what the papers state in those extractions.
+\end{frame}
+
+% ================================================================ 4
+\begin{frame}{The counts}
+  \begin{columns}[T]
+    \begin{column}{0.50\textwidth}
+      \footnotesize
+      \begin{tabular}{@{}lr@{}}
+        \toprule
+        Counted on 16 October 2026 & \\
+        \midrule
+        Screened at eleven venues & 574\\
+        Dropped at screening & 206\\
+        Placed, with PDF and note & 364\\
+        Dropped by the coder & 14\\
+        Without an accessible PDF & 4\\
+        Coded in the ledger & 350\\
+        Ledger rows, one per coalition & 519\\
+        Marked for a full read & 33\\
+        Read in full & 1\\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \footnotesize
+      \begin{tabular}{@{}lr@{}}
+        \toprule
+        Coded papers by venue & \\
+        \midrule
+        ICML & 69\\
+        ICLR & 54\\
+        NeurIPS & 49\\
+        CCS & 41\\
+        PoPETs & 41\\
+        USENIX Security & 39\\
+        IEEE S\&P & 25\\
+        NDSS & 23\\
+        ASIACRYPT, CRYPTO & 8\\
+        arXiv (HE-OFT, added by hand) & 1\\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+  \end{columns}
+  \vspace{0.5em}
+  \small By year, the ledger holds 89 papers from 2023, 95 from 2024, 100 from 2025, 63 from 2026, and 3 earlier anchors. By kind, it holds 124 defences, 110 protocols, 74 attacks, 15 theory papers, 6 systematizations, 5 measurements and 16 of mixed kind.\\[0.4em]
+  \redline\\[0.3em]
+  \small The 2026 count lacks NeurIPS 2026 and may lack part of CCS 2026. We did not measure screening recall, and we did not screen EuroS\&P, SaTML or CSF.
+\end{frame}
+
+% ================================================================ 5
+\begin{frame}{An interface for threat models}
+  \small
+  \begin{itemize}
+    \item The interface has three primitives: a data space $\Z$, a model space $\Mc$, and a learning function $\Lf(m, D, \Hc)$ from a starting model, a dataset and a hypothesis class $\Hc\subseteq\Mc$ to a model. Loss, optimizer and step count are internal to $\Lf$, and we assume no structure on any of the three.
+    \item A protocol is a graph of nodes. Each node applies a learning function or the evaluation map $\ev(m,u)$, the output of model $m$ on a query $u$. Aggregation is a node whose dataset is the client models.
+    \item An adversary is a coalition with a view, its choices and a goal. It sees each node value through a channel (plaintext, a sum, a ciphertext, added noise, or nothing), and it sets node arguments, node outputs or queries. A semi-honest coalition sets queries only.
+    \item We define three goals: distinguish two hypotheses on the datasets, invert a target within a tolerance, and steer the trained model into a target set under a stealth constraint. Membership and property inference fall under distinguish, reconstruction and extraction under invert, and poisoning and backdoors under steer.
+  \end{itemize}
+  \vspace{0.4em}
+  \redline\\[0.4em]
+  On 16 October we fixed two rulings. The data space is never $\mathcal{X}\times\mathcal{Y}$, because that assumes supervision, and a parameterization is an instance of the model space.
+\end{frame}
+
+% ================================================================ 6
+\begin{frame}{Ordering adversaries}
+  \small
+  \begin{itemize}
+    \item Adversary 1 is at most as strong as adversary 2 when adversary 1 sets a subset of what adversary 2 sets and its view is a randomized function of adversary 2's.
+    \item The order bounds the best distinguishing advantage, by the data-processing inequality, and the best inversion success, by simulation (proven). The best distinguishing advantage equals the total variation distance between the two distributions of the view.
+    \item A collapse at a goal means the weaker adversary attains the stronger one's best value. For distinguishing, a sufficient statistic of the stronger view gives a collapse. The converse fails for one fixed pair of hypotheses, because the optimal test needs only its acceptance region (proven, by a three-point example).
+    \item A separation is a dataset distribution, a learning function and a hypothesis class on which the stronger adversary attains a much larger best value.
+    \item Black-box against white-box is then a question of which statistic of the weights the query answers preserve. HE-OFT proves one such ordering, that $\Qtot$ label answers give no more than both shared heads in plaintext.
+  \end{itemize}
+  \vspace{0.4em}
+  \redline\\[0.4em]
+  In this language, a research problem is one step between two adversaries that the field crosses without a result. Solving it takes a collapse or a separation proven at a fixed goal, with a test suite that measures the gap.
+\end{frame}
+
+% ================================================================ 7
+\begin{frame}{Coalitions by role and goal}
+  \begin{center}
+  \footnotesize
+  \setlength{\tabcolsep}{6pt}
+  \begin{tabular}{@{}lrrrrrr@{}}
+    \toprule
+    Coalition & rows & deviating & distinguish & invert & steer & other\\
+    \midrule
+    the server alone              & 153 & 53  & 66 & 94 & 7   & 5\\
+    clients alone                 & 245 & 188 & 50 & 42 & 146 & 18\\
+    the server with clients       & 81  & 37  & 58 & 38 & 8   & 1\\
+    a querier or an eavesdropper  & 36  & 5   & 25 & 11 & 3   & 1\\
+    other parties                 & 4   & 1   & 3  & 1  & 0   & 0\\
+    \midrule
+    all rows                      & 519 & 284 & 202 & 186 & 164 & 25\\
+    \bottomrule
+  \end{tabular}\\[0.3em]
+  \scriptsize One row per coalition in the ledger. A deviating row sets a choice beyond queries: data, a model, a class, a learning function, a merge, a node output, a ciphertext or a release. A row with two goals counts under each. Roles are grouped by keyword, with committee members and decryptors under the server and active and passive parties under clients.
+  \end{center}
+  \vspace{0.3em}
+  \redline\\[0.3em]
+  \small
+  \begin{itemize}
+    \item Of the 153 rows for the server alone, 94 have the invert goal and 53 deviate.
+    \item Of the 245 rows for clients alone, 146 have the steer goal and 188 deviate.
+    \item 235 of the 519 rows set nothing beyond queries, the semi-honest case. Of the other 284, 33 set only their own data, which a party that follows the protocol can do, and 251 depart from the protocol.
+    \item The goals outside the three are free-riding, compliance bypass and watermark removal.
+  \end{itemize}
+\end{frame}
+
+% ================================================================ 8
+\begin{frame}{Evidence, protection and checks}
+  \begin{columns}[T]
+    \begin{column}{0.46\textwidth}
+      \footnotesize
+      \begin{tabular}{@{}lr@{}}
+        \toprule
+        Evidence behind a row & rows\\
+        \midrule
+        proven and measured & 187\\
+        measured only & 131\\
+        proven only & 119\\
+        sketch only & 79\\
+        no new result (systematizations) & 3\\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+    \begin{column}{0.50\textwidth}
+      \footnotesize
+      \begin{tabular}{@{}lr@{}}
+        \toprule
+        Protection a row names & rows\\
+        \midrule
+        none & 192\\
+        DP (local 72, central 49, distributed 43) & 162\\
+        secure aggregation & 98\\
+        MPC or secret sharing & 86\\
+        HE (threshold or multiparty 33) & 75\\
+        zero-knowledge proofs & 34\\
+        TEE & 13\\
+        \bottomrule
+      \end{tabular}\\[0.2em]
+      \scriptsize A row may name several. Matched in the ledger's mechanism field.
+    \end{column}
+  \end{columns}
+  \vspace{0.3em}
+  \redline\\[0.3em]
+  \small
+  \begin{itemize}
+    \item 249 of the 519 rows carry at least one check: an input validation, a proof of honest computation, or a detector.
+    \item 68 attack rows require stealth without measuring a detector, 51 record a measured detector, and 261 state no stealth constraint. The rest are defence or protocol rows. Of the 164 steer rows, 76 state no stealth constraint.
+    \item 116 rows record a step between two adversaries as settled, 75 as a separation, 36 as a collapse, 5 as both. 19 more record a step as open.
+  \end{itemize}
+\end{frame}
+
+% ================================================================ 9
+\begin{frame}{Trends by year, 2023 to 2026}
+  \begin{center}
+  \footnotesize
+  \setlength{\tabcolsep}{6pt}
+  \begin{tabular}{@{}lrrrrrrrrrr@{}}
+    \toprule
+    Year & Rows & Deviating & HE & DP & SecAgg & MPC & ZK & TEE & Proven & Adaptive\\
+    \midrule
+    2023 & 127 & 58 & 6  & 32 & 18 & 17 & 9 & 1 & 76 & 56\\
+    2024 & 141 & 53 & 12 & 33 & 13 & 18 & 2 & 1 & 70 & 44\\
+    2025 & 132 & 53 & 12 & 33 & 17 & 20 & 9 & 4 & 80 & 52\\
+    2026 & 92  & 50 & 23 & 23 & 20 & 9  & 7 & 2 & 75 & 37\\
+    \bottomrule
+  \end{tabular}\\[0.4em]
+  \scriptsize\begin{minipage}{0.92\textwidth}
+  Rows is a count. Every other column is a per cent of that year's ledger rows, systematizations excluded. A deviating row sets a choice beyond queries, as on frame 7. A mechanism column counts rows whose mechanism field names it, as on the previous frame. Proven counts rows whose evidence is proven or sketched. Adaptive is the per cent of deviating rows that evaluate an adaptive adversary, among those whose evaluation says (28 of 50 in 2023, 11 of 30 in 2026).
+  \end{minipage}
+  \end{center}
+  \vspace{0.3em}
+  \redline\\[0.3em]
+  \small
+  \begin{itemize}
+    \item The share of rows protected by HE rose from 6 to 23 per cent between 2023 and 2026 (Fisher exact test, p below 0.001). Within the security venues alone it rose from 13 to 28 per cent, so the rise is not only a change in the venue mix.
+    \item The share of rows with a deviating adversary stayed between 50 and 58 per cent, and the adaptive share went from 56 to 37 per cent with p of 0.11. Neither difference is significant.
+    \item Empirical, recomputed from the ledger. The sweep report of 16 October counts a choices cell such as ``none (semi-honest)'' as deviating, and its mechanism columns match keywords over the whole protection cell, so it prints a deviating share rising from 64 to 75 per cent and larger mechanism shares. The 2026 column lacks NeurIPS 2026.
+  \end{itemize}
+\end{frame}
+
+% ================================================================ 10
+\begin{frame}{Terms that change meaning across papers}
+  \begin{itemize}
+    \item Malicious means deviating in protocol steps in the cryptographic papers, deviating in model parameters in the server attacks, and deviating only in the released model in When the Aggregator Cheats (USENIX Security 2026).
+    \item Passive means no protocol deviation in the cryptographic papers and no parameter manipulation in the two gradient-leakage systematizations.
+    \item Distributed DP means local Gaussian noise per worker in On the Privacy-Robustness-Utility Trilemma (ICML 2023) and jointly generated central noise in DP-BREM (USENIX Security 2025).
+    \item The two gradient-leakage systematizations at USENIX Security 2025 classify the server by knowledge level, with eight threat models in one and six levels in the other. Neither paper's levels are nested (their Table 1 and Table 7).
+  \end{itemize}
+  \vspace{0.6em}
+  \redline\\[0.5em]
+  The ledger therefore stores what a coalition sees, knows and sets, and keeps each paper's own term as provenance.
+\end{frame}
+
+% ================================================================ 11
+\begin{frame}{Settled steps between two adversaries}
+  \begin{center}
+  \scriptsize
+  \renewcommand{\arraystretch}{1.0}
+  \begin{tabular}{@{}p{3.3cm}p{1.5cm}p{5.1cm}p{3.1cm}@{}}
+    \toprule
+    The step & Goal & Result & Source\\
+    \midrule
+    $\Qtot$ label answers against both shared heads in plaintext & distinguish & ordering proven, white-box advantage measured near zero & HE-OFT, read in full\\
+    each client's update against their sum & invert & collapse when the server sends each client a different model, measured & Pasquini et al., CCS 2022\\
+    an honest against a chosen model argument & invert & separation by construction, proven under a restricted-isometry condition (ARES) and measured (SEER, LOKI) & S\&P 2026, ICLR 2024, S\&P 2024\\
+    an honest against a chosen model argument, through a local DP channel & distinguish & lower bounds proven for every local DP mechanism & Nguyen et al., ICML 2025\\
+    poisoned data against a chosen update & steer & separation in stability proven for convex losses & Boudou et al., ICML 2026\\
+    a steering client against a defender with a perfect detector & steer & proven for distance-based aggregators, where perfect detection implies no learning & Raynal and Troncoso, S\&P 2025\\
+    a decryptor under independent against joint smudging, threshold CKKS & distinguish, real against ideal view & independent smudging fails standard simulation security, joint sampling meets it, proven & Hwang et al., ASIACRYPT 2026\\
+    a CPA-D querier against a decrypting party of threshold FHE & invert, the secret key & collapse, a decrypting party holds a decryption oracle under the global key, proven attack & Checri et al., CRYPTO 2024\\
+    \bottomrule
+  \end{tabular}
+  \end{center}
+  \vspace{0.1em}
+  \scriptsize Rows 2 to 8 are coded from sweep extractions. Only the first row rests on a full reading.
+\end{frame}
+
+% ================================================================ 12
+\begin{frame}{Secure aggregation and multiparty HE against deviating parties}
+  \small
+  \begin{itemize}
+    \item Secure aggregation has proofs against a malicious server together with malicious clients, in the papers' own term, with abort. ACORN (USENIX Security 2023) validates inputs by zero-knowledge norm bounds, and Armadillo (CCS 2025) adds robustness to input validation. AlphaFL (PoPETs 2025) reaches UC security against a dishonest majority. Lighthouse (USENIX Security 2026) reports proof gaps in Flamingo and TACITA.
+    \item Willow (CRYPTO 2025) proves one-shot secure aggregation over a verifiable threshold additive HE against a malicious server with clients and a minority of decryptors. Its checks include the correctness of decryption shares.
+    \item For multiparty HE, PELTA (CCS 2023) detects deviation in BFV-based operations by lattice commitments and proofs, and does not validate inputs. Hwang, Lee, Seo and Song (CCS 2025) prove keys, ciphertexts and decryption shares well formed by PIOPs, with independent per-party smudging noise (their flooding). High-Throughput UC Threshold FHE Decryption (CCS 2025) decrypts by MPC rounding without smudging, for exact schemes only.
+  \end{itemize}
+  \vspace{0.4em}
+  \redline\\[0.4em]
+  In the interface a proof of honest computation shrinks the choices toward the semi-honest ones, and input validation bounds the set a client can steer toward. With input validity proofs, setting an output collapses to setting data inside the validated range at the steer goal, argued in prose by Armadillo and by the integrity systematization of PoPETs 2026.
+\end{frame}
+
+% ================================================================ 13
+\begin{frame}{The decryption channel of threshold and approximate HE}
+  \small
+  \begin{itemize}
+    \item Checri et al.\ (CRYPTO 2024) recover the secret key from a CPA-D oracle on BFV, BGV and TFHE in their basic form. They also show that a decrypting party of threshold BFV, BGV or CKKS holds a decryption oracle under the global key through the partial decryptions.
+    \item Guo et al.\ (USENIX Security 2024) recover CKKS keys in OpenFHE when the smudging noise is sized from average-case noise.
+    \item Hwang et al.\ (ASIACRYPT 2026, venue from the ePrint field) prove that threshold CKKS decryption with independent per-party smudging fails standard simulation security even against semi-honest parties, because a party's own noise enters the output it sees. They also prove that jointly sampled smudging meets standard simulation security.
+    \item Threshold FHE with Synchronized Decryptors (CCS 2026) attacks smudged partial decryptions across decryptor sets, and masks each partial decryption with a PRF that cancels over a fixed set.
+  \end{itemize}
+  \vspace{0.4em}
+  \redline\\[0.4em]
+  The one placed proof against deviating decryptors in multiparty HE, Hwang, Lee, Seo and Song (CCS 2025), smudges per party. Whether it meets standard simulation security after the smudging result is open, as extracted. HE-OFT smudges per party in Theorem 1 and does not cite that result.
+\end{frame}
+
+% ================================================================ 14
+\begin{frame}{Corrupted fractions and the server's power}
+  \small
+  \begin{itemize}
+    \item Defence papers at NDSS, CCS and S\&P test a colluding coalition, in their term a malicious one, that controls 10 to 45 per cent of 20 to 100 clients. Fang et al.\ (NDSS 2025) sweep 0 to 45 per cent of 100 clients, Lachnit and Karame (CCS 2025) fix 10 per cent of 100, and Choudhary et al.\ (S\&P 2024) corrupt 20 per cent adaptively in every round.
+    \item Shejwalkar et al.\ (S\&P 2022) argue from the cost of a compromised device that the production fraction is 0.01 per cent for model poisoning and 0.1 per cent for data poisoning. They show plain averaging converging at those fractions.
+    \item Theory papers at ICML, NeurIPS and USENIX Security since 2024 split the one corrupted fraction into deployment quantities: the cohort against the population (Allouah et al., ICML 2024, and Lotto, USENIX Security 2024), the aggregator's tolerance as a parameter (Allouah et al., and Fang et al., NDSS 2025), and poisoned data against a chosen update (Boudou et al., ICML 2026).
+    \item On Gradient Leakage in Federated Learning (USENIX Security 2025) states that the malicious server is over-assumed and that its extra power costs stealth. On the Detectability of Active Gradient Inversion Attacks (S\&P 2026) measures a client-side detector against chosen models.
+  \end{itemize}
+  \vspace{0.3em}
+  \redline\\[0.3em]
+  Empirical, from the sweep extractions, with each fraction quoted from the paper's own setup.
+\end{frame}
+
+% ================================================================ 15
+\begin{frame}{HE-OFT in the interface}
+  \begin{center}
+  \scriptsize
+  \renewcommand{\arraystretch}{1.0}
+  \begin{tabular}{@{}p{2.3cm}p{1.9cm}p{1.2cm}p{3.9cm}p{3.4cm}@{}}
+    \toprule
+    Coalition & It sets & Goal & What holds & Status\\
+    \midrule
+    semi-honest server with $t-1$ clients & queries & distinguish & the real view is simulated from the ideal leakage & proven under IND-CPA and a smudging hypothesis the measured configuration does not meet\\
+    $t-1$ deviating clients, honest server & uploads, shares, queries with arbitrary feature vectors & distinguish & advantage at most negligible plus $\delta(\Qtot)$, and the label view is no stronger than both shared heads in plaintext & proven under three assumptions on deviating messages that no proof enforces. $\delta_{\mathrm{wb}}$ near zero, measured on five tasks\\
+    one deviating client & its counts $g_j$ & steer & nothing ties $g_j$ to $n_j$, so a large reported count moves row $c$ of $\theta^{*}$ toward the client's own displacement & proven from the aggregation formula. Found by us. HE-OFT does not state it\\
+    deviating server & the ciphertext presented to the quorum & invert & a client's share decision cannot depend on the plaintext, and at four classes one request carries the whole head & proven in HE-OFT. The remedy named is a checker that recomputes the serving circuit, or verifiable HE\\
+    \bottomrule
+  \end{tabular}\\[0.3em]
+  \scriptsize\begin{minipage}{0.95\textwidth}
+  $g_j$ and $n_j$ are client $j$'s uploaded per-class counts and its public sample count, $\theta^{*}$ the shared head, $c$ a class, $\delta(\Qtot)$ the advantage from $\Qtot$ label answers, $\delta_{\mathrm{wb}}$ the advantage with both shared heads in plaintext, and the quorum any $t$ clients.
+  \end{minipage}
+  \end{center}
+  \vspace{0.2em}
+  \redline\\[0.3em]
+  \small The smudging result of Hwang et al.\ (ASIACRYPT 2026) bears on the first row and is unchecked against HE-OFT. The third row is the one steering claim we can make today, and it is a weakness.
+\end{frame}
+
+% ================================================================ 16
+\begin{frame}{Questions for today}
+  \small
+  \begin{enumerate}
+    \item Which step is our next problem?
+      \begin{itemize}
+        \item The check that restores the semi-honest view against a deviating server, a recomputing checker or verifiable HE, which is the group's verifiable HE project.
+        \item Steering by deviating clients in HE-OFT, with the counts and norm bounds under encryption, compared with ACORN-style validation.
+        \item The reverse of HE-OFT's ordering, namely when $\Qtot$ label queries reach what the shared head reveals. That is the black-box against white-box membership question, posed as a collapse or a separation at the distinguish goal.
+      \end{itemize}
+    \item Is the interface enough for a paper, or does it stay a coding scheme for our own ledger? Salem et al.\ (S\&P 2023) unify inference attacks as games and may already cover the distinguish and invert half (unchecked).
+    \item Does the top-venue rule stand? It leaves out Suri, Zhang and Evans (TMLR 2024) on white-box membership inference and Wainakh et al.\ (Sensors 2023) on evaluation fallacies.
+    \item Which of the 33 papers marked for a full read come first? The six marked for a deep read are PELTA, the PIOP paper of Hwang, Lee, Seo and Song, the CKKS smudging result, Pasquini et al.\ (CCS 2022), the integrity systematization of PoPETs 2026, and Raynal and Troncoso. HE-OFT was the seventh, and we have read it.
+  \end{enumerate}
+\end{frame}
+
+% ================================================================ 17
+\begin{frame}{Status and next steps}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Done on 16 October}
+      \begin{itemize}
+        \item The repository and its record, three commits, at github.com/hkanpak21/HE-ML.
+        \item 574 papers screened, 364 placed with PDF and note, 350 coded on 519 ledger rows.
+        \item Two draft reports, the interface and the sweep.
+        \item The terminology table in CONTEXT.md, with the two rulings.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Not done}
+      \begin{itemize}
+        \item We have read one paper in full and extracted the rest.
+        \item The citation lookup covers 117 papers, and the OpenAlex budget is spent.
+        \item The five positioning questions (setting, what exists, the gap, the claim, why it is hard) are unanswered, so there is no claim yet.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  \vspace{0.6em}
+  \redline\\[0.4em]
+  Next: the six remaining deep reads, the check against Salem et al., the five positioning questions, then a direction and a first experiment suite.\\[0.5em]
+  {\scriptsize\textcolor{kgrey}{Counts from \texttt{lib/literature/ledger.csv} and \texttt{notes/} as of 06:35 on 16 October 2026, and from the two reports of the same day in \texttt{lib/reports/}.}}
+\end{frame}
+
+\end{document}
