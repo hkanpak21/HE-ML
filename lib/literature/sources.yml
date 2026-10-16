@@ -1,6 +1,6 @@
 # The field, tracked. Every sweep updates last_sweep so the next one knows
 # where it started. Venue names use the nine values of .paper-meta.yml.
-project: he-ml
+project: HE-ML
 updated: 2026-10-16
 
 venues:

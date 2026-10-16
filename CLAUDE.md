@@ -1,4 +1,4 @@
-# he-ml
+# HE-ML
 
 Read `CONTEXT.md` first. It holds the claim, the terminology ledger and the
 symbol table, and every term in it is binding. One name for one thing, in

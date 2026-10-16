@@ -1,6 +1,6 @@
 # Large inputs and anything a clone can fetch again
 lab/data/
-lib/literature/pdfs/
+lib/literature/pdfs
 *.ckpt
 *.pt
 *.npz
