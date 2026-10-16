@@ -114,8 +114,11 @@ PoPETs, NeurIPS, ICML, ICLR, CRYPTO, EUROCRYPT and ASIACRYPT for 2023 to 2026.
 364 papers are placed with notes, and 13 of them were dropped after reading,
 with the reason in each note. Four accepted papers have no accessible PDF and
 are listed in `sink/UNAVAILABLE.md`. `lib/literature/ledger.csv` codes every
-kept paper on the interface, one row per coalition. Every row except the three
-HE-OFT rows comes from a coder's reading and has `prov: sweep` behind it. The
+kept paper on the interface, one row per coalition. After the sweep, Salem et
+al. (SCEKPSTZ23, IEEE S&P 2023) was placed by hand at Halil's request, outside
+the inclusion rule, and coded in two rows. Every row except the three HE-OFT
+rows and the two SCEKPSTZ23 rows comes from a coder's reading and has
+`prov: sweep` behind it. Those five come from full readings. The
 citation lookup for prominence is partial, because the OpenAlex budget for the
 day ran out. No direction is chosen.
 

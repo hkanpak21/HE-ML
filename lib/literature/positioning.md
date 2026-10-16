@@ -50,3 +50,11 @@ arXiv:2502.03801, venue not verified. A 2026 preprint, arXiv:2603.20615.
 2026-10-16. Final model against all iterates (hidden state). Cebere, Bellet and
 Papernot, ICLR 2025: with a crafted gradient at every step, releasing only the
 final model does not improve the privacy guarantee.
+
+2026-10-16. One game framework for inference risks. Occupied for one trained
+model. Salem et al., IEEE S&P 2023 (SCEKPSTZ23, read in full), put membership,
+attribute and property inference, DP distinguishability and reconstruction into
+one game anatomy and prove reductions and separations among them. Their Sec.
+VI-D states that the games do not express concurrent computation and so do not
+cover federated learning. The multi-party protocol, its channels and the steer
+goal stay open.

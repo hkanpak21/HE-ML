@@ -109,7 +109,7 @@ keyword, and `unstated` means it addresses it without saying.
 | edge | the step between two adversaries the result settles, `weaker < stronger: collapse` or `: separation`, with the condition |
 | survives | per protection layer `mechanism: yes, no, unstated` |
 | inferred | the column keywords we derived and the paper did not state, e.g. `goal.type, survives` |
-| note | `notes/<key>.md` |
+| note | `notes/<venue>/<key>.md`, the venue folder as in CLAUDE.md |
 
 ## 4. Where each reported distinction went
 

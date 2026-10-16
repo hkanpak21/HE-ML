@@ -13,7 +13,7 @@ and the skill loads that venue profile and no other.
 | --- | --- |
 | `CONTEXT.md` | The claim, the terminology ledger, the symbol table, the current state |
 | `sink/` | The drop zone. Nothing reads from it. `ingest.py` empties it |
-| `lib/literature/` | Sources, positioning, related work, one note per paper read, gitignored PDFs |
+| `lib/literature/` | Sources, positioning, related work, one note per paper read, gitignored PDFs, notes and PDFs in one folder per venue |
 | `lab/src/` | Importable code, with `tests/` and `baselines/<name>/` under it |
 | `lab/jobs/` | `<topic>.yaml`, `<topic>.py` and `<topic>.sh`, one experiment per stem |
 | `lab/results/<topic>/` | Everything the sweep produced, stem matching the job |
@@ -40,8 +40,10 @@ a slug: lowercase, hyphenated, two to six words. A letter-number key is never a
 name. Not `A2`, not `C14`, not `H1`. From any slug, `grep -r <slug> lib/` finds
 the issue, the comment that raised it, the ruling, the report and the claim.
 
-Citation keys are IACR style. A PDF is `lib/literature/pdfs/<Key>_<ShortTitle>.pdf`
-and it is placed with its note in one step by `place-pdf.py`.
+Citation keys are IACR style. A PDF is
+`lib/literature/pdfs/<venue>/<Key>_<ShortTitle>.pdf` and its note is
+`lib/literature/notes/<venue>/<Key>.md`, with the same venue folder for both.
+`place-pdf.py` places a paper with its note in one step.
 
 ## Paper edits
 
@@ -95,6 +97,16 @@ Standing instructions for agents in this repository, each with who set it and wh
   2026-10-16: the dictionary is now `sink/ledger-columns.md`.
 - The paper PDFs live in Google Drive (KU account, `My Drive/HE-ML/pdfs/`), and
   `lib/literature/pdfs` is a symlink to that folder. Never commit a paper PDF.
+  Halil, 2026-10-16.
+- Notes and PDFs are grouped in one folder per venue: `acm-ccs`, `arxiv`,
+  `asiacrypt`, `crypto`, `eurocrypt`, `iclr`, `icml`, `ieee-sp`, `ndss`,
+  `neurips`, `popets`, `usenix-security`. A new venue gets a new folder of the
+  same form. The folder follows the `venue:` field of the note. The ledger's
+  `note` column holds `notes/<venue>/<Key>.md`. The research skill's scripts
+  still assume the flat layout. `place-pdf.py` writes to the top of `notes/`
+  and `pdfs/`, so move both files into the venue folder right after placing.
+  `check-layout.sh` and `check-claims.py` look only at the top level, so they
+  check nothing here until the skill learns the venue folders.
   Halil, 2026-10-16.
 - Push finished work straight to `main`. This repository is Halil's alone, so
   no pull request is needed. Pushing still needs his ask in the turn.
