@@ -1,3 +1,5 @@
+> Superseded on 2026-10-16 by `ledger.csv` and `screening.csv`. Kept as the record of the first 44 papers' coding.
+
 # Catalog
 
 Every paper placed for the HE-ML study, coded on the adversary interface of

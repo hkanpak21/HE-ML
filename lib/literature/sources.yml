@@ -4,8 +4,8 @@ project: HE-ML
 updated: 2026-10-16
 
 venues:
-  primary: [acm-ccs]
-  watch: []
+  primary: [ieee-sp, usenix-security, acm-ccs, ndss, popets, neurips, icml, iclr, iacr-conferences]
+  watch: [eurosp, satml, csf]   # proposed 2026-10-16, not yet screened
 
 # Research groups worth following, by institution and lead area, never by a
 # single person alone.
@@ -24,6 +24,6 @@ feeds:
 
 # The day each sweep last ran. A null value means it has never run.
 last_sweep:
-  backward: null
+  backward: null      # prominence lookup partial, 2026-10-16
   forward: null
-  venue: null
+  venue: 2026-10-16   # 2023 to 2026, eleven venues, see screening.csv
