@@ -1,0 +1,17 @@
+# Every downstream tool reads this. The venue names the profile the skill loads
+# and no other profile is read. Verify column_width_pt and text_width_pt against
+# the real class file by putting \the\columnwidth in the document and reading
+# the log, because template versions drift.
+venue: acm-ccs
+year: 2026
+template: acmart-sigconf
+columns: 2
+column_width_pt: 239.8
+text_width_pt: 504.0
+body_pt: 9
+caption_pt: 8
+font_family: Linux Libertine
+page_limit: 12
+page_limit_includes: nothing
+blind: double
+deadline: FILL
