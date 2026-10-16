@@ -1,0 +1,108 @@
+%%============================================================================
+%% A report. Created by report-new.sh. Do not copy this file by hand.
+%% Compile from the repository root:  report-build.sh lib/reports/src/<this file>
+%%
+%% Two rules the build enforces and you cannot argue with.
+%%   Section 0, when this repository asks for one, lives in
+%%   lib/reports/reflections/<same stem>.tex and the author writes it.
+%%   The PDF is five pages, references and appendix included.
+%%============================================================================
+\documentclass{labreport}
+\lrnoreflection   % lib/reports/src/config.yml says reflection: false
+
+\lrdate{2026-10-16}
+\lrslug{halil-multi-party-learning-sweep}
+\lrtitle{Threat models in multi-party learning, 2023 to 2026}
+\lrauthor{Halil İbrahim Kanpak}
+\lrstatus{draft}          % draft | reviewed | final
+
+\lrdefine{Screened}{574}{lib/literature/screening.csv}
+\lrdefine{DroppedScreen}{206}{lib/literature/screening.csv}
+\lrdefine{Placed}{364}{lib/literature/notes/}
+\lrdefine{DroppedRead}{14}{lib/literature/screening.csv}
+\lrdefine{NoPDF}{4}{sink/UNAVAILABLE.md}
+\lrdefine{Coded}{350}{lib/literature/ledger.csv}
+\lrdefine{Rows}{519}{lib/literature/ledger.csv}
+\lrdefine{DevFirst}{64}{lib/reports/src/data/2026-10-16-halil-multi-party-learning-sweep-trends.csv}
+\lrdefine{DevLast}{75}{lib/reports/src/data/2026-10-16-halil-multi-party-learning-sweep-trends.csv}
+\lrdefine{HEFirst}{12}{lib/reports/src/data/2026-10-16-halil-multi-party-learning-sweep-trends.csv}
+\lrdefine{HELast}{26}{lib/reports/src/data/2026-10-16-halil-multi-party-learning-sweep-trends.csv}
+\lrdefine{AdaptFirst}{54}{lib/reports/src/data/2026-10-16-halil-multi-party-learning-sweep-adaptive.csv}
+\lrdefine{AdaptLast}{35}{lib/reports/src/data/2026-10-16-halil-multi-party-learning-sweep-adaptive.csv}
+\lrdefine{WithCitations}{117}{lib/literature/screening.csv}
+
+\begin{document}
+\lrmaketitle
+
+%%----------------------------------------------------------------------------
+\lrscope
+The question is how the top venues of 2023 to 2026 state threat models for
+multi-party learning, and which way they are moving. The method is a screen of
+every accepted paper at eleven venues, followed by a reading of each kept paper
+and its coding into the ledger of the adversary interface, one row per
+coalition.
+
+%%----------------------------------------------------------------------------
+\lrresult
+The sweep screened \lrv{Screened} papers, placed \lrv{Placed}, and coded the
+\lrv{Coded} that pass the inclusion rule into \lrv{Rows} ledger rows.
+Empirical: rows with a deviating adversary rose from \lrv{DevFirst} to
+\lrv{DevLast} per cent between 2023 and 2026, and rows protected by HE rose from
+\lrv{HEFirst} to \lrv{HELast} per cent (Table~\ref{tab:trends}). Empirical:
+among deviating-adversary rows whose evaluation says whether the adversary
+adapts to the defence, the adaptive share fell from \lrv{AdaptFirst} to
+\lrv{AdaptLast} per cent (Table~\ref{tab:adaptive}). The field therefore states
+a malicious adversary more often each year and evaluates it against an adaptive
+adversary less often.
+
+\lrboundary{Each row comes from one coder's reading of the paper, so every note
+behind it is prov sweep, and the trend columns come from keyword matching on
+the coded cells. The 2026 counts lack NeurIPS 2026 and may lack part of CCS
+2026. Screening recall is unmeasured, since the drop record lists only near
+misses. Citation data covers \lrv{WithCitations} papers so far, because the
+day's OpenAlex budget ran out, so no prominence ranking is given here. EuroS\&P,
+SaTML and CSF were not screened.}
+
+%%----------------------------------------------------------------------------
+\lrproduced
+\begin{lrfacts}
+  \lrfact{Sources}{Accepted-paper pages and proceedings of IEEE S\&P, USENIX Security, CCS, NDSS, PoPETs, NeurIPS, ICML, ICLR, CRYPTO, EUROCRYPT and ASIACRYPT. DBLP was behind a bot check.}
+  \lrfact{Range}{2023 to 2026, with a few earlier anchors from the first sweeps}
+  \lrfact{Screened}{\lrv{Screened} papers. \lrv{DroppedScreen} dropped at screening, \lrv{DroppedRead} dropped after reading, \lrv{NoPDF} without an accessible PDF}
+  \lrfact{Artifacts}{\lrpath{lib/literature/ledger.csv}, \lrpath{lib/literature/screening.csv}, \lrpath{lib/literature/notes/}, \lrpath{sink/ledger-columns.md}}
+  \lrfact{Reproduce}{the trends script in \lrpath{lib/reports/src/figures/}, run from the repository root}
+\end{lrfacts}
+
+%%----------------------------------------------------------------------------
+\lrchanges
+The study's opening observation, that papers claim a malicious adversary and
+evaluate a weaker one, is now a measured trend over three years of top venues.
+The protection layer the group works in, HE, is the one gaining share. A next
+problem is therefore best placed where a deviating adversary meets an HE
+protection layer, and where evaluation against an adaptive adversary is rare.
+The ledger's edge and survives columns are the place to look for such a
+problem.
+
+%%----------------------------------------------------------------------------
+\lrmethod
+Six screeners read the accepted-paper lists, one per venue group. Each kept a
+paper when it concerned training or fine-tuning by two or more parties holding
+data or models, and its contribution concerned privacy or security against an
+adversary. Each drop that needed an abstract to decide carries its reason in
+the screening record. PDFs came from the venues' open proceedings, from arXiv,
+and from the KU library. Every PDF was matched to its paper by the title and
+authors on its first page before it was placed with its note.
+
+A coder then read each placed paper and wrote one row per coalition on the 22
+columns of the column dictionary. A coder that found a paper outside the rule
+wrote no row, and the paper's note records the reason. Protocol papers on
+threshold or multiparty HE stay on the protocol axis with their learning
+columns set to n/a, because they bear on the group's own question. The merge
+takes every venue from the paper's note, which carries the verified venue.
+
+{\small
+\input{lib/reports/src/figures/2026-10-16-halil-multi-party-learning-sweep-trends.tex}
+\input{lib/reports/src/figures/2026-10-16-halil-multi-party-learning-sweep-adaptive.tex}
+}
+
+\end{document}
