@@ -108,11 +108,16 @@ HE-OFT's symbols are kept with their meaning. The interface adds the rest.
 
 ## Current state
 
-2026-10-16. 44 papers placed in Drive with notes, coded in
-`lib/literature/catalog.md`. One note is a full reading (KSK26), the rest are
-built from sweep extractions. The adversary interface is drafted in
-`lib/reports/2026-10-16-halil-adversary-interface.pdf`. Its novelty against
-Salem et al. (S&P 2023) is unchecked. No direction is chosen.
+2026-10-16. The literature is swept over IEEE S&P, USENIX Security, CCS, NDSS,
+PoPETs, NeurIPS, ICML, ICLR, CRYPTO, EUROCRYPT and ASIACRYPT for 2023 to 2026.
+`lib/literature/screening.csv` holds every screening decision with its reason.
+364 papers are placed with notes, and 13 of them were dropped after reading,
+with the reason in each note. Four accepted papers have no accessible PDF and
+are listed in `sink/UNAVAILABLE.md`. `lib/literature/ledger.csv` codes every
+kept paper on the interface, one row per coalition. Every row except the three
+HE-OFT rows comes from a coder's reading and has `prov: sweep` behind it. The
+citation lookup for prominence is partial, because the OpenAlex budget for the
+day ran out. No direction is chosen.
 
 ## Recorded deferrals
 

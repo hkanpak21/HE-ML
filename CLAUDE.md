@@ -84,3 +84,18 @@ checkable in two minutes.
 
 Run `python3 ${CLAUDE_SKILL_DIR:-$HOME/.claude/skills/research}/scripts/index.py`
 after writing anything under `lib/`, so `lib/INDEX.md` stays current.
+
+## Repo memory
+
+Standing instructions for agents in this repository, each with who set it and when.
+
+- When `lib/literature/ledger.csv` is finished, meaning every placed paper has
+  its rows, move the column dictionary `lib/literature/ledger-columns.md` to
+  `sink/` and add a row to `sink/INGEST.md`. Halil, 2026-10-16. Done
+  2026-10-16: the dictionary is now `sink/ledger-columns.md`.
+- The paper PDFs live in Google Drive (KU account, `My Drive/HE-ML/pdfs/`), and
+  `lib/literature/pdfs` is a symlink to that folder. Never commit a paper PDF.
+  Halil, 2026-10-16.
+- Push finished work straight to `main`. This repository is Halil's alone, so
+  no pull request is needed. Pushing still needs his ask in the turn.
+  Halil, 2026-10-16.
