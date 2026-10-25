@@ -487,6 +487,341 @@ history:
   - 2026-10-17 the theory register records it withdrawn in round 01, with its content in thm-perfect-substitution and thm-reference-access (c).
   - 2026-10-25 entered from the HE-ML digest, section 4.1.
 
+## def-seed-access-modes
+kind: definition
+statement: One learning oracle serves each caller in a named or a drawn seed-access mode, with a return label (open or
+  eval), allowed learner names and starting models, a budget per operation, and a cost meter of work and examples per run.
+  The bottom and top oracles are named-mode cases, and the drawn mode is the drawn-seed discipline.
+where: HE-ML:lab/theory/spaces/oracle-and-measurement/round-02/builder.md#def-seed-access-modes, and HE-ML:lib/theory/booklet.pdf, chapter The oracle and measurement
+uses-to-state: def-learning-oracle, def-learning-oracle-model, def-certifier, def-degenerate-oracles, def-passive-learning-oracle, def-generic-training-oracle
+uses-to-prove: none
+status: proven
+evidence: a definition. Its remark turns lem-needle-lower-bound into a bound in oracle cost.
+checked-by: discussant rounds oracle-and-measurement round-01 (astra) and round-02 (argon), 2026-10-25. Not checked by Halil.
+oracle: n/a
+history:
+  - 2026-10-25 accepted in round-02 of the space oracle-and-measurement with BLOCKING 0, merged into the booklet. Answers
+    decision 1 of STATE.md as a proposal for Halil.
+
+## prop-drawn-mode-is-fs-oracle
+kind: proposition
+statement: The passive learning oracle of FS:exp/survey/paper/parked/formalization/oracle.tex and the generic training
+  oracle of the 2026-10-13 report are drawn-mode callers of def-seed-access-modes, with the metered cost as the
+  two-coordinate meter.
+where: HE-ML:lab/theory/spaces/oracle-and-measurement/round-02/builder.md#prop-drawn-mode-is-fs-oracle
+uses-to-state: def-seed-access-modes, def-passive-learning-oracle, def-generic-training-oracle
+uses-to-prove: none
+status: proven
+evidence: by construction, HE-ML:lab/theory/spaces/oracle-and-measurement/round-02/builder.md. The integrator checked (a) against def:passive and def:cost of oracle.tex.
+checked-by: discussant rounds round-01 (astra) and round-02 (argon) of oracle-and-measurement, 2026-10-25. Not checked by Halil.
+oracle: n/a
+history:
+  - 2026-10-25 accepted in round-02 of oracle-and-measurement with BLOCKING 0, merged into the booklet.
+
+## thm-coupling-free-soundness
+kind: theorem
+statement: For bottom-oracle targets, every certificate of the learning-oracle theory stays sound under any twin rule with
+  the right marginals drawn independently of the release noise, independent drawn runs included. Top-oracle targets need a
+  shared seed. The coupled tail itself is certified only under the identity coupling, and both conditions are necessary.
+where: HE-ML:lab/theory/spaces/oracle-and-measurement/round-02/builder.md#thm-coupling-free-soundness
+uses-to-state: thm-coupling-certificate, thm-dataflow-composition, def-isolated-client
+uses-to-prove: thm-bounded-deviation-transfer
+status: proven
+evidence: HE-ML:lab/theory/spaces/oracle-and-measurement/round-02/builder.md, a modification of the proof of thm-dataflow-composition (b), with two counterexamples for (d).
+checked-by: astra line by line in round-01 and argon in round-02 of oracle-and-measurement, and the integrator's
+  re-derivation against the proof of thm-dataflow-composition (b), 2026-10-25. Not checked by Halil.
+oracle: needs-oracle for the identity coupling, holds in the drawn mode for soundness
+history:
+  - 2026-10-25 accepted in round-02 of oracle-and-measurement with BLOCKING 0, merged into the booklet.
+
+## prop-profile-run-coordinate
+kind: proposition
+statement: At a fixed learning function the security profile of an unrestricted adversary class is flat in training runs.
+  A declared family has a certified lower band from fresh shadow runs per trial, and only coupled runs give an upper band
+  through deterministic channels with atomless laws.
+where: HE-ML:lab/theory/spaces/oracle-and-measurement/round-02/builder.md#prop-profile-run-coordinate
+uses-to-state: def-security-profile-curve, def-learning-oracle-model
+uses-to-prove: thm-coupling-certificate, lem-atomless-two-point
+status: proven
+evidence: HE-ML:lab/theory/spaces/oracle-and-measurement/round-02/builder.md. Hoeffding for the band, a measurable simulation for the flatness.
+checked-by: discussant round-02 (argon) of oracle-and-measurement and the integrator's re-derivation, 2026-10-25. Not checked by
+  Halil.
+oracle: needs-oracle for the upper band
+history:
+  - 2026-10-25 accepted in round-02 of oracle-and-measurement with BLOCKING 0, merged into the booklet. Supersedes
+    conj-paired-advantage-price of round-00, withdrawn in round-01.
+
+## thm-exact-twin-price
+kind: theorem
+statement: A certifier sound over every learning function with deterministic kernels and accurate at a zero-leakage
+  function makes at least (1 - alpha') ln((1 - alpha')/alpha) / (-ln(1 - epsilon_acc)) expected Train calls at the twin
+  input, for the coupled tail, the total variation and the one-sided divergence of a Gaussian release, and at the base
+  input for the first two only. Calls at other inputs count for nothing. Coupled certificates match it up to a ceiling,
+  and the every-record certificate multiplies it by the number of records with no union bound.
+where: HE-ML:lab/theory/spaces/oracle-and-measurement/round-02/builder.md#thm-exact-twin-price
+uses-to-state: thm-dataflow-composition, def-seed-access-modes
+uses-to-prove: lem-needle-lower-bound, thm-coupling-free-soundness
+status: proven
+evidence: HE-ML:lab/theory/spaces/oracle-and-measurement/round-02/builder.md, a rare-event change of measure over a finite partition of the seed space. Numbers computed there, 686.5
+  calls at alpha = alpha' = 10^-3 and epsilon_acc = 10^-2.
+checked-by: discussant round-02 (argon) of oracle-and-measurement and the integrator's re-derivation, 2026-10-25. Not checked by
+  Halil.
+oracle: needs-oracle for the upper bound, both modes for the lower bound
+history:
+  - 2026-10-25 accepted in round-02 of oracle-and-measurement with BLOCKING 0, merged into the booklet. Supersedes
+    conj-exact-twin-price of round-00.
+
+# Computational limits (HE-ML theory space)
+
+Objects merged from the space computational-limits of `lab/theory/` on 2026-10-25. None needs the learning oracle.
+
+## lem-sq-learner-post-processing
+kind: lemma
+statement: A learner that reaches a uniform or planted-biclique training law only through m calls to 1-STAT cannot hand
+  the planted structure to any unbounded, white-box reader of its output unless m = Omega(n^2/k^2), and the VSTAT form
+  holds against every valid oracle, covering coarse-precision mini-batch SGD learners.
+where: HE-ML:lab/theory/spaces/computational-limits/round-00/builder.md#lem-sq-learner-post-processing
+uses-to-state: fact-fgrvx17-planted-clique-sq-bound
+uses-to-prove: fact-sq-simulates-minibatch-sgd
+status: proven
+evidence: post-processing of an SQ algorithm, FGRVX17 Theorems 2.10 and 5.4, AKMSS21 Theorem 1c.
+checked-by: astra, round 00 of computational-limits, 2026-10-25. Not checked by Halil.
+oracle: holds-without-oracle
+history:
+  - 2026-10-25 accepted in round 00 of computational-limits, merged into the booklet when the space converged.
+
+## def-seed-blind-reconstruction-game
+kind: definition
+statement: The split protocol class P_H, equivariant under a group H in O(d), whose server never sees first-layer weights,
+  their gradients or records. A sample game (fine success against the narcissus baseline) and a population SQ game (weak
+  success, frozen clients), each with a seed-known variant. The price of the seed is the pair of budget sets at which the
+  seed-known and the seed-blind attackers reach a success level.
+where: HE-ML:lab/theory/spaces/computational-limits/round-01/builder.md#def-seed-blind-reconstruction-game, with the wording correction of HE-ML:lab/theory/spaces/computational-limits/round-02/builder.md
+uses-to-state: fact-cohen-narcissus-equals-one-wayness, fact-orthogonal-equivariance-of-training
+uses-to-prove: none
+status: proven
+evidence: a definition.
+checked-by: astra, round 01 of computational-limits, 2026-10-25. Not checked by Halil.
+oracle: n/a
+history:
+  - 2026-10-25 accepted in round 01, wording corrected in round 02, merged into the booklet.
+
+## lem-equivariant-view-coupling
+kind: lemma
+statement: For a protocol in P_H the server's view of the run on records x equals pathwise the view of the run on Qx with
+  W_0 replaced by W_0 Q^T, so a simulator running the protocol on Haar-rotated records reproduces every attacker's output
+  jointly with the targets at the cost of one training run.
+where: HE-ML:lab/theory/spaces/computational-limits/round-01/builder.md#lem-equivariant-view-coupling
+uses-to-state: def-seed-blind-reconstruction-game
+uses-to-prove: fact-orthogonal-equivariance-of-training
+status: proven
+evidence: induction on the training step, HE-ML:lab/theory/spaces/computational-limits/round-01/builder.md.
+checked-by: astra, round 01 of computational-limits, and the integrator's re-derivation, 2026-10-25. Not checked by Halil.
+oracle: holds-without-oracle
+history:
+  - 2026-10-25 accepted in round 01, merged into the booklet.
+
+## lem-whitening-gives-rotated-records
+kind: lemma
+statement: For a frozen linear client of full column rank and right rotation invariant law, and isotropic records, the
+  population whitening of the representations returns Rx with R Haar on O(d), a function of the weights alone and
+  independent of the records.
+where: HE-ML:lab/theory/spaces/computational-limits/round-01/builder.md#lem-whitening-gives-rotated-records
+uses-to-state: def-seed-blind-reconstruction-game
+uses-to-prove: none
+status: proven
+evidence: polar decomposition and uniqueness of the right-invariant probability on O(d), HE-ML:lab/theory/spaces/computational-limits/round-01/builder.md.
+checked-by: astra, round 01 of computational-limits, and the integrator's re-derivation, 2026-10-25. Not checked by Halil.
+oracle: holds-without-oracle
+history:
+  - 2026-10-25 accepted in round 01, merged into the booklet.
+
+## thm-reconstruction-from-conditional-mean
+kind: theorem
+statement: For a frozen linear client, Gaussian records and labels a noisy function of <u,x> with first Hermite
+  coefficient beta_1 nonzero, a server holding a top model of excess square risk epsilon recovers u up to sign within
+  2 (sqrt(epsilon) + eta_N) / |beta_1| from N held-out representations, and reconstructs the hidden coordinate of any
+  records, training records included. The attacker's error is bounded above by a function of the attacked model's excess
+  risk, the floor on attack success in Halil's example.
+where: HE-ML:lab/theory/spaces/computational-limits/round-01/builder.md#thm-reconstruction-from-conditional-mean, with the wording correction of HE-ML:lab/theory/spaces/computational-limits/round-02/builder.md
+uses-to-state: def-seed-blind-reconstruction-game
+uses-to-prove: lem-whitening-gives-rotated-records
+status: proven
+evidence: HE-ML:lab/theory/spaces/computational-limits/round-01/builder.md, Stein-type identity, Cauchy-Schwarz and Chebyshev.
+checked-by: astra, round 01 of computational-limits, and the integrator's re-derivation, 2026-10-25. Not checked by Halil.
+oracle: holds-without-oracle
+history:
+  - 2026-10-25 accepted in round 01, wording corrected in round 02, merged into the booklet.
+
+## conj-reconstruction-at-training-cost
+kind: conjecture
+statement: Blind reconstruction of the label-relevant coordinate costs what learning the task costs.
+where: HE-ML:lab/theory/spaces/computational-limits/round-00/builder.md#conj-reconstruction-at-training-cost, withdrawn in HE-ML:lab/theory/spaces/computational-limits/round-01/builder.md
+uses-to-state: none
+uses-to-prove: none
+status: refuted
+evidence: part (b) refuted by astra, round 00. The labels y = <u,x> xi with an independent sign have Bayes square-loss
+  predictor zero while the label law reveals <u,x> up to sign at generative exponent two. Part (a) became
+  thm-reconstruction-from-conditional-mean.
+checked-by: astra, rounds 00 and 01 of computational-limits, 2026-10-25.
+oracle: n/a
+history:
+  - 2026-10-25 posed in round 00, refuted and withdrawn in round 01.
+
+## prop-sq-blind-reconstruction-bound
+kind: proposition
+statement: Seed-blind reconstruction of a pancake coordinate from a frozen client of P_O(d) to weak success c_0 needs
+  (11/288) M tau_*^2 beta^2 / gamma^2 - d statistical queries with M = exp(Omega(c_0^4 d)), and for moment-matched
+  record laws with four or more matched moments it needs 2^(d^Omega(c)) queries or polynomially small tolerance.
+where: HE-ML:lab/theory/spaces/computational-limits/round-02/builder.md#prop-sq-blind-reconstruction-bound
+uses-to-state: def-seed-blind-reconstruction-game, fact-clwe-hardness
+uses-to-prove: lem-equivariant-view-coupling, fact-hclwe-sq-correlation-bound, fact-ngca-sq-lower-bound, fact-fgrvx17-planted-clique-sq-bound
+status: proven
+evidence: HE-ML:lab/theory/spaces/computational-limits/round-02/builder.md, part (b) conditional on DKRS23 Theorem 1.5. Reduction to a search problem and FGRVX17 Theorem 3.2.
+checked-by: astra (round 01) and argon (round 02) of computational-limits, and the integrator's re-derivation of the
+  arithmetic, 2026-10-25. The cited SQ and lattice theorems were not re-read by the integrator. Not checked by Halil.
+oracle: holds-without-oracle
+history:
+  - 2026-10-25 accepted in round 02 of computational-limits with BLOCKING 0, merged into the booklet.
+
+## prop-fine-reconstruction-to-hclwe
+kind: proposition
+statement: A seed-blind attacker reconstructing every pancake coordinate within c_1/gamma from a protocol of P_O(d),
+  frozen or trained, gives an hCLWE distinguisher at the cost of one protocol run, so fine reconstruction is negligible
+  for polynomial-time attackers unless a worst-case lattice problem is quantum polynomial-time.
+where: HE-ML:lab/theory/spaces/computational-limits/round-02/builder.md#prop-fine-reconstruction-to-hclwe
+uses-to-state: fact-clwe-hardness
+uses-to-prove: lem-equivariant-view-coupling
+status: proven
+evidence: HE-ML:lab/theory/spaces/computational-limits/round-02/builder.md with HE-ML:lab/theory/spaces/computational-limits/round-01/builder.md, conditional hardness under BRST21 Corollary 4.2.
+checked-by: astra (round 01) and argon (round 02) of computational-limits, and the integrator's re-derivation, 2026-10-25. Not
+  checked by Halil.
+oracle: holds-without-oracle
+history:
+  - 2026-10-25 accepted in round 02 of computational-limits with BLOCKING 0, merged into the booklet.
+
+## thm-blind-split-seed-separation
+kind: theorem
+statement: For Gaussian-initialized expansive ReLU clients trained by orthogonally equivariant updates on pancake records,
+  a seed-known server inverts every record in polynomial time (frozen clients, and records seen under the initial weights),
+  while a seed-blind server pays an exponential SQ price (frozen) or a quantum lattice algorithm (fine reconstruction,
+  frozen or trained).
+where: HE-ML:lab/theory/spaces/computational-limits/round-02/builder.md#thm-blind-split-seed-separation
+uses-to-state: fact-lei-random-expansive-layers-invertible
+uses-to-prove: prop-sq-blind-reconstruction-bound, prop-fine-reconstruction-to-hclwe, lem-equivariant-view-coupling
+status: proven
+evidence: HE-ML:lab/theory/spaces/computational-limits/round-02/builder.md, composition of the cited propositions with LJDD19 Theorem 3.
+checked-by: astra (round 01) and argon (round 02) of computational-limits, and the integrator, 2026-10-25. Not checked by Halil.
+oracle: holds-without-oracle
+history:
+  - 2026-10-25 accepted in round 02 of computational-limits with BLOCKING 0, merged into the booklet. Astra judges it an
+    artificial-distribution reduction, and whether it meets the plug-in rule is a decision for Halil.
+
+## prop-sq-label-relevant-reconstruction-bound
+kind: proposition
+statement: For a frozen linear client, Gaussian records and single-index labels of generative exponent k* >= 3, an SQ
+  attacker reaching weak success on the label-relevant coordinate with polynomially many queries needs VSTAT(n) with
+  n >= c d^(k*/2), and the sample-based algorithm of DPLB24 on whitened representations matches it.
+where: HE-ML:lab/theory/spaces/computational-limits/round-02/builder.md#prop-sq-label-relevant-reconstruction-bound
+uses-to-state: def-seed-blind-reconstruction-game
+uses-to-prove: lem-equivariant-view-coupling, lem-whitening-gives-rotated-records, fact-generative-exponent-sq-recovery-bound, fact-fgrvx17-planted-clique-sq-bound
+status: proven
+evidence: HE-ML:lab/theory/spaces/computational-limits/round-02/builder.md, FGRVX17 Theorem 3.2 with Lemma 3.10 on the code of DPLB24 Lemma E.3.
+checked-by: astra (round 01) and argon (round 02) of computational-limits, and the integrator's re-derivation, 2026-10-25. Not
+  checked by Halil.
+oracle: holds-without-oracle
+history:
+  - 2026-10-25 accepted in round 02 of computational-limits with BLOCKING 0, merged into the booklet.
+
+## conj-seed-price-is-ngca-price
+kind: conjecture
+statement: For recoverable frozen clients of P_O(d) and isotropic hidden laws of fixed dimension, the budget sets of
+  seed-blind attackers in the SQ and sample games equal, up to polynomial factors, those of NGCA coordinate recovery with
+  a uniformly random frame.
+where: HE-ML:lab/theory/spaces/computational-limits/round-02/builder.md#conj-seed-price-is-ngca-price
+uses-to-state: def-seed-blind-reconstruction-game
+uses-to-prove: lem-equivariant-view-coupling, lem-whitening-gives-rotated-records, prop-sq-blind-reconstruction-bound, prop-fine-reconstruction-to-hclwe
+status: open
+evidence: the lower inclusion is settled for pancakes in both games and for moment-matched laws in the SQ game, the upper
+  inclusion for frozen linear clients given the population whitening.
+checked-by: argon, round 02 of computational-limits, as a well-posed conjecture, 2026-10-25.
+oracle: holds-without-oracle
+history:
+  - 2026-10-25 posed in round 00, rejected in round 01, restated and accepted as well posed in round 02.
+
+# Statistical limits (HE-ML theory space)
+
+Objects merged from the space statistical-limits of `lab/theory/` on 2026-10-25.
+
+## def-uniform-security-profile
+kind: definition
+statement: The uniform regret of a class of instances at a budget of reference samples and Train calls, under the bottom
+  or top oracle, is the least worst-case gap to the informed optimum over adversaries chosen before the instance, with an
+  attained price (minimal budgets, finite by Dickson's lemma) and a threshold price of a criterion. On one instance the
+  regret is zero as an infimum, so every positive regret is a price of not knowing the instance.
+where: HE-ML:lab/theory/spaces/statistical-limits/round-01/builder.md#def-uniform-security-profile, with the changes of HE-ML:lab/theory/spaces/statistical-limits/round-02/builder.md
+uses-to-state: def-learning-oracle-model, def-degenerate-oracles
+uses-to-prove: thm-coupling-certificate, thm-black-box-certifiability, fact-hsu-membership-sample-gap
+status: proven
+evidence: a definition with properties proven in the round files.
+checked-by: astra (round 01) and argon (round 02) of statistical-limits, and the integrator, 2026-10-25. Not checked by Halil.
+oracle: holds-without-oracle in its statement, properties use the oracle
+history:
+  - 2026-10-25 accepted in round 02 of statistical-limits with BLOCKING 0, merged into the booklet. The unbounded-adversary
+    form of def-security-profile-curve.
+
+## lem-scrambled-seed-urn
+kind: lemma
+statement: Under a uniformly random bijection of seed cells, the transcript of any adversary with at most N < M Train calls,
+  chosen and opened seeds included, is within total variation N^2/(2(M - N)) of a lazy oracle that answers each new cell
+  with a fresh draw, and two lazy oracles from laws p and p' give transcripts within KL divergence N KL(p || p').
+where: HE-ML:lab/theory/spaces/statistical-limits/round-02/builder.md#lem-scrambled-seed-urn
+uses-to-state: def-learning-oracle
+uses-to-prove: none
+status: proven
+evidence: a hybrid bound integrated along the paths of the scrambled run, HE-ML:lab/theory/spaces/statistical-limits/round-02/builder.md.
+checked-by: argon, round 02 of statistical-limits, and the integrator's re-derivation, 2026-10-25. Not checked by Halil.
+oracle: needs-oracle
+history:
+  - 2026-10-25 accepted in round 02 of statistical-limits with BLOCKING 0, merged into the booklet.
+
+## thm-shadow-run-price-finite-views
+kind: theorem
+statement: For one learning node seen through a deterministic channel onto k views, coming within a < 1/8 of the best
+  bottom-oracle advantage at every learning function needs at least 3k'/(1024 a^2) Train calls, k' = 2 floor(k/2), and
+  2 ceil(4k/a^2) drawn-seed calls suffice. Chosen, opened and reused seeds and calls after the challenge do not lower the
+  price. Under the top oracle with deterministic kernels one call at the honest seed reaches the top optimum. Label-only
+  views give k = C^q_E.
+where: HE-ML:lab/theory/spaces/statistical-limits/round-01/builder.md#thm-shadow-run-price-finite-views, with the changes of HE-ML:lab/theory/spaces/statistical-limits/round-02/builder.md
+uses-to-state: def-uniform-security-profile, def-degenerate-oracles
+uses-to-prove: lem-scrambled-seed-urn, thm-coupling-certificate, thm-black-box-certifiability, thm-reference-access
+status: proven
+evidence: Assouad-type averaging over paired views with a KL chain rule, and the scrambled family for deterministic
+  kernels, HE-ML:lab/theory/spaces/statistical-limits/round-01/builder.md and HE-ML:lab/theory/spaces/statistical-limits/round-02/builder.md.
+checked-by: astra (round 01) and argon (round 02) of statistical-limits, and the integrator's re-derivation, 2026-10-25. Not
+  checked by Halil.
+oracle: needs-oracle
+history:
+  - 2026-10-25 accepted in round 02 of statistical-limits with BLOCKING 0, merged into the booklet. Supersedes
+    conj-shadow-run-price-finite-views of round 00. Novelty of the oracle part checked by one query only.
+
+## prop-reconstruction-label-sandwich
+kind: proposition
+statement: For a record, a finite label and a representation, the best reconstruction success lies between the
+  label-weighted class baseline minus the Bayes label error and that baseline plus sqrt(I(X; Z | Y)/2), with the kl form
+  kl(S* || kappa) <= I(X; Z | Y), a Gaussian-release bound on the conditional information, and tightness at both ends.
+where: HE-ML:lab/theory/spaces/statistical-limits/round-01/builder.md#prop-reconstruction-label-sandwich, with the changes of HE-ML:lab/theory/spaces/statistical-limits/round-02/builder.md
+uses-to-state: fact-balle-reconstruction-robustness-definition
+uses-to-prove: fact-pac-privacy-mutual-information-bound, fact-pac-privacy-gaussian-release-bound
+status: proven
+evidence: HE-ML:lab/theory/spaces/statistical-limits/round-01/builder.md and HE-ML:lab/theory/spaces/statistical-limits/round-02/builder.md, elementary, the ceiling is XD23 Theorem 1 with side knowledge.
+checked-by: astra (round 01) and argon (round 02) of statistical-limits, and the integrator's re-derivation, 2026-10-25. Not
+  checked by Halil.
+oracle: holds-without-oracle
+history:
+  - 2026-10-25 accepted in rounds 01 and 02 of statistical-limits, merged into the booklet. The statistical floor of Halil's
+    reconstruction example. Supersedes conj-reconstruction-label-sandwich of round 00.
+
 # Adversary interface (HE-ML)
 
 ## def-interface-data-space
@@ -1877,14 +2212,25 @@ statement: Let a deterministic learner be implementable from q_L statistical que
 where: FS:.tools/proof.tex
 uses-to-state: none
 uses-to-prove: none
-status: proven
-evidence: a full proof in the note, which simulates the learner from answers to statistical queries and answers the adversary's queries from the simulated model. Its stated failures are learners that are not implementable from statistical queries, other encodings and white-box adversaries. It does not handle per-round federated observation or LWE encodings.
-checked-by: unchecked. No review is recorded, and the PDF that exp/README.md describes is not in the repository.
+status: refuted
+evidence: Refuted by counterexample in HE-ML:lab/theory/spaces/computational-limits/round-00/builder.md#thm-fs-sq-black-box-reduction. With the exact oracle, or an honest oracle
+  averaging each query over 32 n^2 ln n fresh draws, a learner with O(n^2) queries of tolerance 1/3 stores every row,
+  and an unbounded adversary reading the model decides the planted clique with advantage 1 - o(1) at k = n^(1/2 - delta).
+  The proof applies FGRVX17 to the empirical law of one graph's rows and chains a worst-oracle bound with one oracle's run.
+  Old evidence: a full proof in the note, which simulates the learner from answers to statistical queries.
+checked-by: astra, round 00 of the space computational-limits, line by line, 2026-10-25, and the integrator's re-derivation.
+  Not checked by Halil.
 oracle: holds-without-oracle. Statistical queries model the learner's access to data, and the bound holds for every real learner of that kind.
 history:
   - 2026-04-23 written as a proof note.
   - 2026-10-25 entered from the FORMAL_SECURITY programme digest, section 3.4, where it is named sq-hardness-black-box-attacks. The note quotes FGRVX17 as Theorem 1.1 in the form q times tau squared at least Omega of n to the 2 delta, while the later, re-verified oracle draft quotes the parameters of FGRVX17 Theorem 2.9.
   - 2026-10-25 overlaps thm-black-box-certifiability of HE-ML. Both bound a black-box adversary whatever its own computation, this one through the learner's statistical-query access and that one through strategy trees on a finite query set.
+  - 2026-10-25 refuted as stated, status proven to refuted. The booklet names it thm-fs-sq-black-box-reduction, kept
+    here as an alias. What survives is lem-sq-learner-post-processing.
+  - 2026-10-25 The note's Brennan and Bresler pointer is wrong. BB20 carries its SQ bounds for the secret-leakage
+    variant in Section 12.3, Corollaries 12.17 and 12.18, for specific leakage laws, not in a Theorem 5.1. Source
+    HE-ML:lab/theory/spaces/computational-limits/round-00/builder.md#thm-fs-sq-black-box-reduction.
+alias: thm-fs-sq-black-box-reduction
 
 # FORMAL_SECURITY programme, parked survey formalization
 

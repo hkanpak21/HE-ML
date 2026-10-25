@@ -43,6 +43,9 @@ where: `HE-ML:sink/formalizing/sources/2026-10-25-he-ml-digest.md#7 Decisions`, 
   bounded by learnability, in `FS:exp/docs/notes/ideas.md`.
 history:
   - 2026-10-25 posed by Halil and entered from the brief of the commissioning session and HE-ML digest section 7. Weight central, set by Halil's decision of that day to move the line to this computational view.
+  - 2026-10-25 two reductions exist in the space computational-limits. Blind reconstruction reduces to NGCA and hCLWE, and
+    reconstruction of the label-relevant coordinate is the single-index problem priced by the generative exponent.
+    Whether a hard record law meets the plug-in rule is a decision for Halil.
 
 # Supporting
 
@@ -66,7 +69,7 @@ statement: For split-learning inversion over random expansive ReLU bottom models
 posed: the learning-bounded scan of 2026-10-25, verdict 4, named the leading candidate in the
   session of 2026-10-25 and not yet adopted
 weight: supporting
-status: open
+status: partial
 literature: the learning-bounded scan of 2026-10-25, about twelve web searches and a keyword filter
   over 267 citers of Xu et al., which found no formal separation between known-seed and
   unknown-seed attackers
@@ -83,6 +86,10 @@ where: `HE-ML:sink/formalizing/sources/2026-10-25-learning-bounded-scan.md#Verdi
   item 4
 history:
   - 2026-10-25 entered from scan verdict 4, HE-ML digest section 5.2 item 20, and the brief of the commissioning session. Weight supporting, because prob-reduce-security-to-known-learning-problems names it its leading candidate.
+  - 2026-10-25 open to partial. Proven for pancake records and Gaussian-initialized ReLU clients trained by orthogonally
+    equivariant updates (thm-blind-split-seed-separation): exact seed-known inversion against an exponential SQ price
+    (frozen clients) and a worst-case lattice price for fine reconstruction (frozen or trained). Open: natural record
+    laws, convolutional clients, Adam, coarse reconstruction in polynomial time. From the space computational-limits.
 
 ## prob-split-transcript-leaks-seed
 statement: Does the training transcript that a split-learning server sees reveal the seed, or
@@ -94,7 +101,7 @@ statement: Does the training transcript that a split-learning server sees reveal
 posed: the learning-bounded scan of 2026-10-25, its first risk, set as a constraint in the session
   of 2026-10-25
 weight: supporting
-status: open
+status: partial
 literature: unchecked
 tried: none
 depends-on: none
@@ -103,6 +110,9 @@ where: `HE-ML:sink/formalizing/sources/2026-10-25-learning-bounded-scan.md#Verdi
   item 4
 history:
   - 2026-10-25 entered from scan verdict 4 and HE-ML digest section 5.2 item 21. Weight supporting, because prob-split-learning-seed-separation, the leading candidate of the central problem, needs a no.
+  - 2026-10-25 open to partial. For the protocol class P_H the server's whole view is a function of rotated records and
+    fresh coins (lem-equivariant-view-coupling), so the transcript does not collapse the separation. Outside the class
+    (Adam, published weights, known records) it stays open. The space proposed solved for P_H.
 
 ## prob-statistical-queries-for-regression
 statement: Does a real-valued statistical-query framework carry lower bounds to inversion, which is
@@ -111,7 +121,7 @@ statement: Does a real-valued statistical-query framework carry lower bounds to 
   (prob-attacker-estimation-threshold).
 posed: the learning-bounded scan of 2026-10-25, its second risk
 weight: supporting
-status: open
+status: partial
 literature: unchecked
 tried: none
 depends-on: none
@@ -120,6 +130,9 @@ where: `HE-ML:sink/formalizing/sources/2026-10-25-learning-bounded-scan.md#Verdi
   item 4
 history:
   - 2026-10-25 entered from scan verdict 4 and HE-ML digest section 5.2 item 22. Weight supporting, because prob-split-learning-seed-separation needs its lower bound to bind an inversion attacker.
+  - 2026-10-25 open to partial. A reconstruction measured by correlation becomes a direction with d truncated queries of
+    tolerance of order d^(-1/2) and reaches search lower bounds (prop-sq-blind-reconstruction-bound,
+    prop-sq-label-relevant-reconstruction-bound).
 
 ## prob-attacker-lower-bound-from-hard-learning
 statement: Is there a lower bound on a membership, inversion, attribute or reconstruction attacker
@@ -148,6 +161,10 @@ where: `HE-ML:sink/formalizing/sources/2026-10-25-learning-bounded-scan.md#Verdi
   item 3
 history:
   - 2026-10-25 entered from scan verdict 3 and HE-ML digest section 5.2 item 19. Weight supporting, because prob-reduce-security-to-known-learning-problems needs a bound of this kind. Status partial, because the FORMAL_SECURITY proof note covers black-box attackers of SQ-implementable learners, and the FS programme digest records that proof as written in full without re-verifying it.
+  - 2026-10-25 stays partial on a new basis. The FORMAL_SECURITY proof note behind the old status is refuted
+    (thm-sq-hardness-black-box-attacks, alias thm-fs-sq-black-box-reduction). Inversion attackers of split learning are
+    now bounded by SQ and lattice hardness for pancake records and by the generative exponent for the label-relevant
+    coordinate.
 
 ## prob-same-units-matched-budget-separation
 statement: Can an attacker and a defender be priced in the same exponent units and separated at a
@@ -227,7 +244,7 @@ statement: On a finite query set U with C outputs and query depth q_E, does some
 posed: the formal tuning of 2026-10-16 to 2026-10-17, open problem 3 of the builder's register
   after round 10
 weight: side
-status: open
+status: partial
 literature: unchecked
 tried: none
 depends-on: none
@@ -235,6 +252,9 @@ claimed-by: none
 where: `HE-ML:sink/2026-10-16-formal-tuning/theory/CURRENT.md#Open problems`, item 3
 history:
   - 2026-10-25 entered from HE-ML digest section 5.1 item 3. Weight side, judged against Halil's direction of 2026-10-25 (digest section 7), which does not need it.
+  - 2026-10-25 open to partial. thm-shadow-run-price-finite-views (f) settles it when the query set has as many points as the
+    query budget, with order C^q_E / a^2 Train calls necessary and sufficient under the bottom oracle. The factor
+    ln|U| for larger query sets stays open. From the space statistical-limits.
 
 ## prob-multi-round-drawn-seeds
 statement: In the clipped aggregation procedure over R rounds, with no deviation and a finite clip,
@@ -500,6 +520,11 @@ claimed-by: none
 where: `HE-ML:sink/2026-10-16-formal-tuning/final/audit.md#Assessment`
 history:
   - 2026-10-25 entered from HE-ML digest section 5.2 item 17. Weight side, judged against Halil's direction of 2026-10-25 (digest section 7), which does not need it.
+  - 2026-10-25 Literature added: JYCDTCP21 Table I (fact-rerun-reproduction-error) and SAB24 §6
+    (fact-controlled-nondeterminism-exact-replication). The hardware part is settled for the tested models and GPU
+    types by deterministic settings or logged rounding. The data part, the exceedance of a leave-one-out twin under
+    deterministic kernels, stays open, and thm-exact-twin-price and thm-coupling-free-soundness make the price of a
+    certificate depend on it.
 
 ## prob-learning-oracle-theory-novelty
 statement: Does the learning-oracle theory survive a reading of the privacy-auditing literature
@@ -656,6 +681,11 @@ claimed-by: none
 where: `FS:exp/docs/reports/2026-08-05-unfiled-r-as-quantizer-and-one-reduction.md`
 history:
   - 2026-10-25 entered from the FS programme digest, sections 3.1 and 5. Weight side, judged against Halil's direction of 2026-10-25 (HE-ML digest section 7), which does not need it.
+  - 2026-10-25 prop-profile-run-coordinate (a) shows the run axis flat for unrestricted classes at a fixed learning
+    function, so the curve needs a named family, a uniform statement over learning functions, or a computational
+    bound. Recorded from the space oracle-and-measurement.
+  - 2026-10-25 def-uniform-security-profile gives the unbounded-adversary form. The efficient form stays with the space
+    computational-limits.
 
 ## prob-pancake-property-inference-reduction
 statement: Does property inference against a model trained on Gaussian pancakes reduce to
@@ -1154,6 +1184,8 @@ claimed-by: none
 where: `FS:exp/survey/lib/issues/2026-10-13-halil-ai-oracle-definition.md`
 history:
   - 2026-10-25 entered from the FS programme digest, section 5. Weight side, judged against Halil's direction of 2026-10-25 (HE-ML digest section 7), which does not need it.
+  - 2026-10-25 Related, not a solution: thm-exact-twin-price is a lower bound on Train calls for certifiers, not for
+    attackers.
 
 ## prob-natural-training-ideal-representation
 statement: Does any natural training approximately satisfy ideal representation, under which the
@@ -1574,6 +1606,81 @@ claimed-by: none
 where: `FS:exp/docs/meetings/2026-08-05-pi.md`
 history:
   - 2026-10-25 entered from the FS programme digest, sections 5 and 6. Weight side, judged against Halil's direction of 2026-10-25 (HE-ML digest section 7), which does not need it.
+
+## prob-revealed-seed-rerun-price
+statement: Under hardware randomness, how many reruns at a revealed seed does an adversary fixed before the learning
+  function need to approach the top optimum D^top_1(K)?
+posed: argon, round 00 of the space oracle-and-measurement (ch-seed-attack-already-known), 2026-10-25
+weight: side
+status: open
+literature: unchecked
+tried: none
+depends-on: none
+claimed-by: none
+where: HE-ML:lab/theory/spaces/oracle-and-measurement/round-02/builder.md#def-seed-access-modes, remark on the seed for an adversary
+history:
+  - 2026-10-25 entered from the round-01 summary of oracle-and-measurement. Weight side.
+
+## prob-blind-inversion-relu-clients
+statement: Can a seed-blind server invert an expansive Gaussian ReLU client from representations of an isotropic record
+  law at polynomial cost, learning the client up to rotation? This is the open upper inclusion of
+  conj-seed-price-is-ngca-price.
+posed: the space computational-limits, 2026-10-25
+weight: supporting
+status: open
+literature: unchecked
+tried: none
+depends-on: none
+claimed-by: none
+where: HE-ML:lab/theory/spaces/computational-limits/round-02/builder.md#conj-seed-price-is-ngca-price
+history:
+  - 2026-10-25 entered from the round-02 summary of computational-limits. Weight supporting, since the conjecture of the
+    leading candidate needs it.
+
+## prob-coarse-reconstruction-lattice-hardness
+statement: Is reconstruction of a pancake coordinate to constant correlation hard for polynomial-time algorithms under a
+  lattice assumption? The reduction of the space reaches only reconstruction to accuracy of order 1/gamma.
+posed: the space computational-limits, 2026-10-25
+weight: supporting
+status: open
+literature: unchecked
+tried: none
+depends-on: none
+claimed-by: none
+where: HE-ML:lab/theory/spaces/computational-limits/round-02/builder.md#prop-fine-reconstruction-to-hclwe
+history:
+  - 2026-10-25 entered from the round-00 summary of computational-limits.
+
+## prob-reconstruction-hardness-without-one-wayness
+statement: Does computational Narcissus resiliency for a reconstruction relation, in a trained or initialized model, imply
+  a one-way function? The blind first layer resists fine reconstruction under hCLWE while its map has easy preimages, so
+  CKMMNST25 Theorem C.5 does not apply.
+posed: the space computational-limits, 2026-10-25
+weight: side
+status: open
+literature: unchecked
+tried: none
+depends-on: none
+claimed-by: none
+where: HE-ML:lab/theory/spaces/computational-limits/round-00/summary.md
+history:
+  - 2026-10-25 entered from the round-00 summary of computational-limits.
+
+## prob-train-access-collapses-sample-price
+statement: In the noisy mean estimator of HSU25 the noise covariance is the population covariance, so Train calls on any
+  fixed dataset sample it. Does an attacker with order d Train calls and order min(n, 1/rho^2) reference samples succeed
+  where HSU25 Theorem 3.1 forces order n + n^2 rho^2 samples without Train access?
+posed: the space statistical-limits, 2026-10-25
+weight: supporting
+status: open
+literature: unchecked
+tried: none
+depends-on: none
+claimed-by: none
+where: HE-ML:lab/theory/spaces/statistical-limits/round-00/summary.md
+history:
+  - 2026-10-25 entered from the round-00 summary of statistical-limits. Weight supporting, since it decides whether a sample
+    price survives the learning oracle.
 
 # Archive
 

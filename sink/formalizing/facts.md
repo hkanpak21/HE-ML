@@ -23,16 +23,29 @@ pointer: The FORMAL_SECURITY records give Theorem 1.1, with the antecedent d > c
 read: recorded, verified in full against the PDF by a FORMAL_SECURITY session 2026-08-22 (wiki date_verified 2026-08-22 against raw/HSU25_SampleComplexityMIA.pdf, proofs read for statement and method only). Also full, reader subagent, 2026-10-25.
 status: verified
 record: FS:CLAUDE.md, FS:exp/survey/lib/reports/archive/2026-08-22-halil-note-wiki-audit-findings.md, FS:exp/survey/lab/results/literature-sweep/information.md, FS:wiki/sources/haghifam-sample-complexity-mia.md, HE-ML:sink/formalizing/sources/2026-10-25-learning-bounded-scan.md
-corrections: none
+corrections:
+  - 2026-10-25 Read in the library copy, arXiv v1 of 26 August 2025, by the space oracle-and-measurement. The matching
+    attack is Theorem 3.3, not Theorem 3.2, against the symmetric estimators of Definition 3.2. Theorem 1.1 is the
+    informal version of Theorem 3.1, and Theorem 1.2 of Theorem 4.1. Theorem 4.1 proves impossibility with known
+    identity covariance only for d < c(n + n^2 rho^2 + n^2/m), with n >= 4 and m >= 2. The matching attack above that
+    dimension is attributed to Dwork, Smith, Steinke, Ullman and Vadhan (FOCS 2015) and not proven there. Source HE-ML:lab/theory/spaces/oracle-and-measurement/round-02/builder.md.
+  - 2026-10-25 Confirmed by the space statistical-limits in the same v1 copy. Theorem 3.3's estimator class of Definition 3.2
+    factors through the empirical mean and lies within squared Mahalanobis distance 2 rho^2 d of it with probability
+    0.99. Proposition 2.5, an attacker that knows the distribution, is attributed to Dwork et al. without proof. The
+    two bounds match only at d of order n + n^2 rho^2 (Remark 3.4), with rho > 0 (Definition 2.4). Source HE-ML:lab/theory/spaces/statistical-limits/round-01/builder.md.
 
 ## fact-hsu-gap-prices-covariance
 claim: The Haghifam, Smith and Ullman separation vanishes when the attacker knows the covariance, since about min{n, 1/ρ²} samples then suffice and are optimal, so it prices the attacker's ignorance of Σ rather than attack difficulty.
 paper: Haghifam, Smith and Ullman, arXiv 2508.19458 (HSU25).
-pointer: Theorem 1.2 per the FORMAL_SECURITY records. The 2026-10-25 scan states that with known covariance order n samples suffice, with no theorem number.
+pointer: Theorem 4.1 (informal Theorem 1.2), with n >= 4, m >= 2 and d < c(n + n^2 rho^2 + n^2/m), and Remark 4.2.
 read: recorded, wiki page date_verified 2026-08-22. Also full, reader subagent, 2026-10-25.
 status: verified
 record: FS:CLAUDE.md, FS:wiki/sources/haghifam-sample-complexity-mia.md, HE-ML:sink/formalizing/sources/2026-10-25-learning-bounded-scan.md
-corrections: none
+corrections:
+  - 2026-10-25 Read in v1. Theorem 4.1 is the impossibility with known identity covariance. At d of order n + n^2 rho^2 it
+    forces m of order min(n, 1/rho^2), and Remark 4.2 states that order n samples suffice, an upper bound. The
+    converse attack is attributed to Dwork et al. without proof. The claim's "suffice and are optimal" holds only in
+    this reading. Old pointer: Theorem 1.2 per the FORMAL_SECURITY records. Source HE-ML:lab/theory/spaces/statistical-limits/round-01/builder.md.
 
 ## fact-hsu-chi-square-technique
 claim: The Haghifam, Smith and Ullman lower bound uses the Ingster and Suslina chi-squared second-moment method over planted subspaces, which the FORMAL_SECURITY root calls one step from a low-degree restatement and a competitive hazard (heuristic).
@@ -50,7 +63,8 @@ pointer: Not recorded beyond the sweep sheet HSU25.
 read: recorded, agent reading of the 2026-10-13 sweep.
 status: recorded
 record: FS:exp/survey/lab/results/literature-sweep/information.md
-corrections: none
+corrections:
+  - 2026-10-25 Not present in the library's v1 of HSU25. Its source is v2, which the library does not hold. Source HE-ML:lab/theory/spaces/statistical-limits/round-00/summary.md.
 
 ## fact-sablayrolles-bayes-attack-loss-only
 claim: Under a Gibbs-posterior model of training the Bayes-optimal membership attack reads the weights only through the loss (proven under the posterior assumption).
@@ -128,20 +142,28 @@ corrections: none
 ## fact-lira-low-fpr-yeom-game
 claim: LiRA made the true-positive rate at low false-positive rate the standard membership metric, and its game is adopted from Yeom et al.
 paper: Carlini, Chien, Nasr, Song, Terzis and Tramèr, Membership Inference Attacks From First Principles, IEEE S&P 2022, arXiv 2112.03570.
-pointer: Definition 1, Section VI-A.
-read: recorded, wiki page ingested from the raw PDF on 2026-08-20, no stamp.
-status: recorded
+pointer: Definition 1 in §III-A.
+read: full, HE-ML space statistical-limits, 2026-10-25, library key CCNSTT22.
+status: verified
 record: FS:wiki/sources/mia-from-first-principles.md, FS:wiki/concepts/low-fpr-evaluation-regime.md
-corrections: none
+corrections:
+  - 2026-10-25 Definition 1 is in §III-A, not §VI-A. The OUT point is drawn from the distribution conditioned to lie outside
+    the training set and the bit convention is the reverse of Yeom's, so the games agree when that event has
+    probability one. Old pointer: Definition 1, Section VI-A. Old read: recorded, wiki page ingested 2026-08-20. Old
+    status: recorded. Source HE-ML:lab/theory/spaces/statistical-limits/round-01/builder.md.
 
 ## fact-lira-priced-in-training-runs
 claim: LiRA prices its attack in shadow-model training runs, N = 64 for ImageNet and 256 otherwise.
 paper: Carlini, Chien, Nasr, Song, Terzis and Tramèr, IEEE S&P 2022, arXiv 2112.03570.
-pointer: Not recorded. The survey codebook has no training-runs unit, so the survey row is coded time and a dispute is recorded, while the ontology codes eight works under res-training-runs.
-read: recorded, quotation batch of 2026-09-03, no verification state given.
-status: recorded
+pointer: §IV-C (Algorithm 1, one bank for every target), §V-A with the caption of Fig. 5 (N = 256, and 64 for
+  ImageNet), §VI-B with Fig. 9.
+read: full, HE-ML spaces statistical-limits and oracle-and-measurement, 2026-10-25, library key CCNSTT22.
+status: verified
 record: FS:exp/survey/lib/reports/archive/2026-09-03-halil-quotes-batch-b.md
-corrections: none
+corrections:
+  - 2026-10-25 Read in full by two theory spaces. Old pointer: Not recorded. Old read: recorded, quotation batch of
+    2026-09-03. Old status: recorded. Source HE-ML:lab/theory/spaces/oracle-and-measurement/round-00/builder.md#fact-lira-priced-in-training-runs.
+  - 2026-10-25 §VI-D reports no change with disjoint shadow data (CINIC-10, 128 OUT models). Source HE-ML:lab/theory/spaces/statistical-limits/round-01/builder.md.
 
 # Reconstruction and fibers of the training map
 
@@ -150,9 +172,11 @@ claim: Reconstruction robustness quantifies over any reconstruction map R with t
 paper: Balle, Cherubin and Hayes, Reconstructing Training Data with Informed Adversaries, IEEE S&P 2022, arXiv 2201.04845.
 pointer: Definition 2 per the FORMAL_SECURITY programme records. The wiki page cites Definition 1 for reconstruction robustness. The authors write R for the reconstruction attack itself.
 read: recorded, verified verbatim by a FORMAL_SECURITY sweep 2026-08-05 and again in the audit of 2026-08-22. The wiki page carries date_verified 2026-08-20.
-status: disputed, the records give different definition numbers
+status: verified
 record: FS:exp/docs/reports/2026-08-05-lit-integrity-function-prior-art.md, FS:exp/survey/lib/reports/archive/2026-08-22-halil-note-wiki-audit-findings.md, FS:wiki/sources/reconstructing-informed-adversaries.md
-corrections: none
+corrections:
+  - 2026-10-25 Dispute resolved in the PDF. Definition 2 is reconstruction robustness, Definition 1 the informed adversary,
+    and the baseline kappa is defined in §VII-B without a number. Old status: disputed. Source HE-ML:lab/theory/spaces/statistical-limits/round-01/builder.md.
 
 ## fact-balle-dp-bounds-reconstruction
 claim: Differential privacy bounds reconstruction robustness relative to a fixed baseline (proven).
@@ -161,16 +185,25 @@ pointer: Theorems 2 and 5, Corollaries 3 and 4.
 read: recorded, wiki page date_verified 2026-08-20.
 status: verified
 record: FS:wiki/sources/reconstructing-informed-adversaries.md
-corrections: none
+corrections:
+  - 2026-10-25 Hypotheses added from the PDF. Theorem 2 needs alpha > 1. Proposition 6 fixes a constant eta in (0,1) and the
+    uniform prior on the unit ball. Proposition 7 fixes a constant eta > 0 and an isotropic Gaussian prior with
+    sigma >= 2 eta / sqrt(d). Theorem 5 needs the 0/1 error with eta in (0,1). Source HE-ML:lab/theory/spaces/statistical-limits/round-01/builder.md.
 
 ## fact-reconstruction-query-lower-bounds
 claim: A white-box reconstruction adversary against a DP learner needs a number of queries bounded below as a function of the learner's privacy parameters, counted in plain queries with a fixed known remainder dataset (proven).
 paper: Mukherjee and Lokam, 2024, arXiv 2303.16372.
-pointer: Theorems 1 and 2.
-read: recorded, wiki page ingested on 2026-08-20, no stamp.
-status: recorded
+pointer: Theorem 9 (formal), not the informal Theorems 1 and 2, in arXiv 2303.16372v6, library key ML24.
+read: full, HE-ML space statistical-limits, 2026-10-25.
+status: verified
 record: FS:wiki/sources/query-complexity-reconstruction.md
-corrections: none
+corrections:
+  - 2026-10-25 Theorem 9 gives V(M,n) of order at least diam^2 (2(1 - delta)/(e^epsilon + 1))^n for every
+    (epsilon, delta)-DP learner. Theorem 10, the claimed matching upper bound, is not established, since the adversary
+    of Appendix B.5 uses the true target. Corollary 12 is not established, since the proof of Lemma 16 in Appendix B.3
+    bounds the total variation from the wrong side. Appendix B.5 also holds an unnumbered majority-adversary result for
+    privacy parameter at least 0.042, per astra and not read by the space. Old pointer: Theorems 1 and 2. Old read:
+    recorded, wiki page ingested 2026-08-20. Old status: recorded. Source HE-ML:lab/theory/spaces/statistical-limits/round-02/builder.md#fact-reconstruction-query-lower-bounds.
 
 ## fact-dinur-nissim-reconstruction-thresholds
 claim: A subset-sum database with perturbation o(n) is non-private against an exponential adversary and with perturbation o(√n) against a polynomial one, while Õ(√T(n)) noise suffices against time-T(n) adversaries, and the main result is a polynomial reconstruction algorithm (proven).
@@ -182,6 +215,9 @@ record: FS:CLAUDE.md, FS:exp/survey/lib/reports/archive/2026-08-22-halil-note-wi
 corrections:
   - 2026-08-22 Three clauses were corrected against the PDF. The old record placed the separation in §3 against §4 as the main theorem and attributed an OLS example to the paper.
   - 2026-10-25 The wiki-claims digest finds FS:wiki/index.md and the 2026-07-26 wiki log entry still describing §3 against §4 with the separation as the main theorem.
+  - 2026-10-25 Theorems 2 and 3 change the number of answers as well as the running time, so they are not a computational
+    separation at fixed information. Theorem 5 is stated for the two-phase game of Definition 4, with delta > 0.
+    Source HE-ML:lab/theory/spaces/statistical-limits/round-01/builder.md.
 
 ## fact-fiber-framing-occupied
 claim: Size against navigability of the training-map fiber with a complexity separation is already Dinur and Nissim, with Cohen et al. and Kaplan et al. on the reconstruction side, so of the fiber framing only constrained fiber navigation on the training map remains.
@@ -424,7 +460,9 @@ pointer: Theorem 1.1 as quoted in the proof note.
 read: recorded, the proof note records no check against the paper.
 status: recorded
 record: FS:.tools/proof.tex
-corrections: none
+corrections:
+  - 2026-10-25 The held copy of FGRVX17 (arXiv v6) has no Theorem 1.1 of the form q tau^2 >= Omega(n^(2 delta)). The
+    planted-biclique bounds are Theorems 2.9, 2.10 and 5.4. Source HE-ML:lab/theory/spaces/computational-limits/round-00/summary.md.
 
 ## fact-barak-sos-planted-clique-gap
 claim: The degree-d SoS relaxation of clique has integrality gap at least n^{1/2 − c(d/log n)^{1/2}}, unconditionally (proven).
@@ -464,6 +502,12 @@ status: verified
 record: FS:wiki/sources/bruna-continuous-lwe.md
 corrections:
   - 2026-09-03 The venue was resolved as STOC 2021, in FS:exp/survey/lib/reports/archive/2026-09-03-halil-venues-batch-a.md.
+  - 2026-10-25 Pointers BRST21 Definitions 2.19 and 2.21, Claim 2.22, Corollary 4.2, Lemma 7.2, Corollary 7.3, Lemma 7.4,
+    Theorem 7.5, Corollary 9.4, in the normalization rho(x) = exp(-pi |x|^2) where the Gaussian has covariance
+    I/(2 pi). The covariance of H_(w,beta,gamma) is I/(2 pi) off w and 1/(2 pi) - Delta along w with
+    0 <= Delta <= 3(gamma^2 + 1) exp(-pi gamma^2), a deficit, proven in the round file from the proofs of Lemma 7.2
+    and Corollary 7.3 (round 01 had stated an excess). The homogeneous law determines w only up to sign, and the
+    round-00 sentence that an unbounded algorithm finds w is withdrawn. Source HE-ML:lab/theory/spaces/computational-limits/round-02/builder.md#fact-clwe-hardness.
 
 ## fact-lattice-hardness-of-learning
 claim: Weakly learning a periodic neuron, or a one-hidden-layer ReLU network of width ω(√(d log d)) under Gaussian noise, is hard for polynomial time if approximate SVP is quantum-hard (proven under that assumption).
@@ -735,6 +779,7 @@ record: FS:CLAUDE.md, FS:wiki/sources/generative-exponent-single-index.md
 corrections:
   - 2026-08-20 The threshold was corrected from recovery to detection.
   - 2026-08-27 The root marks the open estimation threshold superseded in part for polynomial links, see fact-polynomial-link-estimation-rate.
+  - 2026-10-25 DPLB24 Theorem 3.2 is stated for weak recovery and proved against a product null, Remark 3.3. Source HE-ML:lab/theory/spaces/computational-limits/round-00/summary.md.
 
 ## fact-generative-below-information
 claim: The generative exponent never exceeds the information exponent, and the two differ exactly when some square-integrable label transformation lowers the Hermite index (proven).
@@ -1267,7 +1312,10 @@ pointer: Theorems 3 to 5.
 read: full, reader subagent, 2026-10-25.
 status: verified
 record: HE-ML:sink/formalizing/sources/2026-10-25-learning-bounded-scan.md
-corrections: none
+corrections:
+  - 2026-10-25 Hypotheses restated from the PDF: Theorem 3 needs distinct non-constant balanced concepts and
+    (0.51, delta) plain accuracy, Theorems 4 and 5 give attacks with oracle access to the encoder, and Section 2 does
+    not rule out privacy against instance recovery (astra, round 00). Source HE-ML:lab/theory/spaces/computational-limits/round-01/builder.md#fact-instance-encoding-privacy-learnability.
 
 ## fact-no-hard-learning-attacker-lower-bound
 claim: No paper bounds a membership, inversion, attribute or reconstruction attacker from below with a statistical-query lower bound or another hard learning problem (empirical, search-based).
@@ -1656,11 +1704,14 @@ corrections: none
 claim: Proof-of-learning compares spoofing to honest training only through bare cost inequalities stated as desiderata, E[C_A] ≥ E[C_T], never parameterized by δ and with no adversary class, and the paper cites neither BRSV nor LLW.
 paper: Jia, Yaghini, Choquette-Choo, Dullerud, Thudi, Chandrasekaran and Papernot, IEEE S&P 2021, no arXiv recorded.
 pointer: Property 2 and Definition 2 (spoof threshold) for the spoofer, Conjecture 1 unproved. The root calls the verification-against-training inequality Property 1, while the wiki page calls it Proposition 1 (verifier cost at most trainer cost).
-read: recorded, wiki page date_verified 2026-08-20, rebuilt from the PDF.
-status: disputed, the records give the verification inequality different labels
+read: full, HE-ML space oracle-and-measurement, 2026-10-25, library key JYCDTCP21.
+status: verified
 record: FS:CLAUDE.md, FS:exp/survey/paper/parked/formalization/games.tex, FS:wiki/sources/proof-of-learning.md
 corrections:
   - 2026-08-20 The page was rebuilt from its PDF, recovering two of three compute inequalities.
+  - 2026-10-25 Dispute resolved in the PDF. Property 1 is E[C_V] <= E[C_T], Property 2 is E[C_T] <= E[C_A], Definition 1
+    is the tuple (W, I, H, A), Conjecture 1 is in §VII. Old read: recorded, wiki page date_verified 2026-08-20, rebuilt from the PDF. Old
+    status: disputed. Source HE-ML:lab/theory/spaces/oracle-and-measurement/round-00/builder.md.
 
 ## fact-pol-ratio-never-exponent-indexed
 claim: Work after proof-of-learning indexes the spoofer-to-trainer ratio by a multiplicative constant or by efficiency and hardness parameters, and no work indexes it by an exponent.
@@ -1729,10 +1780,12 @@ corrections: none
 claim: Forging adversaries exist for mean-sampler update rules, so unlearning is well defined only at the level of the algorithm (proven).
 paper: Thudi, Jia, Shumailov and Papernot, USENIX Security 2022.
 pointer: Theorem 3 (Existence of Forging Adversary), Corollary 2.
-read: recorded, wiki page ingested on 2026-08-20, no stamp.
-status: recorded
+read: full, HE-ML space oracle-and-measurement, 2026-10-25, library key TJSP22.
+status: verified
 record: FS:CLAUDE.md, FS:wiki/sources/auditable-unlearning-definitions.md
-corrections: none
+corrections:
+  - 2026-10-25 Verified in the PDF, Theorems 2 and 3 and Corollary 2. Old read: recorded, wiki page ingested on
+    2026-08-20, no stamp. Old status: recorded. Source HE-ML:lab/theory/spaces/oracle-and-measurement/round-00/builder.md.
 
 ## fact-retrain-equivalence-ill-posed
 claim: Retrain equivalence is ill-posed for local, path-oblivious unlearning when staged training leaves an order trace in the weights.
@@ -1747,10 +1800,16 @@ corrections: none
 claim: A model provider who controls mini-batch sampling can pass backdoor and reproducing verification of unlearning while keeping the information, with an attack that costs as much as naive retraining.
 paper: Zhang, Chen, Shen and Li, ICML 2024, arXiv 2408.00929.
 pointer: Proposition 4.5, Algorithms 1 and 2.
-read: recorded, wiki page ingested on 2026-08-20, no stamp.
-status: recorded
+read: full, HE-ML space oracle-and-measurement, 2026-10-25, library key ZCSL24.
+status: verified
 record: FS:wiki/sources/unlearning-verification-fragile.md
-corrections: none
+corrections:
+  - 2026-10-25 Read in the PDF. Definition 4.1, Proposition 4.2 (Algorithm 1 passes at epsilon = 0), Proposition 4.4
+    (Algorithm 2 passes at epsilon > 0 under the assumptions of Proposition 4.3, vanilla SGD for the replay update and
+    its step-size bounds), Proposition 4.5 (Algorithm 1 costs one retraining, Algorithm 2 the time factor
+    p_u/P + (1 - p_u)/(mP), equal to one at P = m = 1 and below one otherwise). The text calls them Theorems 4.2 to 4.5.
+    The claim's "costs as much as naive retraining" holds for Algorithm 1 only. Old read: recorded, wiki page
+    ingested on 2026-08-20, no stamp. Old status: recorded. Source HE-ML:lab/theory/spaces/oracle-and-measurement/round-02/builder.md.
 
 ## fact-repudiation-rests-on-conjecture
 claim: Proof of repudiation against membership claims rests on an unproved conjecture that nearby parameters give membership-equivalent models.
@@ -2084,7 +2143,12 @@ pointer: Appendix A, Table III.
 read: full, reader subagent, 2026-10-25.
 status: verified
 record: HE-ML:sink/formalizing/sources/2026-10-25-learning-bounded-scan.md
-corrections: none
+corrections:
+  - 2026-10-25 Add the pointer to the table of factors of §VI, row Random initialization. The prose of Appendix A inverts
+    the order of Table III. Argon (round 00 of oracle-and-measurement) notes that Corollary 4 of BCH22,
+    gamma = exp(-(sqrt(log(1/kappa)) - sqrt(rho))^2), has the functional form of Upsilon in
+    thm-bounded-deviation-transfer (a), both from a Hölder change of measure, so it is prior work for that transfer.
+    Source HE-ML:lab/theory/spaces/oracle-and-measurement/round-00/builder.md.
 
 ## fact-neuracrypt-bayesian-posterior
 claim: NeuraCrypt's privacy theorem is the Bayesian posterior over a law of random-network encoders.
@@ -2111,7 +2175,10 @@ pointer: Theorem 1.
 read: full, reader subagent, 2026-10-25.
 status: verified
 record: HE-ML:sink/formalizing/sources/2026-10-25-learning-bounded-scan.md
-corrections: none
+corrections:
+  - 2026-10-25 CGJMMT21 Theorem 1 assumes (1/2 - epsilon, delta) balanced error for constants 0 < epsilon, delta < 1/2,
+    and the predictor has oracle access to the learner and the keyed encoder. The authors are Carlini, Garg, Jha,
+    Mahloujifar, Mahmoody and Tramèr, read from the first page. Source HE-ML:lab/theory/spaces/computational-limits/round-02/builder.md#fact-ideal-keyed-encoding-weak-learner.
 
 ## fact-unsplit-unknown-client-inversion
 claim: UnSplit inverts an unknown split-learning client model by joint optimization, and it works at MNIST split depth 1 before and after training (empirical).
@@ -2212,7 +2279,11 @@ pointer: Theorem 1c.
 read: full, reader subagent, 2026-10-25.
 status: verified
 record: HE-ML:sink/formalizing/sources/2026-10-25-learning-bounded-scan.md
-corrections: none
+corrections:
+  - 2026-10-25 Pointer AKMSS21 Theorem 1c with the error of a bSGD method defined as E[sup L_D] over valid roundings. A
+    generic SQ lower bound does not cover the whole fine-precision bSGD class, since Theorem 1a lets constructed
+    models simulate PAC learning when rho < 1/(8b). That single-precision training sits in the regime of Theorem 1a
+    is heuristic (astra, rounds 00 and 01). Source HE-ML:lab/theory/spaces/computational-limits/round-01/builder.md#fact-sq-simulates-minibatch-sgd.
 
 ## fact-fine-precision-sgd-simulates-pac
 claim: At fine precision SGD simulates PAC learning, so an SQ lower bound says nothing about batch-one or fine-precision attackers (proven).
@@ -2386,6 +2457,268 @@ read: recorded, audit finding of 2026-08-22.
 status: recorded
 record: FS:exp/survey/lib/reports/archive/2026-08-22-halil-note-wiki-audit-findings.md
 corrections: none
+
+# Auditing, reruns and measurement
+
+Facts read by the thinking space oracle-and-measurement of `lab/theory/` on 2026-10-25, each
+from the library PDF, with its note filled in the same session.
+
+## fact-gdp-audit-observation-count
+claim: A privacy audit through the Gaussian-DP trade-off function is tight near 10^3 white-box observations where the
+  (epsilon, delta) audit needs near 10^8, and its black-box form with 1,000 models per world reaches about 1.6 against a
+  theoretical 8 for WRN-16 on CIFAR-10 (empirical).
+paper: Nasr, Hayes, Steinke, Balle, Tramèr, Jagielski, Carlini and Terzis, Tight Auditing of Differentially Private
+  Machine Learning, USENIX Security 2023, library key NHSBTJCT23.
+pointer: Eq. (9) and Eq. (12) with Corollary 5, §4.1 with Fig. 3, §5.1, §5.2, §5.5, §6.4 with Fig. 11.
+read: full, HE-ML space oracle-and-measurement, 2026-10-25.
+status: verified
+record: HE-ML:lab/theory/spaces/oracle-and-measurement/round-01/builder.md#fact-gdp-audit-observation-count
+corrections:
+  - 2026-10-25 Two scope limits found in review (argon, round 00). The confidence statement holds only for a threshold fixed
+    outside the evaluation sample, and §5.2 selects it on the same observations. The end-to-end figure composes per-step
+    bounds by Gaussian DP without subsampling and by PLD with it, a heuristic step.
+
+## fact-audit-independent-batches
+claim: The tight audit draws batches independently in the two worlds and reports no significant difference with identical
+  batches, shares the initialization across runs, and draws fresh seeds for the other random processes, so it never
+  couples the privacy noise (empirical).
+paper: Nasr, Hayes, Steinke, Balle, Tramèr, Jagielski, Carlini and Terzis, USENIX Security 2023, library key NHSBTJCT23.
+pointer: §5.1 (Algorithm 2) and §6.1.
+read: full, HE-ML space oracle-and-measurement, 2026-10-25.
+status: verified
+record: HE-ML:lab/theory/spaces/oracle-and-measurement/round-00/builder.md#fact-audit-independent-batches
+corrections:
+  - 2026-10-25 The last paragraph of the round-00 wording is replaced by the response to ch-shared-batch-marginal-vs-paired in
+    HE-ML:lab/theory/spaces/oracle-and-measurement/round-01/builder.md.
+
+## fact-small-seed-space-breaks-dp
+claim: A DP-SGD implementation whose noise seed takes 100 values is detected as violating its claimed epsilon = 1.27 by the
+  Gaussian-DP audit and by the method of Lu et al., and is missed by (epsilon, delta) audits (empirical).
+paper: Nasr, Hayes, Steinke, Balle, Tramèr, Jagielski, Carlini and Terzis, USENIX Security 2023, library key NHSBTJCT23.
+pointer: §6.3, Violation 2, Fig. 8.
+read: full, HE-ML space oracle-and-measurement, 2026-10-25.
+status: verified
+record: HE-ML:lab/theory/spaces/oracle-and-measurement/round-02/builder.md#fact-small-seed-space-breaks-dp
+corrections:
+  - 2026-10-25 Round 00 read the fact as giving the top oracle by enumeration. Enumeration gives the exact view laws only when all
+    other randomness is integrated exactly, and the top oracle only when one decoder recovers the seed under both
+    hypotheses. A decoder with error e under each hypothesis gives advantage at least the top divergence minus 2e (proven
+    in HE-ML:lab/theory/spaces/oracle-and-measurement/round-02/builder.md).
+
+## fact-one-shot-estimate-consistency
+claim: One-run privacy estimation from k random canaries is consistent as the dimension grows, at fixed noise and delta,
+  and is an estimate, not a bound. A certified lower bound from 1,000 canaries at alpha = 0.05 has a ceiling of 6.24.
+paper: Andrew, Kairouz, Oh, Oprea, McMahan and Suriyakumar, ICLR 2024, library key AKOOMS24.
+pointer: Algorithm 1, Theorem 3.3, §4 (Algorithm 2, no theorem), §5 by Table 4, §5.3.
+read: full, HE-ML space oracle-and-measurement, 2026-10-25.
+status: verified
+record: HE-ML:lab/theory/spaces/oracle-and-measurement/round-00/builder.md#fact-one-shot-estimate-consistency
+corrections:
+  - 2026-10-25 "Clopper and Pearson style" reads "Jeffreys interval for the false-negative rate and the exact null for the
+    false-positive rate", and Theorem 3.3 holds at fixed sigma > 0 and delta in (0,1) (argon, round 00).
+
+## fact-rerun-reproduction-error
+claim: A whole GPU training rerun from the same initialization, batching and strategy ends at a normalized l2 distance of
+  0.955 (ResNet-20, CIFAR-10) and 0.815 (ResNet-50, CIFAR-100) of the distance between independent models, and one step at
+  0.001 and 0.002, with deterministic operations giving 0.569 and 0.816 (empirical; Theorem 1 proven in its noise model).
+paper: Jia, Yaghini, Choquette-Choo, Dullerud, Thudi, Chandrasekaran and Papernot, Proof-of-Learning, IEEE S&P 2021,
+  library key JYCDTCP21.
+pointer: Theorem 1 (§VI-A), Table I (§VI-C).
+read: full, HE-ML space oracle-and-measurement, 2026-10-25.
+status: verified
+record: HE-ML:lab/theory/spaces/oracle-and-measurement/round-01/builder.md#fact-rerun-reproduction-error
+corrections:
+  - 2026-10-25 Table I gives means with a spread, so the rerun spread sits near one only below about 0.95 of the reference
+    distance for ResNet-20 and lower for the other settings (argon, round 00).
+
+## fact-known-initialization-separates-membership
+claim: On MNIST, with 1,000 released models trained with a target and 1,000 without, the two laws of the target's loss are
+  perfectly separable when all models share one initialization and nearly overlap when each draws a new seed (empirical).
+paper: Balle, Cherubin and Hayes, IEEE S&P 2022, library key BCH22.
+pointer: Appendix A, Fig. 11.
+read: full, HE-ML space oracle-and-measurement, 2026-10-25.
+status: verified
+record: HE-ML:lab/theory/spaces/oracle-and-measurement/round-00/builder.md#fact-known-initialization-separates-membership
+corrections: none
+
+## fact-controlled-nondeterminism-exact-replication
+claim: Training runs repeat identically on one GPU type with deterministic settings and differ across A40, Titan XP and
+  RTX 2080 Ti, and FP64 training with logged rounding replicates ResNet-50 training and GPT-2 fine-tuning exactly across
+  the three types at 1.2 to 1.4 times the trainer's time and 1.3 to 1.7 times the auditor's (empirical).
+paper: Srivastava, Arora and Boneh, Optimistic Verifiable Training by Controlling Hardware Nondeterminism, NeurIPS 2024,
+  library key SAB24.
+pointer: §6 with Fig. 2 and Fig. 4, Table 5.
+read: full, HE-ML space oracle-and-measurement, 2026-10-25.
+status: verified
+record: HE-ML:lab/theory/spaces/oracle-and-measurement/round-01/builder.md#fact-controlled-nondeterminism-exact-replication
+corrections:
+  - 2026-10-25 Scope noted by astra, round 01. The replicated pipeline is the modified one (precision, rounding, own dropout),
+    and the logs are per execution.
+
+# Reconstruction under a hidden initialization
+
+Facts read by the thinking space computational-limits of `lab/theory/` on 2026-10-25.
+
+## fact-hclwe-sq-correlation-bound
+claim: Pancake laws with nearly orthogonal hidden directions have pairwise correlations relative to the Gaussian at most
+  8 exp(-pi gamma^2 (1 - alpha^2)), and self-correlation at most 2 (gamma/beta)^2, so a randomized SQ algorithm solving hCLWE
+  with tolerance at least 4 exp(-pi gamma^2/4) needs exp(cn) tau^2 beta^2 / gamma^2 queries up to a constant (proven).
+paper: Bruna, Regev, Song and Tang, Continuous LWE, STOC 2021, library key BRST21.
+pointer: Proposition 8.3, Theorem 8.1, Lemma 8.2, with the reference law of covariance I/(2 pi).
+read: full, HE-ML space computational-limits, 2026-10-25.
+status: verified
+record: HE-ML:lab/theory/spaces/computational-limits/round-01/builder.md#fact-hclwe-sq-correlation-bound
+corrections: none
+
+## fact-ngca-sq-lower-bound
+claim: Non-Gaussian component analysis testing is SQ-hard when the hidden law approximately matches the Gaussian moments up
+  to an even degree, with no chi-square condition: tolerance polynomially small in the dimension or 2^(n^Omega(c)) queries
+  (proven). The bound covers SQ algorithms only, and lattice reduction solves some noiseless moment-matched instances.
+paper: Diakonikolas, Kane, Ren and Sun, NeurIPS 2023, arXiv 2403.04744, library key DKRS23 (PDF not placed).
+pointer: Theorem 1.5, Definitions 1.2 and 1.3.
+read: full, arXiv HTML, HE-ML space computational-limits, 2026-10-25. The statement was checked against the PDF by astra in round 00.
+status: verified
+record: HE-ML:lab/theory/spaces/computational-limits/round-01/builder.md#fact-ngca-sq-lower-bound
+corrections:
+  - 2026-10-25 The round-00 sentence on statistical identifiability is withdrawn, and the SQ-only scope added (astra, round 00,
+    with ZSWB22 Theorem 1.1 as recorded in fact-lll-beats-sos-noiseless).
+
+## fact-generative-exponent-sq-recovery-bound
+claim: In a Gaussian single-index model of generative exponent k*, an SQ algorithm with d^r queries returning a direction of
+  nontrivial overlap needs VSTAT(n) with n of order lambda_k*^-2 (d/r^2)^(k*/2), and a sample-based partial-trace algorithm
+  with a label denoiser recovers the direction from of order d^(k*/2) samples (proven). The lower bound measures detection
+  first.
+paper: Damian, Pillaud-Vivien, Lee and Bruna, COLT 2024, library key DPLB24.
+pointer: Definitions 1.1 and 2.4, Theorem 3.2, Remark 3.3, Theorem 4.1, Proposition 3.7, Theorem 6.1, Lemmas 2.3, B.6,
+  E.2 and E.3, Corollary B.7.
+read: full, HE-ML space computational-limits, 2026-10-25.
+status: verified
+record: HE-ML:lab/theory/spaces/computational-limits/round-01/builder.md#fact-generative-exponent-sq-recovery-bound
+corrections:
+  - 2026-10-25 The proof of Theorem 3.2 takes the diagonal correlation bound to be 1, which the class G does not guarantee, since
+    the diagonal is I_chi2[P] = sum of lambda_k^2 (Lemma 2.3). The code of Lemma E.3 has overlap sqrt(C log_d(m)^2 / d) for
+    m <= d^(d^(1/4)) (astra, round 01, read by the space in round 02).
+
+## fact-ica-breaks-rotation-perturbation
+claim: A random orthogonal perturbation of independent non-Gaussian attributes is undone up to permutation and scaling by
+  independent component analysis, while Gaussian sources cannot be separated (heuristic and empirical, no complexity
+  bound).
+paper: Liu, Kargupta and Ryan, IEEE TKDE 18(1), 2006, pp. 92 to 106, library key LKR06 (PDF not placed).
+pointer: Sections 3 and 4.
+read: full, HE-ML space computational-limits, 2026-10-25.
+status: verified
+record: HE-ML:lab/theory/spaces/computational-limits/round-01/builder.md#fact-ica-breaks-rotation-perturbation
+corrections:
+  - 2026-10-25 The identifiability claim is narrowed to independent attributes. A spherically symmetric non-Gaussian law is
+    invariant under every rotation (astra, round 00).
+
+## fact-orthogonal-equivariance-of-training
+claim: A rotation-invariant initialization with an update invariant under the joint action gives an orthogonally
+  equivariant learner, so gradient descent from i.i.d. Gaussian initialization is orthogonally equivariant, momentum
+  included, while Adam and AdaGrad are only permutation and sign-flip equivariant (proven).
+paper: Li, Zhang and Arora, arXiv 2010.08515 (ICLR 2021 as astra gives it, the arXiv page names no venue), library key LZA21
+  (PDF not placed).
+pointer: Definition 3.2, Theorem C.1, Remarks C.1 and C.2, Corollary C.2, Table 1, Theorem 5.2.
+read: full, arXiv HTML, HE-ML space computational-limits, 2026-10-25.
+status: verified
+record: HE-ML:lab/theory/spaces/computational-limits/round-01/builder.md#fact-orthogonal-equivariance-of-training
+corrections: none
+
+## fact-nrnt25-private-layer-hardness-route
+claim: Reconstruction hardness behind private discriminator layers is argued for one attack route, approximate the private
+  layers and then invert, from approximation hardness of learning ReLU networks, with no reduction from an arbitrary
+  reconstructor (the space's reading).
+paper: Nguyen, Ren, Nie and Trieu, PoPETs 2025(3), library key NRNT25.
+pointer: Definition 1.1, Propositions 3 to 6, Section 4.4.
+read: full, HE-ML space computational-limits, 2026-10-25.
+status: verified
+record: HE-ML:lab/theory/spaces/computational-limits/round-01/builder.md#fact-nrnt25-private-layer-hardness-route
+corrections:
+  - 2026-10-25 Proposition 3 needs a single-record gradient and a nonzero coordinate of the first-layer bias gradient. Zero
+    gradients, through an inactive ReLU path, reveal nothing (astra, round 00).
+
+# Statistical prices of membership and reconstruction
+
+Facts read by the thinking space statistical-limits of `lab/theory/` on 2026-10-25, each from the library PDF, with its
+note filled in the same session.
+
+## fact-yeom-dp-bounds-membership-advantage
+claim: An epsilon-DP learner, with DP over replacement of one record, gives membership advantage at most e^epsilon - 1
+  against every adversary of Experiment 1, which receives the data distribution (proven).
+paper: Yeom, Giacomelli, Fredrikson and Jha, IEEE CSF 2018, library key YGFJ18.
+pointer: Experiment 1, Definition 4, Theorem 1.
+read: full, HE-ML space statistical-limits, 2026-10-25.
+status: verified
+record: HE-ML:lab/theory/spaces/statistical-limits/round-01/builder.md#fact-yeom-dp-bounds-membership-advantage
+corrections: none
+
+## fact-yeom-generalization-error-gives-advantage
+claim: For a nonnegative loss bounded by B, the loss-threshold adversary that outputs 1 with probability loss/B has
+  advantage equal to the average generalization error divided by B, with one model evaluation (proven).
+paper: Yeom, Giacomelli, Fredrikson and Jha, IEEE CSF 2018, library key YGFJ18.
+pointer: Theorem 2, Definition 3, Adversary 1.
+read: full, HE-ML space statistical-limits, 2026-10-25.
+status: verified
+record: HE-ML:lab/theory/spaces/statistical-limits/round-01/builder.md#fact-yeom-generalization-error-gives-advantage
+corrections: none
+
+## fact-pac-privacy-mutual-information-bound
+claim: For a data law known to the adversary, an adversary whose failure delta is at most the optimal prior failure
+  delta_o, the optimal adversary included, has kl(delta || delta_o) <= I(X; M(X)), and every adversary has
+  delta_o - delta <= sqrt(I(X; M(X))/2) (proven).
+paper: Xiao and Devadas, PAC Privacy, CRYPTO 2023, library key XD23.
+pointer: Definition 3, Theorem 1, Corollary 1, Remark 1.
+read: full, HE-ML space statistical-limits, 2026-10-25.
+status: verified
+record: HE-ML:lab/theory/spaces/statistical-limits/round-01/builder.md#fact-pac-privacy-mutual-information-bound
+corrections:
+  - 2026-10-25 The bound holds for the optimal adversary or any adversary at least as good as the best prior guess, with a
+    constant-release counterexample otherwise (astra, round 00).
+
+## fact-pac-privacy-gaussian-release-bound
+claim: For a deterministic mechanism with finite second moment and independent Gaussian noise of positive definite
+  covariance Sigma_B, I(X; M(X) + B) <= (1/2) log det(I + Sigma_M Sigma_B^-1), and Algorithm 1 calibrates the noise
+  from independent evaluations of M when |M(X)| <= r (proven).
+paper: Xiao and Devadas, CRYPTO 2023, library key XD23.
+pointer: Theorems 3 and 4, Algorithm 1, display (6).
+read: full, HE-ML space statistical-limits, 2026-10-25.
+status: verified
+record: HE-ML:lab/theory/spaces/statistical-limits/round-01/builder.md#fact-pac-privacy-gaussian-release-bound
+corrections:
+  - 2026-10-25 The fact is the deterministic specialization. §4.2 and Corollary 2 of XD23 treat randomized mechanisms.
+
+## fact-pac-privacy-assumes-known-law
+claim: The PAC privacy framework cannot quantify the hardness that an adversary's ignorance of the data law adds.
+paper: Xiao and Devadas, CRYPTO 2023, library key XD23.
+pointer: §2, paragraph Lack of Knowledge.
+read: full, HE-ML space statistical-limits, 2026-10-25.
+status: verified
+record: HE-ML:lab/theory/spaces/statistical-limits/round-00/summary.md
+corrections: none
+
+## fact-zhao-accuracy-forces-attribute-leakage
+claim: When the target and a sensitive attribute are correlated, a representation on which some classifier is accurate
+  lets a measurable classifier infer the attribute with an advantage that the accuracy forces, for attribute groups of
+  positive probability (proven).
+paper: Zhao, Chi, Tian and Gordon, NeurIPS 2020, arXiv 1906.07902, library key ZCTG20.
+pointer: Theorems 3.2 and 3.3, with H_A all measurable binary classifiers.
+read: full, HE-ML space statistical-limits, 2026-10-25.
+status: verified
+record: HE-ML:lab/theory/spaces/statistical-limits/round-01/builder.md#fact-zhao-accuracy-forces-attribute-leakage
+corrections: none
+
+## fact-balle-reconnn-priced-in-shadow-runs
+claim: A reconstructor network trained on shadow models beats the nearest-neighbour oracle from about 8K shadow models on
+  MNIST and 10K on CIFAR-10 with the initialization known, and fails on MNIST with a fresh initialization per model (MSE
+  about 0.069 against at most 0.0089 with it), a pool of 5M shadow pairs over 500 initializations not helping (empirical).
+paper: Balle, Cherubin and Hayes, IEEE S&P 2022, library key BCH22.
+pointer: §IV-B, §VI-B, Fig. 5, Table III.
+read: full, HE-ML space statistical-limits, 2026-10-25.
+status: verified
+record: HE-ML:lab/theory/spaces/statistical-limits/round-01/builder.md#fact-balle-reconnn-priced-in-shadow-runs
+corrections:
+  - 2026-10-25 "Needs the initialization" describes this attack in these experiments, not a statistical impossibility
+    (ch-reconnn-seed-interpretation, astra, round 01).
 
 # Bibliographic records
 

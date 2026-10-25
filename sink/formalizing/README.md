@@ -24,6 +24,9 @@ the single source of truth for what is known, proven, searched and open.
    returns its new rows for the parent to append.
 3. Derivation. Before proving anything, read its `results.md` entry and the
    `tried:` lines of its problem. A `proven` entry is used, never proved again.
+   Reading. A session that reads a paper writes its note at
+   `lib/literature/notes/<venue>/<Key>.md` in the same session, in detail, and
+   adds or verifies the `facts.md` entries the reading settles.
 4. Status change. Edit the entry and add a dated `history:` line in the same
    edit.
 5. End. Append one entry to `log.md`, rewrite `STATE.md`, run

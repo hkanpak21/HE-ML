@@ -39,3 +39,32 @@ SQ-implementable learners, unverified. `dauntless.pdf` from the scan was a
 Cloudflare page, the paper (IACR ePrint 2021/1074) needs a manual download. The
 FORMAL_SECURITY files `LEARNING_aioracles.md` and `scratchpad.md`, which its
 CLAUDE.md calls the highest-signal files, do not exist.
+
+## [2026-10-25] HE-ML | proof | first theory rounds merged from lab/theory
+
+Read: the round files of the three thinking spaces of `HE-ML:lab/theory/spaces/`
+(statistical-limits, computational-limits, oracle-and-measurement), rounds 00 to
+02 each, all ending with BLOCKING 0. The spaces read about thirty library papers
+and filled their notes. Discussants: astra (gpt-6-astra) and argon
+(gemini-4-argon-high, then gemini-4-argon-medium), logged in
+`HE-ML:lab/theory/discussants.csv`. The integrator re-derived every merged proof
+and took the cited lattice and SQ theorems as the spaces read them.
+
+Status changes: `thm-sq-hardness-black-box-attacks` proven to refuted (alias
+`thm-fs-sq-black-box-reduction`). `prob-split-learning-seed-separation`,
+`prob-split-transcript-leaks-seed`, `prob-statistical-queries-for-regression` and
+`prob-shadow-model-lower-bound` open to partial. Facts recorded or disputed to
+verified: `fact-lira-priced-in-training-runs`, `fact-pol-bare-cost-inequalities`,
+`fact-unlearning-verification-fragile`, `fact-unlearning-algorithm-level`,
+`fact-lira-low-fpr-yeom-game`, `fact-balle-reconstruction-robustness-definition`,
+`fact-reconstruction-query-lower-bounds`. New: 20 facts, 20 results, 5 problems.
+Search rows added: `search-oracle-measurement-library-auditing`,
+`search-rotation-perturbation-ica-attack`, `search-ngca-privacy-reconstruction-bound`,
+`search-split-learning-rotation-reconstruction`, `search-orthogonal-equivariance-training`,
+`search-shadow-run-lower-bound`.
+
+Dead ends: the round-00 Assouad family for the shadow-run price (one chosen-seed
+call breaks it), `conj-reconstruction-at-training-cost` part (b) (refuted),
+`conj-paired-advantage-price` (common random numbers). Loose ends: the papers to
+place listed in `STATE.md`, the factor ln|U| of the label-only price, the upper
+inclusion of `conj-seed-price-is-ngca-price`, and Halil's four decisions.
