@@ -39,3 +39,6 @@ __pycache__/
 .ipynb_checkpoints/
 
 .DS_Store
+
+# PDFs built from markdown in the sink, rebuilt by its scripts
+sink/**/*.pdf
