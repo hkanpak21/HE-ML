@@ -1,0 +1,8 @@
+Template,Evidence,Honest,Dishonest,Stated,Stealth
+server that reads what it receives,"DP 33, standalone simulation 9",17,6,5,4
+server that sets what clients compute,"prose 7, constructive lower bound 7",7,6,4,24
+server with clients,"standalone simulation 31, DP 12",28,26,27,2
+clients that set their updates,"convergence 33, empirical 21",107,18,17,68
+clients that set only their data,"empirical 9, generalization by stability 1",16,1,2,9
+clients that read the model,"DP 25, standalone simulation 22",33,20,18,8
+querier or eavesdropper,"DP 17, game 5",3,1,3,2

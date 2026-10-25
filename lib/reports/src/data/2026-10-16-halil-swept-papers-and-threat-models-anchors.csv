@@ -1,0 +1,8 @@
+Template,Read first
+server that reads what it receives,"DHWSGRC25 and CFMPV25, the two gradient-leakage SoKs (USENIX Security 2025). PDBMV24, DAGER (NeurIPS 2024)"
+server that sets what clients compute,"PFA22, model inconsistency against secure aggregation (CCS 2022). ZSEEAB24, LOKI (S&P 2024). CFMPV26, detectability of active inversion (S&P 2026)"
+server with clients,"BGLLMRY23, ACORN (USENIX Security 2023). JZDK25, AlphaFL (PoPETs 2025). REGB26, the integrity SoK (PoPETs 2026)"
+clients that set their updates,"RT25, robustness against learning (S&P 2025). CKS24, attacking robust aggregation (S&P 2024). AGGPS23, the trilemma (ICML 2023)"
+clients that set only their data,"SHKR22, poisoning in production (S&P 2022). BLGB26, stability bounds (ICML 2026)"
+clients that read the model,"MCB24, attacks in decentralized learning (ICML 2024). YLGHP25, URVFL (NDSS 2025). RDGSM26, selective weight tampering (PoPETs 2026)"
+querier or eavesdropper,"LLR23, passive membership inference in FL (ICLR 2023). ZLSGWYL26, membership defence (NDSS 2026)"

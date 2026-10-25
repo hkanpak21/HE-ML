@@ -1,0 +1,9 @@
+Kind,Papers,Setting,Papers,Protection,Papers
+defence,124,horizontal FL,172,none named,146
+protocol,109,secure aggregation,49,DP,109
+attack,74,MPC training,37,MPC,56
+two kinds or more,17,vertical or split learning,29,secure aggregation,56
+theory,15,decentralized learning,24,HE,48
+SoK,6,federated fine-tuning,20,ZK,22
+measurement,4,multiparty or threshold HE,14,TEE,7
+~,~,other,4,~,~

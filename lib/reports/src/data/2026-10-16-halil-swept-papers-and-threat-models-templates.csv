@@ -1,0 +1,8 @@
+Template,Rows,Papers,Choices,Goals,Bare,Check,Proven,Adaptive
+server that reads what it receives,102,91,"nothing 99, data 3","invert 58, distinguish 55",28,12,77,13 of 42
+server that sets what clients compute,48,40,"model 29, message 16","invert 35, distinguish 9",13,21,32,7 of 20
+server with clients,78,68,"nothing 42, message 35","distinguish 55, invert 36",4,37,75,4 of 21
+clients that set their updates,145,127,"message 133, data 85","steer 126, other 20",103,84,93,66 of 120
+clients that set only their data,21,21,data 21,"steer 19, other 2",16,10,9,8 of 19
+clients that read the model,85,72,"nothing 62, message 14","distinguish 52, invert 42",22,14,67,7 of 31
+querier or eavesdropper,34,34,"nothing 30, data 3","distinguish 24, invert 10",8,7,28,4 of 19

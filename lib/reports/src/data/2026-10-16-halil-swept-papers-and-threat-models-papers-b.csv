@@ -1,0 +1,6 @@
+Coalition,Papers,Goal,Papers,Evaluation uses,Papers
+clients alone,205,distinguish,151,MNIST or CIFAR-10,215
+the server alone,124,invert,139,a public pretrained model,62
+the server with clients,68,steer,132,a transformer,57
+a querier or eavesdropper,34,other,28,token sequences,26
+~,~,~,~,no experiment,16

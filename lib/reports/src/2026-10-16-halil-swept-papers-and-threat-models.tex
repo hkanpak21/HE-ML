@@ -1,0 +1,259 @@
+%%============================================================================
+%% A report. Created by report-new.sh. Do not copy this file by hand.
+%% Compile from the repository root:  report-build.sh lib/reports/src/<this file>
+%%
+%% Two rules the build enforces and you cannot argue with.
+%%   Section 0, when this repository asks for one, lives in
+%%   lib/reports/reflections/<same stem>.tex and the author writes it.
+%%   The PDF is five pages, references and appendix included.
+%%============================================================================
+\documentclass{labreport}
+\lrnoreflection   % lib/reports/src/config.yml says reflection: false
+
+\lrdate{2026-10-16}
+\lrslug{halil-swept-papers-and-threat-models}
+\lrtitle{The swept papers and their threat models}
+\lrauthor{Halil İbrahim Kanpak}
+\lrstatus{draft}          % draft | reviewed | final
+
+%% Every number in prose, with the file it came from. The facts CSV is written
+%% by lib/reports/src/figures/2026-10-16-halil-swept-papers-and-threat-models-tables.py.
+\lrdefine{Candidates}{573}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{DroppedScreen}{206}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{DroppedRead}{14}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{NoPDF}{4}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{Papers}{349}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{Rows}{516}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{FL}{192}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{MnistCifar}{215}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{LMEval}{57}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{Pretrained}{62}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{NoExperiment}{16}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{NoProtection}{146}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{NoProtAttack}{55}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{NoProtDefence}{69}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{HEFirst}{11}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{HELast}{19}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{HEp}{0.241}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{DevFirst}{58}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{DevLast}{55}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{Devp}{0.74}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{Covered}{513}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{MalServer}{38}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{MalServerModel}{24}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{MalClients}{75}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{MalClientsData}{54}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{MalClientsOutput}{55}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{Byz}{56}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{ByzOutput}{53}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{CorrInferred}{374}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{CorrAdaptive}{17}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{MajInferred}{249}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{Upd}{145}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{UpdNoMech}{103}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{C1Honest}{107}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{Read}{102}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{ReadCheck}{12}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{SC}{78}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{SCCheck}{37}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{SCMech}{74}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{S2}{48}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{S2Stealth}{24}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{SCStated}{27}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{NoProtRobust}{41}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{Steer}{164}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{SteerNoStealth}{76}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{SteerAdYes}{69}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{SteerAdStated}{135}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{SteerBenign}{55}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{SrvInvert}{93}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{SrvInvertArch}{64}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{SrvInvertSurrogate}{18}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{Edges}{114}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{NoneDeviating}{70}{lib/reports/src/data/2026-10-16-halil-swept-papers-and-threat-models-facts.csv}
+\lrdefine{DeckHEp}{0.001}{lib/profs/2026-10-16-meeting/slides.tex, frame 9}
+
+\newcommand{\T}[1]{\input{lib/reports/src/figures/2026-10-16-halil-swept-papers-and-threat-models-#1.tex}}
+
+\begin{document}
+\lrmaketitle
+
+%%----------------------------------------------------------------------------
+\lrscope
+The question is what the sweep of 16 October found at the top venues for
+multi-party learning in 2023 to 2026, and how its papers state their
+adversaries. We count the search from the screening record, the coded papers by
+venue, year, kind, setting, protection and evaluation, and the ledger's
+coalitions by seven templates of role, choices and goal. We leave HE-OFT out,
+because the study covers the field.
+
+%%----------------------------------------------------------------------------
+\lrresult
+The sweep coded \lrv{Papers} papers, and the typical one studies horizontal
+federated learning on MNIST or CIFAR-10 against one of seven adversary
+templates (Tables~\ref{tab:papers-a}, \ref{tab:papers-b}
+and~\ref{tab:templates}). \lrv{FL} papers train by horizontal federated
+learning or federated fine-tuning, \lrv{MnistCifar} evaluate on MNIST or
+CIFAR-10, and the templates hold \lrv{Covered} of \lrv{Rows} coalitions. The
+privacy line and the robustness line rarely meet in one threat model.
+\lrv{UpdNoMech} of \lrv{Upd} rows of clients that steer through their updates
+name no confidentiality mechanism, and \lrv{ReadCheck} of \lrv{Read} rows of a
+reading server face a check. The coder had to infer static or adaptive
+corruption in \lrv{CorrInferred} of \lrv{Rows} rows, and \lrv{CorrAdaptive}
+rows have an adaptive adversary (Table~\ref{tab:communities}). Per paper, the
+HE share rose from \lrv{HEFirst} to \lrv{HELast} per cent from 2023 to 2026
+(Fisher p of \lrv{HEp}), and the deviating share held near \lrv{DevLast} per
+cent (Table~\ref{tab:trends}).
+
+\lrboundary{Every count is empirical, on rows that one language-model coder
+extracted from each paper, and these rows await a check against their papers.
+The candidates are only the papers a screener recorded, and screening recall is
+therefore unmeasured. We did not screen EuroS\&P, SaTML or CSF. The 2026 counts
+lack NeurIPS 2026 and may lack part of CCS 2026. Templates, word families,
+mechanisms and checks are keyword matches on the coded cells, by rules the
+script states.}
+
+%%----------------------------------------------------------------------------
+\lrproduced
+\begin{lrfacts}
+  \lrfact{Sources}{\lrpath{lib/literature/screening.csv} at commit 5e8872b, and \lrpath{lib/literature/ledger.csv} as of 2026-10-16 12:00, which differs from that commit only in the note paths}
+  \lrfact{Range}{2023 to 2026 at IEEE S\&P, USENIX Security, CCS, NDSS, PoPETs, CRYPTO, EUROCRYPT, ASIACRYPT, NeurIPS, ICML and ICLR, with three anchors from 2021 and 2022}
+  \lrfact{Screened}{\lrv{Candidates} candidates, \lrv{Papers} papers coded on \lrv{Rows} ledger rows, HE-OFT left out}
+  \lrfact{Artifacts}{one CSV per table and a facts CSV in \lrpath{lib/reports/src/data/}, under this report's stem}
+  \lrfact{Reproduce}{the tables script in \lrpath{lib/reports/src/figures/}, run from the repository root}
+\end{lrfacts}
+
+%%----------------------------------------------------------------------------
+\lrchanges
+This report supersedes the same day's sweep report, whose rising deviating share
+counts \lrv{NoneDeviating} rows with choices such as ``none (semi-honest)'' as
+deviating. Frame 9 of the meeting deck tests the HE trend on
+rows, which share their paper, and its p below \lrv{DeckHEp} becomes
+\lrv{HEp} per paper under this report's rule. To study the field, take one
+template at a time, read its anchors in Table~\ref{tab:anchors}, then filter the
+ledger to its rows. Four things the field seldom states belong in any threat
+model we write: static or adaptive corruption, an honest or dishonest majority,
+when the adversary commits its choices, and what it knows of honest updates.
+
+%%----------------------------------------------------------------------------
+\lrmethod
+\subsection*{The search}
+Six language-model screeners read the accepted-paper lists of the eleven venues
+for 2023 to 2026, one screener per venue group. A screener kept a paper when two
+or more parties train or fine-tune on data or models they hold, and the
+contribution concerns privacy or security against an adversary. Each screener
+recorded the papers near the rule with a reason, and the screening record holds
+\lrv{Candidates} such candidates (Table~\ref{tab:search}). Accepted papers far
+from the rule left no record. Screeners dropped \lrv{DroppedScreen} candidates,
+most often because one party trains or because the paper states no adversary
+(Table~\ref{tab:drops}).
+
+We placed each kept paper with its PDF and a note, after matching its title and
+authors on the first page. A coder then read each placed paper and wrote one
+ledger row per coalition on 22 columns. It dropped \lrv{DroppedRead} papers as
+outside the rule, and \lrv{NoPDF} kept papers wait for an accessible PDF. A row
+records what a coalition sees, knows and sets, its goal, the protection, the
+checks it faces, the evidence, and any step between two adversaries the paper
+settles.
+
+\T{search}
+\T{drops}
+
+\subsection*{What the coded papers are}
+Defences and protocols outnumber attacks, and DP is the most common protection
+(Table~\ref{tab:papers-a}). \lrv{NoProtection} papers name no protection for
+any coalition, and \lrv{NoProtAttack} of them are attacks and
+\lrv{NoProtDefence} defences, \lrv{NoProtRobust} of these by robust aggregation. Clients alone are
+the most common coalition, and the three goals appear in similar numbers
+(Table~\ref{tab:papers-b}). The evaluations are small. \lrv{Pretrained} papers
+start from a public pretrained model, \lrv{LMEval} reach a transformer as their
+largest model, and \lrv{NoExperiment} run no experiment.
+
+\T{papers-a}
+\T{papers-b}
+
+\subsection*{Trends by year}
+Counted per paper, no share moves enough to call a trend
+(Table~\ref{tab:trends}). The HE share rose from \lrv{HEFirst} to \lrv{HELast}
+per cent from 2023 to 2026, with Fisher p of \lrv{HEp}. The share with a
+deviating coalition went from \lrv{DevFirst} to \lrv{DevLast} per cent, with p
+of \lrv{Devp}.
+
+\T{trends}
+
+\subsection*{The seven templates}
+A row's template follows from its role, its choices and its goal. The server
+alone splits by its choices, and clients alone split by goal and then by
+choices. The server with clients forms one template, and a querier or an
+eavesdropper outside training forms another. Three rows name a trainer, a
+platform operator or no role, and they stay outside.
+
+The server that reads what it receives follows the protocol and inverts or
+distinguishes from updates, aggregates and models. DP is its usual protection
+and its usual proof (Table~\ref{tab:support}). The papers give this server the
+architecture in \lrv{SrvInvertArch} of \lrv{SrvInvert} inverting server rows,
+and surrogate data in \lrv{SrvInvertSurrogate}. The two gradient-leakage SoKs
+grade this server by levels of knowledge that are not nested.
+
+The server that sets what clients compute sends a crafted model, a changed
+architecture, or a different model to each client. An update or a sum of
+updates then reveals a client's data. Prose and constructive lower bounds are its most
+common forms of evidence. \lrv{S2Stealth} of its \lrv{S2} rows
+require or measure stealth, the highest share of any template.
+
+The server with clients is the template of cryptographic protocols, namely
+secure aggregation, MPC and multiparty HE. \lrv{SCMech} of its \lrv{SC} rows
+name a mechanism, and \lrv{SCCheck} face a check. Its papers prove standalone
+simulation security most often. They state static or adaptive corruption in
+\lrv{SCStated} rows, the highest share of any template.
+
+Clients that set their updates form the largest template, in the papers' words
+Byzantine or malicious clients. The paper assumes an honest majority in
+\lrv{C1Honest} of \lrv{Upd} rows, and the usual result is a convergence bound
+for a robust aggregation rule. These rows evaluate an adaptive adversary more
+often than any other template. Clients that set only their data poison it
+before training and follow the protocol after, and their evidence is mostly
+empirical.
+
+Clients that read the model learn about another party's data from what they
+receive. The template mixes parties of MPC training, which prove simulation
+security, nodes of decentralized learning, which prove DP, and parties of
+vertical learning. A querier or an eavesdropper observes the trained model or
+the messages from outside, most often to distinguish, and DP is again its
+usual protection.
+
+\T{templates}
+\T{support}
+
+\subsection*{What a word means}
+The paper's word for its adversary fixes the choices only together with the
+role. A malicious server sends a crafted model in \lrv{MalServerModel} of
+\lrv{MalServer} rows. Malicious clients set their data in \lrv{MalClientsData}
+of \lrv{MalClients} rows and their updates in \lrv{MalClientsOutput}, and
+Byzantine clients set their updates in \lrv{ByzOutput} of \lrv{Byz}. The ledger
+therefore stores what a coalition sees, knows and sets, and keeps the word as
+provenance.
+
+\subsection*{What the papers leave unstated}
+Each community states its threat model in its own form
+(Table~\ref{tab:communities}). Cryptography papers use an ideal functionality or
+a game, learning papers the assumptions of a theorem, and security papers prose
+as often as anything else. The coder inferred the corruption model in
+\lrv{CorrInferred} rows and the majority in \lrv{MajInferred}. Cryptography
+rows are the exception for corruption. Of the \lrv{Steer} steering rows,
+\lrv{SteerNoStealth} state no stealth constraint, and \lrv{SteerBenign} say
+whether the adversary sees honest updates. \lrv{SteerAdYes} of the
+\lrv{SteerAdStated} steering rows that report it evaluate an adaptive adversary.
+\lrv{Edges} rows record a step between two adversaries that the paper settles by
+a collapse or a separation.
+
+\T{communities}
+
+\subsection*{What to read first}
+Table~\ref{tab:anchors} names two or three papers per template. Each has a note,
+but every note except HE-OFT's still holds only the template text, and the
+ledger rows are the only extraction until a full read fills the note.
+
+\T{anchors}
+
+\end{document}
