@@ -9,61 +9,66 @@ type: eprint
 placed_on: 2026-10-25
 placed_by: agent
 triage: cite
-relation: FILL
-epistemic: FILL
-prov: sweep
+relation: prior-art
+epistemic: "proven for weakly ideal encoders, attack on NeuraCrypt empirical"
+prov: full-read
 ---
 
 # CGJMMT21, NeuraCrypt is not private
 
-The key is the IACR key derived from the author list printed on the paper. It
-never changes once used. Author names are read from the first page, never from
-a file name.
-
-Write this in your own words. A note that is the abstract rearranged is a note
-that proves nothing was read, and it is worth nothing to you in three months.
-
-`prov: sweep` means this page was built from an extraction and not from a full
-read. A page marked `sweep` cannot be cited in paper prose. Change it to
-`full-read` only after reading the paper.
+Read on 2026-10-25 by the computational-limits space session from the held copy
+(arXiv 2108.07256): the opening sections to Definition 1, the paragraphs on the
+ideal and heuristic NeuraCrypt schemes, Definition 2 and Theorem 1. The attack
+sections were read by their headings only.
 
 ## Claim
 
-One sentence, in your words. What the paper says is true that was not known
-before it.
+Any instantiation of NeuraCrypt's ideal encoding would let a learner's weak
+accuracy be turned into a near-perfect predictor from two labelled examples, so
+the ideal is as hard to realize as learning the task perfectly, and the
+heuristic NeuraCrypt is broken in practice.
 
 ## Method
 
-Three sentences. What they built or proved, and how. Name the adversary and
-what it is assumed to know if the paper has one.
+Definition 1 sets learning with a keyed encoding, aligned with NeuraCrypt's
+challenge. Definition 2: an encoder $E(x,K,c)$ is weakly ideal for a concept
+class if encodings of two inputs with the same label have the same law and
+labels are preserved by the encoding. Theorem 1: if a learner with $m$ samples
+reaches balanced error $1/2-\varepsilon$ over the encoded law for every concept,
+then for any $\tau$ and any pair $x_0,x_1$ with labels $0$ and $1$ an oracle-aided
+PPT predictor of risk at most $\tau$ on any distribution exists, in time
+poly$(m,1/\epsilon,1/\delta,1/\tau)$, with oracle access to the learner and the
+encoder.
 
 ## What they measured, and on what
 
-The datasets, the models, the metrics, the baselines. If the evaluation is a
-proof rather than an experiment, say what is assumed and what is concluded.
+The theorem is a proof. The break of the heuristic NeuraCrypt is empirical, a
+matching of encoded to plain images on the challenge data.
 
 ## Epistemic status
 
-Which parts are proven, which are heuristic, which are empirical, and on what.
-If the paper blurs two of these, say where.
+Proven for the ideal scheme, empirical for the attack on the heuristic scheme.
 
 ## The limitation that matters to us
 
-The one that bites this project. Say whether the paper states it or whether you
-found it. A limitation the authors state is a different fact from one they do
-not.
+The predictor has the encoder as an oracle, so the result is about the
+seed-known or chosen-input attacker. My finding from the theorem statement.
 
 ## Relationship to this project
 
-Prior art, baseline, orthogonal, or competitor. Pick one and say why in a
-sentence. This field is what makes `related-work.md` writable later. A note
-without it is a summary, and summaries do not compose into an argument.
+Prior art. NeuraCrypt is a law of random-network encoders, the nearest deployed
+analogue of the seed-blind setting, and its empirical break is one of the
+constraints on `prob-split-learning-seed-separation`.
 
 ## What we need to consider for our work
 
-What this changes about what we do next. If the answer is nothing, write that.
+The break is consistent with `conj-seed-price-is-ngca-price`: image data are far
+from Gaussian at low degree, so the seed buys little. NeuraCrypt's
+convolutional encoders and patch shuffling are outside the rotation symmetry the
+aim uses, so the aim does not cover them.
 
 ## Provenance
 
 Copied on 2026-10-25 from the literature scan of 2026-10-25 (arXiv 2108.07256) for the formalizing line, see `sink/formalizing/README.md`. Title and authors were read from the first page.
 Mapping note: authors ordered alphabetically (first-page footnote)
+Reading record: 2026-10-25, the computational-limits space session read the sections named at the top of this note, for lab/theory/spaces/computational-limits/round-00/builder.md.

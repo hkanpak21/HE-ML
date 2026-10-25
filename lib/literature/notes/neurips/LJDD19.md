@@ -9,61 +9,73 @@ type: conference
 placed_on: 2026-10-25
 placed_by: agent
 triage: cite
-relation: FILL
-epistemic: FILL
-prov: sweep
+relation: baseline
+epistemic: "proven for i.i.d. Gaussian expansive layers with known weights, NP-hardness worst case over constructed weights"
+prov: full-read
 ---
 
 # LJDD19, Inverting Deep Generative models, One layer at a time
 
-The key is the IACR key derived from the author list printed on the paper. It
-never changes once used. Author names are read from the first page, never from
-a file name.
-
-Write this in your own words. A note that is the abstract rearranged is a note
-that proves nothing was read, and it is worth nothing to you in three months.
-
-`prov: sweep` means this page was built from an extraction and not from a full
-read. A page marked `sweep` cannot be cited in paper prose. Change it to
-`full-read` only after reading the paper.
+Read on 2026-10-25 by the computational-limits space session from the held copy
+(arXiv 1906.07437v2): Sections 3 and 4.1 and the appendix proofs of Lemma 1 and
+Theorem 3. The noisy-case theorems (4 and 5) were read by their statements only,
+and the experiments by their headings.
 
 ## Claim
 
-One sentence, in your words. What the paper says is true that was not known
-before it.
+Inverting a ReLU generative network is NP-hard for constructed weights, but a
+random expansive Gaussian network is inverted exactly by layer-wise linear
+equations with high probability.
 
 ## Method
 
-Three sentences. What they built or proved, and how. Name the adversary and
-what it is assumed to know if the paper has one.
+For one ReLU layer the preimage of an observation is a polytope, found by linear
+programming. Theorem 1: deciding whether $z\in\{\pm1\}^k$ with $G(z)=x$ exists is
+NP-complete for a fixed two-layer ReLU network, by reduction from 3SAT. Theorem
+2: the same for a fixed four-layer network on real inputs. Assumption 1: the
+weight matrix $W\in\mathbb R^{n\times k}$ has i.i.d. Gaussian entries and
+$n=c_0k$ with $c_0\ge2.1$. Lemma 1: under Assumption 1 the map
+$x\mapsto\mathrm{ReLU}(Wx)$ is injective with probability $1-\exp(-\Omega(k))$,
+because at least $k$ of the $n$ coordinates of $Wx$ are positive (a binomial tail)
+and any $k$ Gaussian rows are invertible almost surely, so the positive
+coordinates give $k$ independent linear equations. Theorem 3: if every layer
+satisfies Assumption 1, then for any input $z^*$, with probability
+$1-e^{-\Omega(k)}$, $z^*$ is recovered from $G(z^*)$ by solving one linear system
+per layer, in time at most $\sum_in_i^{2.376}$. The inverter knows all weights.
 
 ## What they measured, and on what
 
-The datasets, the models, the metrics, the baselines. If the evaluation is a
-proof rather than an experiment, say what is assumed and what is concluded.
+The core results are proofs. Theorems 4 and 5 bound the recovery error under
+$\ell_\infty$ and $\ell_1$ noise under Assumptions 2 and 3 (a restricted
+norm-extension property of submatrices), and Corollary 1 verifies Assumption 2
+for Gaussian weights. Synthetic experiments check Theorems 4 and 5.
 
 ## Epistemic status
 
-Which parts are proven, which are heuristic, which are empirical, and on what.
-If the paper blurs two of these, say where.
+Proven for the stated assumptions. The probability is over the weights for each
+fixed input, so many inputs need a union bound. The NP-hardness is worst case
+over constructed weights and says nothing about trained weights.
 
 ## The limitation that matters to us
 
-The one that bites this project. Say whether the paper states it or whether you
-found it. A limitation the authors state is a different fact from one they do
-not.
+It covers the attacker who knows the weights only. It says nothing about an
+attacker who sees representations without the seed, which is the case a seed
+separation is about. I found this, the paper does not discuss attackers.
 
 ## Relationship to this project
 
-Prior art, baseline, orthogonal, or competitor. Pick one and say why in a
-sentence. This field is what makes `related-work.md` writable later. A note
-without it is a summary, and summaries do not compose into an argument.
+Baseline. It is the seed-known side of `prob-split-learning-seed-separation`: a
+split-learning server that knows a Gaussian expansive client inverts the first
+representation it receives in polynomial time.
 
 ## What we need to consider for our work
 
-What this changes about what we do next. If the answer is nothing, write that.
+The seed-known attacker of `conj-seed-price-is-ngca-price` is this inverter. A
+client of expansion below $2.1$, a trained client, or a convolutional client is
+outside Theorem 3 and needs its own argument.
 
 ## Provenance
 
 Copied on 2026-10-25 from the literature scan of 2026-10-25 (arXiv 1906.07437) for the formalizing line, see `sink/formalizing/README.md`. Title and authors were read from the first page.
 Mapping note: held copy is arXiv v2 dated 19 Jun 2019, not the proceedings PDF
+Reading record: 2026-10-25, the computational-limits space session read the sections named at the top of this note, for lab/theory/spaces/computational-limits/round-00/builder.md.

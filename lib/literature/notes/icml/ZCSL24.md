@@ -9,59 +9,72 @@ type: conference
 placed_on: 2026-10-25
 placed_by: agent
 triage: cite
-relation: FILL
-epistemic: FILL
-prov: sweep
+relation: prior-art
+epistemic: "Propositions 4.2 to 4.5 proven under smoothness and Lipschitz assumptions on the loss; the attacks' success against backdoor verification and their utility empirical on MNIST, CIFAR-10 and SVHN"
+prov: full-read
 ---
 
 # ZCSL24, Verification of Machine Unlearning is Fragile
 
-The key is the IACR key derived from the author list printed on the paper. It
-never changes once used. Author names are read from the first page, never from
-a file name.
-
-Write this in your own words. A note that is the abstract rearranged is a note
-that proves nothing was read, and it is worth nothing to you in three months.
-
-`prov: sweep` means this page was built from an extraction and not from a full
-read. A page marked `sweep` cannot be cited in paper prose. Change it to
-`full-read` only after reading the paper.
+Read by the agent on 2026-10-25 for the theory space `oracle-and-measurement`, from the library
+PDF (arXiv 2408.00929v2 of 21 April 2026, 22 pages). Read: §1 to §5, Definition 4.1, Algorithms 1
+and 2, Propositions 4.2 to 4.5, Tables 1 and 2, Fig. 4. Not re-derived: the proofs of Appendix A.
 
 ## Claim
 
-One sentence, in your words. What the paper says is true that was not known
-before it.
+A model provider who controls the choice of minibatches can produce an unlearning proof that passes
+exact replay verification, and can pass backdoor verification too, while its model still carries the
+influence of the data it claims to have removed.
 
 ## Method
 
-Three sentences. What they built or proved, and how. Name the adversary and
-what it is assumed to know if the paper has one.
+A proof of retraining is the trajectory $\{(w^{(t)}_r,d^{(t)}_r,g^{(t)}_r)\}$ of checkpoints, batches and
+update functions. Definition 4.1 calls it valid when each step is reproducible within a threshold
+$\varepsilon$ and no batch meets the unlearned set $D_u$. The adversary is the model provider, with full
+access to training data, unlearned data and model (§3). Algorithm 1 retrains from scratch but replaces
+each unlearned point of the original batch by its nearest same-class neighbour in the retained data, so
+the replacement batch induces a gradient close to the original one. Algorithm 2 forges the retraining
+proof from the logged training proof, editing only the steps whose batch met $D_u$, in parallel.
 
 ## What they measured, and on what
 
-The datasets, the models, the metrics, the baselines. If the evaluation is a
-proof rather than an experiment, say what is assumed and what is concluded.
+Proposition 4.2: Algorithm 1 returns a valid proof at threshold $\varepsilon=0$. Proposition 4.3: under
+bounds $G$ on the gradient, $L_x$ on the mixed derivative and $L$ on the Hessian, the retrained model's
+expected squared gradient norm on the full data $D$ is at most a term of order $1/(\gamma T)$ plus terms in
+$p_u=1-(1-|D_u|/|D|)^m$ and $C_D$, the largest same-class nearest-neighbour distance. Proposition 4.4:
+under step-size conditions Algorithm 2 returns a valid proof at threshold $\varepsilon>0$. Proposition
+4.5: Algorithm 1 costs the time $\mathcal T(n)$ of naive retraining, and Algorithm 2 costs
+$(p_u/P+(1-p_u)/(mP))\,\mathcal T(n)$ with $P$ parallel processes and batch size $m$. The text calls these
+results Theorems 4.2 to 4.5. Experiments on MNIST (MLP), CIFAR-10 (CNN) and SVHN (ResNet), five seeds:
+the type II error of backdoor verification is about 0.997 for Algorithm 1, as for honest retraining, and
+near zero for Algorithm 2 (Table 2), and the forging method's verification errors sit below practical
+thresholds (Fig. 4).
 
 ## Epistemic status
 
-Which parts are proven, which are heuristic, which are empirical, and on what.
-If the paper blurs two of these, say where.
+Proven, Propositions 4.2 to 4.5, under the stated assumptions on the loss. Empirical, the backdoor and
+utility results. The naming of the propositions as theorems in the text is a labelling slip, not a
+blurring of status.
 
 ## The limitation that matters to us
 
-The one that bites this project. Say whether the paper states it or whether you
-found it. A limitation the authors state is a different fact from one they do
-not.
+Found by us. The verifier replays the batches the prover reports and never fixes them. The prover's
+freedom is the batch order, which in the HE-ML oracle model is part of the seed. Algorithm 1 costs one
+run, as much as honest retraining, so a meter in runs or in work cannot separate the attack from honest
+work.
 
 ## Relationship to this project
 
-Prior art, baseline, orthogonal, or competitor. Pick one and say why in a
-sentence. This field is what makes `related-work.md` writable later. A note
-without it is a summary, and summaries do not compose into an argument.
+Prior art for the replay audit `thm-replay-audit-steer` of the HE-ML oracle theory, which derives the seed,
+batch order included, from a random oracle on a committed dataset. That removes the batch choice this
+attack needs, and the theorem's steering bound then applies.
 
 ## What we need to consider for our work
 
-What this changes about what we do next. If the answer is nothing, write that.
+Recorded as the verified form of fact-unlearning-verification-fragile in
+`lab/theory/spaces/oracle-and-measurement/round-00/builder.md`. The register's pointer, Proposition 4.5
+with Algorithms 1 and 2, is right for the cost claim. Proposition 4.2 is the pointer for passing exact
+replay.
 
 ## Provenance
 

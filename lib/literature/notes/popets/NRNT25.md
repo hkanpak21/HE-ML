@@ -10,55 +10,73 @@ placed_on: 2026-10-16
 placed_by: agent
 triage: skim
 relation: prior-art
-epistemic: FILL
-prov: sweep
+epistemic: "empirical costs, hardness argued for one attack route and heuristic for general attackers"
+prov: full-read
 ---
 
 # NRNT25, Achieving Data Reconstruction Hardness and Efficient Computation in Multiparty Minimax Training
 
-The key is the IACR key derived from the author list printed on the paper. It
-never changes once used. Author names are read from the first page, never from
-a file name.
-
-Write this in your own words. A note that is the abstract rearranged is a note
-that proves nothing was read, and it is worth nothing to you in three months.
-
-`prov: sweep` means this page was built from an extraction and not from a full
-read. A page marked `sweep` cannot be cited in paper prose. Change it to
-`full-read` only after reading the paper.
+Read on 2026-10-25 by the computational-limits space session from the held copy:
+the introduction with Definition 1.1, Section 4.3 to its remarks, and Section 4.4
+(Propositions 3 to 6) and Section 4.5. The protocol sections, Propositions 1 and
+2 and the experiments were read by their headings only.
 
 ## Claim
 
-One sentence, in your words. What the paper says is true that was not known
-before it.
+GAN training with a public generator and a discriminator whose first two or three
+layers stay secret-shared between two servers keeps training data hard to
+reconstruct while cutting the cost of full MPC by a factor of four to sixteen.
 
 ## Method
 
-Three sentences. What they built or proved, and how. Name the adversary and
-what it is assumed to know if the paper has one.
+Two non-colluding semi-honest servers train a GAN on secret-shared data.
+Protocol 1 keeps the whole discriminator private, Protocol 2 its first layers.
+Definition 1.1: $(\epsilon,\delta)$-reconstruction hardness holds if no algorithm
+of polynomial data and computational complexity outputs, with probability at
+least $1-\delta$, an $\hat X_t$ within distance $\epsilon$ of some training record.
+Section 4.3 argues hardness for a public generator from a single gradient update
+with a bound on the learning rate. Proposition 3: with a public discriminator
+and public gradients the record is recovered exactly from the first-layer
+update. Section 4.4: with the first $M$ layers private the attacker would first
+approximate the private layers from public outputs and then invert, and hardness
+is drawn from results on learning ReLU networks: an approximation algorithm
+exponential in the network size (Proposition 4), learning depth-2 ReLU networks
+under Gaussian inputs implies breaking learning with rounding (Proposition 5),
+and SQ bounds exponential in depth for random networks (Proposition 6).
 
 ## What they measured, and on what
 
-The datasets, the models, the metrics, the baselines. If the evaluation is a
-proof rather than an experiment, say what is assumed and what is concluded.
+Generation quality (FID) and training time on MNIST and CelebA against full MPC
+and DP training, and a practical reconstruction attack against federated
+learning and the proposed protocol.
 
 ## Epistemic status
 
-Which parts are proven, which are heuristic, which are empirical, and on what.
-If the paper blurs two of these, say where.
+The protocols' costs and the attack comparison are empirical. The hardness of
+Section 4.4 is argued for the two-step attack route, and the paper itself notes
+that parameter recovery is stronger than the approximation the cited results
+rule out. I read the argument as heuristic for general attackers, since no
+reduction from an arbitrary reconstructor to the cited learning problems is
+given.
 
 ## The limitation that matters to us
 
-The one that bites this project. Say whether the paper states it or whether you
-found it. A limitation the authors state is a different fact from one they do
-not.
+Hardness for one attack route is not hardness for every attacker of a class.
+My finding.
 
 ## Relationship to this project
 
-Prior art, baseline, orthogonal, or competitor. Pick one and say why in a
-sentence. This field is what makes `related-work.md` writable later. A note
-without it is a summary, and summaries do not compose into an argument.
+Prior art. It is the nearest published claim of reconstruction hardness from
+private layers, and `conj-seed-price-is-ngca-price` aims at what it lacks, a
+reduction that covers every attacker of a stated class.
 
 ## What we need to consider for our work
 
-What this changes about what we do next. If the answer is nothing, write that.
+A claim of reconstruction hardness from hidden weights must reduce from the
+attacker, not from one attack strategy. The private layers here are trained, not
+frozen, so a full answer also needs the transcript question of
+`prob-split-transcript-leaks-seed`.
+
+## Provenance
+
+Reading record: 2026-10-25, the computational-limits space session read the sections named at the top of this note, for lab/theory/spaces/computational-limits/round-00/builder.md.

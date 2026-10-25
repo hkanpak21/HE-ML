@@ -9,61 +9,79 @@ type: conference
 placed_on: 2026-10-25
 placed_by: agent
 triage: cite
-relation: FILL
-epistemic: FILL
-prov: sweep
+relation: prior-art
+epistemic: "proven barriers for distinguishing attacks with an encoder oracle, InstaHide attack empirical"
+prov: full-read
 ---
 
 # CDGJMMSTT21, Is Private Learning Possible with Instance Encoding?
 
-The key is the IACR key derived from the author list printed on the paper. It
-never changes once used. Author names are read from the first page, never from
-a file name.
-
-Write this in your own words. A note that is the abstract rearranged is a note
-that proves nothing was read, and it is worth nothing to you in three months.
-
-`prov: sweep` means this page was built from an extraction and not from a full
-read. A page marked `sweep` cannot be cited in paper prose. Change it to
-`full-read` only after reading the paper.
+Read on 2026-10-25 by the computational-limits space session from the held copy
+(arXiv 2011.05315): Section 1.2 (the informal Theorems 1 and 2), Section 2
+(Definitions 1 to 6) and Section 3 (Theorems 3 to 5, Definition 7, with their
+discussions). Section 4 (the InstaHide attack) and the appendix proofs were read
+by their headings only.
 
 ## Claim
 
-One sentence, in your words. What the paper says is true that was not known
-before it.
+Instance encoding cannot give indistinguishability privacy together with
+useful accuracy: a learner with non-trivial accuracy on encoded data yields an
+efficient attack that tells encodings of two inputs apart, unless the task is
+learnable almost perfectly.
 
 ## Method
 
-Three sentences. What they built or proved, and how. Name the adversary and
-what it is assumed to know if the paper has one.
+Definition 1: a dataset encoding $E$ maps a labelled dataset to an encoded one,
+decomposable when instances and labels are encoded separately with shared
+randomness (instance encoding), $r$-local when each encoded item depends on at
+most $r$ records. Definition 2 and 3: accuracy on plain and on encoded
+instances. Definitions 4 and 5: dataset and instance distinguishing games, where
+the adversary picks two inputs of the same label and must tell which one was
+encoded. Definition 6: instance recovering, outputting $x^*$ within distance
+$\gamma$ of some record. Theorem 3: for two distinct, non-constant, balanced
+concepts and $(0.51,\delta)$ plain accuracy, a dataset-distinguishing adversary
+of advantage $(0.99-2\delta(n))/(3n)$ exists, running in about the learner's
+time. Definition 7 and Theorem 4: for an $(m,\gamma)$-rich class and encoded
+accuracy $(\epsilon,\delta)$, an instance distinguishing attack of advantage
+$0.99-\epsilon(n)/\gamma$ with oracle access to $E(\cdot)$, the learner, the
+concepts and a sampler for $D$, in expected time $O(m/(1-\delta(n)))$. Theorem 5:
+for one balanced concept and a decomposable encoding with balanced encoded
+accuracy, either an attack of advantage $1/2-\epsilon(m)-\tau$ in expected time
+$O(m/\delta(m)+m/\tau^2)$ exists, or an efficient learner of accuracy $1-\tau$.
 
 ## What they measured, and on what
 
-The datasets, the models, the metrics, the baselines. If the evaluation is a
-proof rather than an experiment, say what is assumed and what is concluded.
+Proofs for the barriers, and a reconstruction of the InstaHide challenge
+(Section 4) built on a similarity function that the barrier explains.
 
 ## Epistemic status
 
-Which parts are proven, which are heuristic, which are empirical, and on what.
-If the paper blurs two of these, say where.
+Proven for the barriers. The InstaHide attack is empirical. Section 2 states
+that the results do not rule out privacy against instance-recovering attacks,
+which need a context-dependent metric.
 
 ## The limitation that matters to us
 
-The one that bites this project. Say whether the paper states it or whether you
-found it. A limitation the authors state is a different fact from one they do
-not.
+The attacks of Theorems 4 and 5 call the encoder on chosen inputs. In split
+learning that is the attacker who knows the seed or can submit inputs to the
+client. A blind server has no such oracle. I found this from the oracle lists in
+the theorem statements, the paper does not discuss it.
 
 ## Relationship to this project
 
-Prior art, baseline, orthogonal, or competitor. Pick one and say why in a
-sentence. This field is what makes `related-work.md` writable later. A note
-without it is a summary, and summaries do not compose into an argument.
+Prior art and competitor for `conj-reconstruction-at-training-cost`: both say
+that accuracy leaks. Theirs is a distinguishing attack with an encoder oracle,
+the aim is a reconstruction priced by the generative exponent without one.
 
 ## What we need to consider for our work
 
-What this changes about what we do next. If the answer is nothing, write that.
+Any claim that the server reconstructs what the model learns must be stated
+against Theorems 4 and 5, with the absence of the encoder oracle and the
+real-valued target as the differences. Their remark that recovering attacks are
+not ruled out is the opening our blind reconstruction game takes.
 
 ## Provenance
 
 Copied on 2026-10-25 from the literature scan of 2026-10-25 (arXiv 2011.05315) for the formalizing line, see `sink/formalizing/README.md`. Title and authors were read from the first page.
 Mapping note: authors ordered alphabetically (first-page footnote)
+Reading record: 2026-10-25, the computational-limits space session read the sections named at the top of this note, for lab/theory/spaces/computational-limits/round-00/builder.md.
