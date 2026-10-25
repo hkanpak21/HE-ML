@@ -124,6 +124,10 @@ Standing instructions for agents in this repository, each with who set it and wh
 - Push finished work straight to `main`. This repository is Halil's alone, so
   no pull request is needed. Pushing still needs his ask in the turn.
   Halil, 2026-10-16.
+- Theory: before any theory work (a definition, a proof, a round, the
+  booklet), read `lab/theory/CONTEXT.md` and `lab/theory/STATE.md`, and follow
+  them. Halil reads `lib/theory/`, which holds PDFs only, built by
+  `lab/theory/tools/build.py`. Halil, 2026-10-25.
 - Formalizing AI security: before theory work or any literature search on
   this line, read `sink/formalizing/README.md` and follow its routine. Its
   registers hold what is proven, known, searched and open across HE-ML and
@@ -133,3 +137,7 @@ Standing instructions for agents in this repository, each with who set it and wh
   which PDFs are kept. FORMAL_SECURITY's `raw/` PDFs were copied here on
   2026-10-25, its originals remain, and `sink/formalizing/sources/2026-10-25-pdf-import.csv`
   maps each source file to its key. Halil, 2026-10-25.
+- Notes are written on the fly. The session that reads a paper writes its note
+  in that session, in detail and in its own words, and sets `prov: full-read`
+  for what it read. Notes are never filled in bulk from the ledger or the
+  FORMAL_SECURITY wiki, and never by a fleet of subagents. Halil, 2026-10-25.
