@@ -45,6 +45,19 @@ Citation keys are IACR style. A PDF is
 `lib/literature/notes/<venue>/<Key>.md`, with the same venue folder for both.
 `place-pdf.py` places a paper with its note in one step.
 
+File names take one of three forms, and no name holds a space.
+
+| Form | Name | For |
+| --- | --- | --- |
+| dated | `YYYY-MM-DD-<slug>.md` | anything written for one day and not rewritten: a digest, a scan, a meeting folder, an issue (`YYYY-MM-DD-<assignee>-<headline>.md`), a report (`YYYY-MM-DD-<author>-<headline>`) |
+| living | `<slug>.md` | anything rewritten or appended over time: a register, a log, `positioning.md`, `rulings.md` |
+| keyed | `<Key>.md` | a paper note, named by its IACR key in its venue folder |
+
+Upper case is kept for entry files only: `README.md`, `CLAUDE.md`, `AGENTS.md`,
+`CONTEXT.md`, `INDEX.md`, `INGEST.md`, `STATE.md`. A living file that stops
+being updated keeps its name and says at its top what superseded it. Halil,
+2026-10-25.
+
 ## Paper edits
 
 Paper edits are proposed and never applied. An agent reports the numbers and
@@ -111,3 +124,12 @@ Standing instructions for agents in this repository, each with who set it and wh
 - Push finished work straight to `main`. This repository is Halil's alone, so
   no pull request is needed. Pushing still needs his ask in the turn.
   Halil, 2026-10-16.
+- Formalizing AI security: before theory work or any literature search on
+  this line, read `sink/formalizing/README.md` and follow its routine. Its
+  registers hold what is proven, known, searched and open across HE-ML and
+  FORMAL_SECURITY. Halil, 2026-10-25.
+- The library keeps every paper gathered for this work, from any venue. The
+  top-venue rule of `CONTEXT.md` governs what the sweep screens and codes, not
+  which PDFs are kept. FORMAL_SECURITY's `raw/` PDFs were copied here on
+  2026-10-25, its originals remain, and `sink/formalizing/sources/2026-10-25-pdf-import.csv`
+  maps each source file to its key. Halil, 2026-10-25.

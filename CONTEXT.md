@@ -113,7 +113,7 @@ PoPETs, NeurIPS, ICML, ICLR, CRYPTO, EUROCRYPT and ASIACRYPT for 2023 to 2026.
 `lib/literature/screening.csv` holds every screening decision with its reason.
 364 papers are placed with notes, and 13 of them were dropped after reading,
 with the reason in each note. Four accepted papers have no accessible PDF and
-are listed in `sink/UNAVAILABLE.md`. `lib/literature/ledger.csv` codes every
+are listed in `sink/unavailable.md`. `lib/literature/ledger.csv` codes every
 kept paper on the interface, one row per coalition. After the sweep, Salem et
 al. (SCEKPSTZ23, IEEE S&P 2023) was placed by hand at Halil's request, outside
 the inclusion rule, and coded in two rows. Every row except the three HE-OFT
@@ -121,6 +121,14 @@ rows and the two SCEKPSTZ23 rows comes from a coder's reading and has
 `prov: sweep` behind it. Those five come from full readings. The
 citation lookup for prominence is partial, because the OpenAlex budget for the
 day ran out. No direction is chosen.
+
+2026-10-25. The line on formalizing AI security keeps its state in
+`sink/formalizing/STATE.md`, with registers of results, facts, searches and
+problems that span HE-ML and FORMAL_SECURITY. The library now holds 590 papers.
+225 of them were copied on 2026-10-25 from FORMAL_SECURITY's `raw/` and from that
+day's literature scan, each with a note that points to its FORMAL_SECURITY wiki
+page. The top-venue rule above governs which papers the sweep screens and
+codes. It does not limit which papers the library keeps (Halil, 2026-10-25).
 
 ## Recorded deferrals
 
