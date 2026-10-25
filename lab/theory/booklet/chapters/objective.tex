@@ -1,0 +1,40 @@
+\chapter{Objective}\label{ch:objective}
+
+\section{The question}
+The theory measures the security of a learning procedure in the units of
+learning itself. A learning procedure trains models on data held by one or more
+parties, and an adversary wants to distinguish, invert or steer. The theory asks
+how much an adversary must spend to succeed, and in which currency: samples,
+training runs, queries, or the compute of a stated class of learners.
+
+\section{The objective, as proposed on 2026-10-25}
+Price an adversary against a learning procedure in the same units as the
+procedure's own training. Prove the prices by reduction to learning problems
+whose thresholds are known, with or without the learning oracle. Measure the
+same prices by experiment, the oracle supplying the training runs. The headline
+result would be a natural procedure where the attacker's price exceeds the
+trainer's by a margin that is named and measured. The proposal is open until
+Halil adopts it, and the decision is recorded in \texttt{lab/theory/STATE.md}.
+
+\section{Two sides of every question}
+The statistical side asks what an adversary can do with unlimited computation
+from the information it sees. Its tools are total variation, hockey-stick
+divergences, sample complexity of tests and rate distortion. The computational
+side asks what an adversary that must learn efficiently can do, for instance a
+learner trained by gradient methods. Its tools are statistical-query and
+low-degree lower bounds, the exponents that set sharp sample thresholds, and
+reductions between learning problems. A result of this theory states which side
+it is on, and the most valuable results relate the two.
+
+\section{Constraints set by Halil}
+\begin{itemize}[nosep]
+\item A cryptographic plug-in placed into a procedure does not count. Finding
+  that some aspect of a model reduces to or yields a pseudorandom generator or a
+  one-way function would count.
+\item Every quantity must be realizable, or approximately realizable, by
+  experiment.
+\item Polynomial-time adversaries are admitted. Definitions alone are not results.
+\item Beautiful mathematics comes first. Any of the three rules above may be broken
+  for a result whose mathematics is beautiful, and ugly mathematics is not wanted
+  even when it obeys them.
+\end{itemize}

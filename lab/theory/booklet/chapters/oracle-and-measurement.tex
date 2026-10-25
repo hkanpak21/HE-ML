@@ -1,0 +1,159 @@
+\chapter{The oracle and measurement}\label{ch:oracle-and-measurement}
+Filled from the thinking space \texttt{oracle-and-measurement}. Its question is how
+the learning oracle and experiments realize or approximate the prices of the two
+previous chapters, what a measured security profile can certify, and how knowing
+the training seed changes the learning problem an adversary faces. Three rounds
+on 25 October 2026 (discussants argon, astra, argon) ended with every object
+below accepted and no blocking challenge. The full statements and proofs are in
+the appendix under the same slugs.
+
+\section{One oracle, two seed-access modes}
+
+\begin{definition}[Seed-access modes]\blabel{def-seed-access-modes}\status{accepted}
+Fix a learning oracle for $(\Lf,\mu,\pi)$. A game assigns each caller four things.
+(1) A \emph{seed-access mode}. In the \emph{named mode} its $\Train$ calls are those
+of \cref{def-learning-oracle}. In the \emph{drawn mode} the oracle accepts
+$\Train(x,s)$ only with $s=\bot$, returns the model's name only, keeps the seed
+under no name the caller holds, and refuses $\mathsf{Open}$ on any seed. (2) A
+\emph{return label}, open or eval, for the names its own calls return. (3) The
+learner names and starting models its calls may use. (4) A budget for each
+operation. A \emph{cost meter} $\mathsf{cost}=(\mathsf{work},\mathsf{size})$ maps a
+training input to the work of one run in a fixed machine model and the number of
+examples in its dataset, and a caller's \emph{oracle cost} is the coordinatewise
+sum over its $\Train$ calls. The bottom oracle is the named mode with label open
+and no grant, the top oracle adds grants of the honest seeds, and an experimenter
+in the drawn mode follows the drawn-seed discipline.
+\notation{$\mathsf{cost}=(\mathsf{work},\mathsf{size})$}{cost meter of one training run: work and examples}
+\usesstatement{def-learning-oracle,def-learning-oracle-model,def-certifier,def-degenerate-oracles}
+\source{Contains, as drawn-mode callers, the passive learning oracle and the
+generic training oracle of FORMAL\_SECURITY (\cref{prop-drawn-mode-is-fs-oracle}).
+A remark of the round file turns \cref{lem-needle-lower-bound} into a bound in
+oracle cost: a certifier of work at most $C$ makes at most
+$C/\inf_{x\in X}\mathsf{work}(x)$ calls in the needle set $X$, vacuous when that
+infimum is zero, and a bound in oracle cost is a bound in machine compute only
+under FORMAL\_SECURITY's no-skipping hypothesis.}
+\fullproof{def-seed-access-modes}{lab/theory/spaces/oracle-and-measurement/round-02/builder.md}
+\end{definition}
+
+\begin{proposition}[The FORMAL\_SECURITY oracles are drawn-mode callers]\blabel{prop-drawn-mode-is-fs-oracle}\status{accepted}
+(a) A drawn-mode caller with return label open, restricted to the recipes a game
+names, one fixed empty starting model and each recipe's declared initialization,
+has call by call the transcript law of a caller of FORMAL\_SECURITY's passive
+learning oracle, and its oracle cost is that oracle's metered cost. (b) A drawn-mode
+caller with return label eval, an evaluation map for outputs, input gradients and
+parameter gradients, and budgets per operation realizes an access class of the
+generic training oracle, with reveal realized by $\mathsf{Open}$ exactly when the class
+contains it.
+\usesstatement{def-seed-access-modes}
+\source{FORMAL\_SECURITY, \path{exp/survey/paper/parked/formalization/oracle.tex},
+definitions \texttt{def:passive} and \texttt{def:cost}, and the generic training
+oracle of its report of 2026-10-13. The integrator checked (a) against
+\texttt{oracle.tex} and (b) against the report's operation table. Part (b) needs the
+starting model fixed as in (a).}
+\fullproof{prop-drawn-mode-is-fs-oracle}{lab/theory/spaces/oracle-and-measurement/round-02/builder.md}
+\end{proposition}
+
+\paragraph{The proposal for Halil.} Both repositories use the one oracle of
+\cref{def-seed-access-modes}, and each game fixes the four items per caller. Drawn
+coins lose no soundness for any bottom-oracle target and lose the accuracy that
+the separations of \cref{ch:learning-oracle} measure (\cref{thm-coupling-free-soundness}).
+Named seeds are needed for the top-oracle threat model, for replay audits, and for
+the accuracy of coupled certificates. Halil decides among three options. He can adopt the two
+modes, keep drawn coins only, which makes those three inapplicable, or keep named
+seeds only, which needs declared starting models whenever the meter is work.
+
+\section{Couplings, soundness and accuracy}
+
+\begin{theorem}[Coupling-free soundness]\blabel{thm-coupling-free-soundness}\status{accepted}
+A \emph{twin rule} $\Theta$ is a sequence of laws on pairs of (seed, hardware
+randomness) whose two marginals are $\mu\otimes\pi$. In the setting of
+\cref{thm-dataflow-composition}, let the $\Theta$-coupled execution drive the node by
+one coordinate and its twin by the other, with the draws independent of the
+procedure's other randomness and of the release noise, and let $\epsilon^\Theta_b(\Delta)$
+be its exceedance probability. (a) For one node, every coupling of the two model
+laws bounds $\Hg(P_0\|P_1)$ by the mean channel divergence over its pairs, and a
+coupling with a common seed bounds the top-oracle divergence the same way. (b)
+Under the bottom oracle, for every twin rule, every adversary, $\varepsilon\ge0$ and
+$\Delta>0$, $\Hg(P_0\|P_1)\le\delta_{\mathcal N}(\varepsilon;\sqrt R\Delta/\sigma)+\min\{\epsilon^\Theta_0(\Delta),\gamma\epsilon^\Theta_1(\Delta)\}$,
+and symmetrically. Under the top oracle the same holds for twin rules that share
+the seed. (c) The certificates of \cref{thm-coupling-certificate} and
+\cref{thm-dataflow-composition} computed on $\Theta$-coupled runs are sound for these
+targets for every $\Theta$, and certify the coupled tail $\epsilon_0(\Delta)$ itself only
+under the identity coupling. (d) Neither the independence from the release noise
+nor the shared seed for top-oracle targets can be dropped.
+\notation{$\epsilon^\Theta_b(\Delta)$}{exceedance probability of the execution coupled by twin rule $\Theta$}
+\usesstatement{thm-coupling-certificate,thm-dataflow-composition,def-isolated-client}
+\usesproof{thm-bounded-deviation-transfer}
+\source{The integrator re-derived (a) to (d) on 2026-10-25 against the proof of
+\cref{thm-dataflow-composition} (b): only the coordinates that drive the two chains
+change. Independence from the release noise is what lets the step-4 kernel
+reproduce the hybrid. Part (d) gives two counterexamples, $\TV=0.474$ against a
+claimed $0.276$ for a coupling that correlates with the noise.}
+\fullproof{thm-coupling-free-soundness}{lab/theory/spaces/oracle-and-measurement/round-02/builder.md}
+\end{theorem}
+
+\section{What an experiment certifies about a security profile}
+
+\begin{proposition}[The run coordinate of a profile]\blabel{prop-profile-run-coordinate}\status{accepted}
+Fix a procedure, a distinguishing goal under the bottom oracle and a learning
+function $\Lf$, and let $\epsilon_\Lf(q_T,q_E)$ be the best advantage at budget
+$(q_T,q_E)$. (a) $\epsilon_\Lf(q_T,q_E)=\epsilon_\Lf(0,q_E)$. An unbounded adversary that
+knows $\Lf$ simulates its own $\Train$ calls, so the profile of an unrestricted class
+is flat in training runs. (b) For a family of adversaries declared before $\Lf$,
+indexed by their number of shadow runs, independent trials give a lower band on its
+profile, sound for every learning function at level $\alpha$, with width
+$\sqrt{2\ln(r/\alpha)/n_i}$ at the $i$-th of $r$ budgets. A two-phase family reuses
+one set of fresh shadow runs for both hypotheses of a trial. A general family pays
+two complete executions. One shadow bank reused across trials gives no band. (c) The
+coupled certificate of \cref{thm-coupling-certificate} is an upper band at every budget
+at once, and through a deterministic channel with atomless view laws no drawn-mode
+certificate gives an upper band below one.
+\usesstatement{def-learning-oracle-model}
+\usesproof{thm-coupling-certificate}
+\source{The flatness of (a) is a statement about measurable strategies, not an
+efficient simulation. It says that the profile, the curve from a budget to the
+success named in FORMAL\_SECURITY's terminology, is a measured object only once its
+family is named, uniformly over a class of learning functions (\cref{ch:statistical-limits}),
+or for a computationally bounded class (\cref{ch:computational-limits}).}
+\fullproof{prop-profile-run-coordinate}{lab/theory/spaces/oracle-and-measurement/round-02/builder.md}
+\end{proposition}
+
+\section{The price of twins}
+
+\begin{theorem}[Exact twins have a price]\blabel{thm-exact-twin-price}\status{accepted}
+Take one Gaussian release $y=W+Z$ with a fixed choice, training inputs $x_0\neq x_1$,
+and three targets: the coupled tail $\epsilon_0(\Delta)$, the total variation of the
+release, and its one-sided divergence $\mathrm H_{e^\varepsilon}(P_1\|P_0)$. Let $\Lf^\circ$ have
+deterministic kernels and the same model at $x_0$ and $x_1$ for every seed, so all
+three targets vanish. Let $c_{\mathrm{acc}}=-\ln(1-\epsilon_{\mathrm{acc}})$ and
+$\Lambda_{\alpha,\alpha'}=(1-\alpha')\ln((1-\alpha')/\alpha)$. (a) Every certifier, in either
+mode, sound at level $\alpha$ over all learning functions with deterministic kernels
+and below $\epsilon_{\mathrm{acc}}$ at $\Lf^\circ$ with probability $1-\alpha'$, makes at least
+$\Lambda_{\alpha,\alpha'}/c_{\mathrm{acc}}$ expected $\Train$ calls at $x_1$, and also at $x_0$
+for the coupled tail and the total variation. Calls at any other training input,
+fine-tunes and warm starts included, count for nothing. Coupled certificates match
+the bound up to a ceiling. (b) Certifying every record of a dataset of $n_D$ records
+costs $n_D$ times as much at the twin inputs, and $\lceil\ln(1/\alpha)/c_{\mathrm{acc}}\rceil$
+common seeds achieve it with no union bound. (c) For the one-sided target no bound
+holds at the base input. A sound certifier makes four calls at $x_0$ where the bound
+of (a) would ask for 298.
+\notation{$\Lambda_{\alpha,\alpha'}$}{$(1-\alpha')\ln((1-\alpha')/\alpha)$, the confidence factor of a twin price}
+\usesstatement{thm-dataflow-composition,def-seed-access-modes}
+\usesproof{lem-needle-lower-bound,thm-coupling-free-soundness}
+\source{At $\alpha=\alpha'=10^{-3}$ and $\epsilon_{\mathrm{acc}}=10^{-2}$ the bound is 686.5 expected
+calls, and for 60{,}000 records $4.12\times10^7$ twin calls (computed in the round file).
+The integrator re-derived (a) to (c) and the numbers on 2026-10-25. The lower bound
+is a rare-event change of measure over a finite partition of the seed space, which
+handles seeds passed by value.}
+\fullproof{thm-exact-twin-price}{lab/theory/spaces/oracle-and-measurement/round-02/builder.md}
+\end{theorem}
+
+\paragraph{Realization.} For the total variation and the one-sided divergence,
+\cref{thm-coupling-free-soundness} makes a certificate sound under any implementable
+coupling, so realizing it needs each GPU run to have the deployed law at its input
+and repetitions to be independent. Accuracy at a zero-leakage function needs the
+pairs to coincide, which needs deterministic kernels. Whole uncontrolled GPU reruns
+at one seed do not coincide (\cref{fact-rerun-reproduction-error}). Logged rounding makes
+them coincide at 1.2 to 1.7 times the training time, for a modified pipeline that
+must then be the deployed one (\cref{fact-controlled-nondeterminism-exact-replication}).
+This paragraph is heuristic.

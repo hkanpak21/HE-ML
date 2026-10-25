@@ -1,0 +1,70 @@
+% The booklet: the whole theory, start to finish. Written by the integrator only.
+% Build: python3 lab/theory/tools/build.py [--changes]   Output: lib/theory/booklet.pdf
+\input{preamble}
+
+\title{Formalizing AI security\\[4pt]\large The booklet}
+\author{Halil İbrahim Kanpak}
+\date{built \today\ from \texttt{lab/theory/booklet/}}
+
+\begin{document}
+\maketitle
+
+\chapter*{How to read this booklet}
+This booklet holds the whole theory, from the first definitions to the open
+targets. Every object has a permanent slug, printed at the right of its first
+line. The margin says who stands behind it: open, sketch, accepted by a
+discussant round, checked by Halil, borrowed from a paper, or refuted. A
+\emph{uses} line links what a statement or a proof relies on, and the graph in
+the appendix draws the same links. The list below is the queue of results that
+wait for your check. The chapter History records every round of every thinking
+space, so the booklet reads the same whatever order the rounds ran in.
+
+\section*{Status at a glance}
+Counts: \stattotals.
+
+\noindent Waiting for Halil's check:
+\ifdefempty{\tochecklist}{\emph{nothing yet, or run the build twice}.}{%
+\begin{itemize}[nosep]
+\tochecklist
+\end{itemize}}
+
+\section*{Notation}
+\begin{longtable}{@{}p{2.8cm}p{8.4cm}l@{}}
+\notationlist
+\end{longtable}
+
+\tableofcontents
+
+\input{chapters/objective}
+\input{chapters/borrowed}
+\input{chapters/learning-oracle}
+\input{chapters/statistical-limits}
+\input{chapters/computational-limits}
+\input{chapters/oracle-and-measurement}
+\input{chapters/conjectures}
+\input{chapters/history}
+
+\appendix
+\chapter{Dependency graph}
+Solid edges are uses of a statement, dashed edges are uses of a proof. Colours
+follow the margin marks.
+
+\medskip
+\IfFileExists{graph.pdf}{\includegraphics[width=\textwidth]{graph.pdf}}{\emph{Run the build script to draw the graph.}}
+
+\chapter{Full statements and proofs from the thinking spaces}
+Each section is the object's text in the round that accepted it, converted at build
+time from the round file named in its chapter. Mathematics, labels and proofs are the
+builder's, as the discussant accepted them.
+
+\IfFileExists{fullproofs.tex}{\input{fullproofs}}{\emph{No object from a thinking space is merged yet.}}
+
+\chapter{The learning-oracle theory in full}
+The final document of the learning-oracle rounds of 16 and 17 October 2026,
+converted at build time from
+\texttt{sink/2026-10-16-formal-tuning/final/learning-oracle-theory.md}. Its
+slugs match the objects of the chapter on the learning oracle.
+
+\IfFileExists{learning-oracle-full.tex}{\input{learning-oracle-full}}{\emph{Run the build script to convert it.}}
+
+\end{document}

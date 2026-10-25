@@ -1,0 +1,79 @@
+% Preamble of the booklet. Shared by every chapter.
+\documentclass[11pt,a4paper]{report}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[a4paper,left=2.3cm,right=4.4cm,top=2.3cm,bottom=2.3cm,marginparwidth=3.4cm,marginparsep=0.4cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage{etoolbox}
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+\usepackage[hyphens]{url}
+\usepackage[colorlinks=true,linkcolor=NavyBlue,urlcolor=NavyBlue]{hyperref}
+\usepackage[nameinlink,capitalise,noabbrev]{cleveref}
+
+% ---------------------------------------------------------------- environments
+% One numbering for all objects, each with its own reference name.
+\usepackage{aliascnt}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[chapter]
+\newcommand{\sharedtheorem}[2]{%
+  \newaliascnt{#1}{theorem}\newtheorem{#1}[#1]{#2}\aliascntresetthe{#1}}
+\sharedtheorem{lemma}{Lemma}
+\sharedtheorem{proposition}{Proposition}
+\sharedtheorem{conjecture}{Conjecture}
+\sharedtheorem{borrowed}{Borrowed result}
+\theoremstyle{definition}
+\sharedtheorem{definition}{Definition}
+\crefname{theorem}{Theorem}{Theorems}
+\crefname{lemma}{Lemma}{Lemmas}
+\crefname{proposition}{Proposition}{Propositions}
+\crefname{conjecture}{Conjecture}{Conjectures}
+\crefname{borrowed}{Borrowed result}{Borrowed results}
+\crefname{definition}{Definition}{Definitions}
+
+% ---------------------------------------------------------------- blueprint macros
+\makeatletter
+\newcommand{\lastslug}{}
+% \blabel{slug}: the permanent label, printed so it can be grepped and cited
+\newcommand{\blabel}[1]{\gdef\lastslug{#1}\label{#1}\hfill\texttt{\footnotesize #1}\par\noindent\ignorespaces}
+\newcommand{\statusbox}[2]{\fcolorbox{#1}{#1!10}{\parbox{3.0cm}{\centering\sffamily\scriptsize #2}}}
+\newcounter{stchecked}\newcounter{staccepted}\newcounter{stsketch}\newcounter{stopen}\newcounter{stborrowed}\newcounter{strefuted}
+\newcommand{\status}[1]{%
+  \ifstrequal{#1}{checked}{\marginpar{\statusbox{ForestGreen}{checked by Halil}}}{}%
+  \ifstrequal{#1}{accepted}{\marginpar{\statusbox{NavyBlue}{accepted in a round,\\ waits for Halil}}%
+    \immediate\write\@auxout{\string\tocheckentry{\lastslug}}}{}%
+  \ifstrequal{#1}{sketch}{\marginpar{\statusbox{BurntOrange}{sketch}}}{}%
+  \ifstrequal{#1}{open}{\marginpar{\statusbox{Gray}{open}}}{}%
+  \ifstrequal{#1}{borrowed}{\marginpar{\statusbox{Plum}{borrowed from\\ the literature}}}{}%
+  \ifstrequal{#1}{refuted}{\marginpar{\statusbox{BrickRed}{refuted}}}{}%
+  \stepcounter{st#1}}
+\newcommand{\usesstatement}[1]{\par\smallskip\noindent{\small\textsf{Statement uses:} \cref{#1}.}}
+\newcommand{\usesproof}[1]{\par\noindent{\small\textsf{Proof uses:} \cref{#1}.}}
+\newcommand{\slug}[1]{\path{#1}}
+\newcommand{\fullproof}[2]{\par\smallskip\noindent{\small\textsf{Full statement and proof:} \cref{fp:#1}.}}
+\newcommand{\source}[1]{\par\smallskip\noindent{\small\textsf{Source.} #1}}
+% notation collected through the aux file, printed at the front on the next run
+\newcommand{\notationlist}{}
+\newcommand{\notationentry}[3]{\g@addto@macro\notationlist{#1 & #2 & \cref{#3}\\}}
+\newcommand{\notation}[2]{\immediate\write\@auxout{\string\notationentry{\detokenize{#1}}{\detokenize{#2}}{\lastslug}}}
+\newcommand{\tochecklist}{}
+\newcommand{\tocheckentry}[1]{\g@addto@macro\tochecklist{\item \cref{#1} \hfill\texttt{\footnotesize #1}}}
+\AtEndDocument{\immediate\write\@auxout{\string\gdef\string\stattotals{%
+  checked \the\value{stchecked}, accepted \the\value{staccepted}, sketch \the\value{stsketch}, open \the\value{stopen}, borrowed \the\value{stborrowed}, refuted \the\value{strefuted}}}}
+\providecommand{\stattotals}{run the build twice}
+\makeatother
+
+% ---------------------------------------------------------------- symbols
+\newcommand{\Lf}{\mathsf{L}}
+\newcommand{\Hg}{\mathrm{H}_\gamma}
+\newcommand{\TV}{\mathrm{TV}}
+\newcommand{\Train}{\mathsf{Train}}
+
+
+% pandoc output, for chapters converted from markdown at build time
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\providecommand{\pandocbounded}[1]{#1}
+\usepackage{longtable,booktabs,array}

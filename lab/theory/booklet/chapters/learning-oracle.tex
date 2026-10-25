@@ -1,0 +1,159 @@
+\chapter{The learning oracle}\label{ch:learning-oracle}
+The first part of the theory, built in eleven builder and challenger rounds on
+16 and 17 October 2026 and audited with FINAL ACCEPT. Statements are shortened
+here. The full statements and proofs are in the appendix, under the same slugs.
+The upper bounds hold for any training whose seed can be fixed. The lower bounds
+and the separation between named and hidden seeds need the oracle.
+
+\section{Definitions}
+
+\begin{definition}[Learning oracle]\blabel{def-learning-oracle}\status{accepted}
+A \emph{learning function} is a measurable map $\Lf(x;\rho,\xi)$ of a training
+input $x$ (learner name, starting model, dataset, hypothesis class), a seed $\rho$
+with atomless law $\mu$, and hardware randomness $\xi$ with law $\pi$. A
+\emph{learning oracle} answers $\Train(x,s)$: with $s=\bot$ it draws a fresh seed
+and stores it under a new name, with $s$ a seed name it reuses that seed, and in
+both cases it draws a fresh $\xi$ and returns a name for $\Lf(x;\rho,\xi)$. It also
+answers $\mathsf{Eval}(h,u)$, the evaluation map at a stored model, and
+$\mathsf{Open}(h)$, which returns the stored object. Every drawn seed, every $\xi$
+and every evaluation draw is independent of all other randomness, and a call
+needs the label open, or eval for $\mathsf{Eval}$, on every name it uses.
+\notation{$\Lf(x;\rho,\xi)$}{learning function at input $x$, seed $\rho$, hardware randomness $\xi$}
+\notation{$\Train(x,s)$}{oracle training call, $s$ a seed name or $\bot$}
+\end{definition}
+
+\begin{definition}[Learning-oracle model]\blabel{def-learning-oracle-model}\status{accepted}
+A \emph{procedure} is a dataflow graph whose learning nodes call $\Train$ and whose
+evaluation nodes call $\mathsf{Eval}$. Each node value reaches a coalition through
+the plain channel, the query channel (a name with label eval, a query set $U$ and
+an allowance $Q$), or no channel. An adversary is an oracle algorithm with a budget
+$(q_T,q_E)$ of its own $\Train$ and $\mathsf{Eval}$ calls. It distinguishes, by
+the hockey-stick divergence of its view under two hypotheses, or steers, by
+landing a node's value in a target set.
+\usesstatement{def-learning-oracle}
+\end{definition}
+
+\begin{definition}[Certifier]\blabel{def-certifier}\status{accepted}
+A \emph{certifier} of a target $\theta(\Lf)\in[0,1]$ is an experimenter that makes
+at most $N$ $\Train$ calls and outputs $\hat t$. It is \emph{sound} at level
+$\alpha$ over a class of learning functions when $\Pr[\theta(\Lf)\le\hat t]\ge1-\alpha$
+for each of them. It works in the \emph{drawn-seed discipline} when it never
+passes a seed and never opens one, and in the \emph{coupled discipline} otherwise.
+\usesstatement{def-learning-oracle}
+\end{definition}
+
+\begin{definition}[Degenerate oracles]\blabel{def-degenerate-oracles}\status{accepted}
+The \emph{bottom oracle} grants the adversary nothing beyond the procedure, with
+no bound on its $\Train$ calls. The \emph{top oracle} also grants it the seed name
+of every honest learning node. For an experimenter or an auditor the two cases
+are the drawn-seed and the coupled discipline. A result is non-trivial only if it
+fails or becomes vacuous in one degenerate case.
+\usesstatement{def-learning-oracle-model,def-certifier}
+\end{definition}
+
+\begin{definition}[Isolated client]\blabel{def-isolated-client}\status{accepted}
+A procedure \emph{isolates client $j$ behind Gaussian releases} when, for $R$
+rounds, client $j$ trains with drawn seeds from a choice $c_t$ and its state, no
+other node reads its dataset, its round-$t$ output reaches the coalition only
+through the release $y_t=O_t+f_t(c_t,W_t)+Z_t$ with $Z_t\sim\mathcal N(0,\sigma^2I_d)$,
+and its dataset node and models reach the coalition through no channel. The
+\emph{coupled execution} runs a twin of client $j$ on the other dataset with the
+same seeds, and the \emph{exceedance probability} $\epsilon_b(\Delta)$ is the chance
+that some round's twin contribution differs by more than $\Delta$.
+\notation{$\epsilon_b(\Delta)$}{exceedance probability of the coupled execution under $H_b$}
+\usesstatement{def-learning-oracle-model}
+\end{definition}
+
+\section{Results}
+
+\begin{lemma}[Needle lower bound]\blabel{lem-needle-lower-bound}\status{accepted}
+If learning functions $\Lf_1,\dots,\Lf_J$ agree with a reference $\Lf^\circ$ outside
+disjoint sets $X_1,\dots,X_J$ of training inputs and have $\theta(\Lf_k)\ge\vartheta$,
+then every certifier with at most $N$ $\Train$ calls, sound at level $\alpha$ over a
+class containing them, outputs at least $\vartheta$ at $\Lf^\circ$ with probability at
+least $1-\alpha-N/J$.
+\usesstatement{def-certifier}
+\end{lemma}
+
+\begin{lemma}[Sphere code]\blabel{lem-sphere-code}\status{accepted}
+For every $d\ge1$ the unit sphere of $\mathbb R^d$ holds at least $2^{0.18d}$ points
+with pairwise distances at least one, and nearest-point decoding of a point of
+such a code under $\mathcal N(0,\sigma'^2I_d)$ noise errs with probability at most
+$\frac J2e^{-\mathfrak s^2/(8\sigma'^2)}$ for $J$ points at distance $\mathfrak s$.
+\end{lemma}
+
+\begin{theorem}[Coupling certificate]\blabel{thm-coupling-certificate}\status{accepted}
+For one learning node seen through a channel $K$, every learning function and
+every $\gamma\ge1$, $\Hg(P_0\|P_1)\le\beta_\gamma(K)\le\Pr_\Gamma[W_0\ne W_1]$, where
+$\beta_\gamma(K)$ is the mean channel divergence over same-seed pairs. Coupled $\Train$
+calls certify $\beta_\gamma(K)$ soundly for every learning function when the channel
+divergence at two models is computable. Through a deterministic channel with
+atomless view laws, no drawn-seed certifier sound for every learning function
+certifies the total variation below one.
+\notation{$\beta_\gamma(K)$}{coupled divergence of channel $K$}
+\usesstatement{def-certifier}
+\usesproof{fact-test-fact-data-processing,def-learning-oracle}
+\end{theorem}
+
+\begin{theorem}[Black-box certifiability]\blabel{thm-black-box-certifiability}\status{accepted}
+For one learning node behind the query channel with a finite query set and
+finitely many outputs, the best advantage of $q$ label queries is certifiable from
+above and from below by drawn-seed runs, with an error that falls as the inverse
+square root of the number of runs, for every learning function. Drawn seeds can
+refute, and never certify, a claim that label queries reveal all the model reveals.
+\usesstatement{def-learning-oracle-model,def-certifier}
+\end{theorem}
+
+\begin{theorem}[Dataflow composition]\blabel{thm-dataflow-composition}\status{accepted}
+If a procedure isolates client $j$ behind Gaussian releases, every adversary under
+the bottom or the top oracle, with any strategy, has
+$\Hg(P_0\|P_1)\le\delta_{\mathcal N}(\varepsilon;\sqrt R\Delta/\sigma)+\min\{\epsilon_0(\Delta),\gamma\epsilon_1(\Delta)\}$.
+Coupled runs of a fixed strategy certify $\epsilon_0(\Delta)$ with a number of runs
+free of the dimension, while drawn-seed certifiers pay a number of $\Train$ calls
+exponential in the smaller of $d$ and $B^2/\sigma^2$ in the clipped case.
+\notation{$\delta_{\mathcal N}(\varepsilon;r)$}{hockey-stick divergence of two unit Gaussians at distance $r$}
+\usesstatement{def-isolated-client}
+\usesproof{fact-test-fact-data-processing,lem-sphere-code}
+\end{theorem}
+
+\begin{theorem}[Bounded-deviation transfer]\blabel{thm-bounded-deviation-transfer}\status{accepted}
+In the same setting, a coalition whose additive inputs to the releases stay
+within $B_A$ of the prescribed ones raises the exceedance probability at most to
+$\Upsilon_{\mathfrak e}$ of the protocol's own, with
+$\mathfrak e=(R-1)B_A^2/(2\sigma^2)$. Coupled runs of the honest protocol certify the
+bound with about $e^{(1+o(1))\mathfrak e}$ runs, and every certifier sound for every
+learning function needs $e^{(1-o(1))\mathfrak e}$ $\Train$ calls in the clipped
+aggregation instance when $\mathfrak e/d\to0$.
+\notation{$\mathfrak e$}{push-to-noise budget $(R-1)B_A^2/(2\sigma^2)$ of a deviating coalition}
+\usesstatement{thm-dataflow-composition}
+\usesproof{lem-needle-lower-bound}
+\end{theorem}
+
+\begin{theorem}[Replay-audit steering]\blabel{thm-replay-audit-steer}\status{accepted}
+When the seed is the output of a random oracle on a dataset commitment and a
+nonce, a prover with $q$ random-oracle queries passes an audit of $n_{\mathrm{rep}}$
+replays with a model in a target set with probability at most
+$(q+1)n_{\mathrm{rep}}$ times the chance that an honest run lands within the tolerance
+of the target. Grinding attains this bound within a constant factor under
+deterministic kernels, and an auditor without seed control cannot verify at all.
+\usesstatement{def-learning-oracle}
+\end{theorem}
+
+\section{Further results, stated}
+The appendix proves or points to each of these.
+\begin{itemize}[nosep]
+\item \slug{thm-perfect-substitution}: the real procedure and the bottom oracle
+  give the same joint law of honest values and transcript.
+\item \slug{thm-reference-access}: under deterministic kernels the top oracle's
+  best advantage is the coupled divergence.
+\item \slug{thm-active-choice-dichotomy}: certifying against a coalition with
+  admissible choices costs runs linear in the number of choices, and is
+  impossible for infinitely many.
+\item \slug{thm-record-level-certificate}: one shared base certifies the fraction
+  of a dataset's records whose leakage exceeds a threshold, at a cost free of the
+  dataset size.
+\item \slug{thm-smoothed-choice-certificate}: a covering certifies a norm-bounded
+  coalition at a cost exponential in $d$.
+\item \slug{thm-bank-soundness}: a bank on random halves estimates the random-subset
+  game, which can differ by one from the fixed-dataset game.
+\end{itemize}

@@ -1,0 +1,248 @@
+\chapter{Computational limits}\label{ch:computational-limits}
+Filled from the thinking space \texttt{computational-limits}. It asks three things. What
+can an adversary achieve that must learn efficiently, as a learner trained by
+gradient methods or a statistical-query or low-degree algorithm? Which known
+learning problems does an attack task reduce to or from? Where does the
+computational price depart from the statistical one? Three rounds on 25 October 2026 (discussants
+astra, astra in place of argon, argon) ended with no blocking challenge. The
+space made Halil's reconstruction example formal in split learning. The
+reconstructor is a learner from representations to records. After a symmetry
+argument its problem is non-Gaussian component analysis on the record law when
+the server has no labels, and the trainer's own single-index problem for the
+label-relevant part. No result of this chapter uses the learning oracle, and
+each reduction costs one honest training run.
+
+\section{A refuted bound, and what survives}
+
+\begin{theorem}[The proof note's black-box reduction]\blabel{thm-fs-sq-black-box-reduction}\status{refuted}
+The FORMAL\_SECURITY proof note \path{.tools/proof.tex} claims, as its Theorem 2,
+that a black-box adversary against a model trained by a deterministic
+statistical-query learner on the vertex-row encoding of a graph has advantage at
+most the SQ advantage for planted clique, so that with polynomially many queries
+of constant tolerance no black-box adversary has constant advantage. The claim is
+false. With the exact oracle, or an honest oracle averaging each query over
+$\lceil 32n^2\ln n\rceil$ fresh draws, a learner with $O(n^2)$ queries of tolerance
+$1/3$ stores every row of the graph, and an unbounded adversary reading the model
+decides the planted clique with advantage $1-o(1)$ at $k=n^{1/2-\delta}$.
+\usesproof{fact-fgrvx17-planted-clique-sq-bound}
+\source{Counterexample by the space, accepted line by line by astra in round 00,
+re-derived by the integrator. The note applies FGRVX17 to the empirical law of
+the $n$ rows of one symmetric matrix, and chains a worst-oracle lower bound with
+the run of one particular oracle. Its quoted bound also grows with the tolerance.
+\texttt{prob-attacker-lower-bound-from-hard-learning} rested on this note. The
+registers of \path{sink/formalizing/} hold it as \texttt{thm-sq-hardness-black-box-attacks},
+with this slug as an alias.}
+\fullproof{thm-fs-sq-black-box-reduction}{lab/theory/spaces/computational-limits/round-00/builder.md}
+\end{theorem}
+
+\begin{lemma}[An SQ learner cannot hand over what it cannot detect]\blabel{lem-sq-learner-post-processing}\status{accepted}
+Let $k\le n^{1/2-\delta}$, let a learner reach its training law, uniform or planted
+biclique, only through $m$ calls to 1-STAT with coins independent of the law, and
+let any randomized map, unbounded and white-box, read its output. If the composition
+distinguishes uniform from every planted law with probability $2/3$, then
+$m=\Omega(n^2/k^2)$. The VSTAT form holds against every valid oracle, and by
+\cref{fact-sq-simulates-minibatch-sgd} it covers mini-batch SGD learners in the
+coarse-precision regime.
+\usesstatement{fact-fgrvx17-planted-clique-sq-bound}
+\usesproof{fact-sq-simulates-minibatch-sgd}
+\source{The bound is priced in the trainer's fresh samples and binds unbounded
+attackers. An SQ bound on the learner binds every attacker, while an SQ bound on
+the attacker binds only SQ attackers.}
+\fullproof{lem-sq-learner-post-processing}{lab/theory/spaces/computational-limits/round-00/builder.md}
+\end{lemma}
+
+\section{The reconstruction games}
+
+\begin{definition}[Seed-blind reconstruction games]\blabel{def-seed-blind-reconstruction-game}\status{accepted}
+The protocol class $\mathcal P_H$, for a closed subgroup $H\le O(d)$, holds split
+protocols whose client applies an $H$-equivariant pre-map, a first layer
+$W\pi(x)+b$ and any further map, whose initialization law is invariant under
+$W_0\mapsto W_0Q$ for $Q\in H$, whose update of the first layer is equivariant
+under right multiplication by $H$, and whose server, honest or not, never sees
+first-layer weights, their gradients, records, or record-representation pairs.
+Side data are invariant under $H$. A target is a map $g$ of the record with
+finite second moment and a finite symmetry group $K$. In the \emph{sample game}
+the attacker sees the view of one run on $N$ records, runs in time $T$, and its
+fine success at scale $\epsilon$ is the chance that some $\kappa\in K$ puts every
+output within $\epsilon$ of $\kappa g(x_i)$, minus the same chance for fresh records
+(the narcissus baseline of \cref{fact-cohen-narcissus-equals-one-wayness}). In the
+\emph{population SQ game}, for frozen clients, the attacker has $q$ queries of
+tolerance $\tau$ to the law of (representation, side data) and its weak success is
+the correlation of its output map with $\kappa g$. The sample game reconstructs the
+observed records. The SQ game evaluates a reconstruction map on the record law. An
+experiment fixes finite representations of queries and of returned maps.
+Seed-known variants also give the attacker the initialization, and the
+\emph{price of the seed} at a success level is the pair of budget sets at which
+the two attackers reach it.
+\notation{$\mathcal P_H$}{split protocols equivariant under a group $H\le O(d)$}
+\usesstatement{fact-cohen-narcissus-equals-one-wayness,fact-orthogonal-equivariance-of-training}
+\source{Accepted by astra in round 01. The integrator applied the wording
+correction of round 02 to the sentence on observed records.}
+\fullproof{def-seed-blind-reconstruction-game}{lab/theory/spaces/computational-limits/round-01/builder.md}
+\end{definition}
+
+\begin{lemma}[The view is a function of rotated records]\blabel{lem-equivariant-view-coupling}\status{accepted}
+For a protocol in $\mathcal P_H$ and $Q\in H$, the view of the run with coins
+$\omega$ on records $x$ equals, pathwise, the view of the run with $W_0$ replaced by
+$W_0Q^\top$ on records $Qx$. Hence for $Q$ Haar on $H$ a simulator that runs the
+protocol from fresh coins on the rotated records $u_i=Qx_i$ reproduces the joint
+law of every attacker's output with the targets, at the cost of one training run.
+If the hidden part of the record law is $P^A_V$ off a label subspace and $H$ fixes
+that subspace, the attacker's task becomes NGCA coordinate recovery with a
+uniformly random frame.
+\usesstatement{def-seed-blind-reconstruction-game}
+\usesproof{fact-orthogonal-equivariance-of-training}
+\source{The induction of LZA21 Theorem C.1, carried to the whole transcript, an
+adaptive server and side data, stated as a pathwise coupling. Adam, sign updates,
+coordinate-wise normalization, convolutional first layers and published weights
+each break a hypothesis.}
+\fullproof{lem-equivariant-view-coupling}{lab/theory/spaces/computational-limits/round-01/builder.md}
+\end{lemma}
+
+\begin{lemma}[Whitening a frozen linear client]\blabel{lem-whitening-gives-rotated-records}\status{accepted}
+For a frozen client $z=Wx+b$ with $W$ of full column rank and right rotation
+invariant in law, and records of mean zero and identity covariance, the population
+whitening map $T$ satisfies $T(z-b)=Rx$ with $R\in O(d)$ a function of $W$ alone,
+Haar-distributed and independent of the records.
+\usesstatement{def-seed-blind-reconstruction-game}
+\fullproof{lem-whitening-gives-rotated-records}{lab/theory/spaces/computational-limits/round-01/builder.md}
+\end{lemma}
+
+\section{Prices of blind reconstruction}
+
+\begin{proposition}[SQ price of blind reconstruction]\blabel{prop-sq-blind-reconstruction-bound}\status{accepted}
+Let the client be frozen in $\mathcal P_{O(d)}$, with no side data and the target
+$\langle v,x\rangle$. (a) For pancake records $H_{v,\beta,\gamma}$ (homogeneous CLWE,
+\cref{fact-clwe-hardness}) with $\gamma\ge2$ and $\beta\in(0,1)$, an attacker reaching
+weak success $c_0$ with $q$ queries of tolerance $\tau$ makes at least
+$\frac{11}{288}M\tau_*^2\beta^2/\gamma^2-d$ queries, with $M=\exp(\Omega(c_0^4d))$ and
+$\tau_*=\min(\tau,\tilde\Theta(c_0d^{-1/2}))$, under two margins that hold for $d$ large
+and $\gamma^2\ge C\log(d/c_0)$. (b) For records whose hidden coordinate law matches
+moments under the hypothesis of DKRS23 Theorem 1.5, with a fixed witness degree,
+the attacker needs $2^{d^{\Omega(c)}}$ queries or a tolerance polynomially small in
+$d$, provided at least four moments match.
+\usesstatement{def-seed-blind-reconstruction-game,fact-clwe-hardness}
+\usesproof{lem-equivariant-view-coupling,fact-hclwe-sq-correlation-bound,fact-ngca-sq-lower-bound,fact-fgrvx17-planted-clique-sq-bound}
+\source{Part (b) is proven conditional on DKRS23 Theorem 1.5. The reducer turns a
+reconstruction into a direction with $d$ truncated queries and then meets the
+statistical dimension of FGRVX17 Theorem 3.2. The bounds are SQ only, and
+lattice-reduction attackers lie outside them.}
+\fullproof{prop-sq-blind-reconstruction-bound}{lab/theory/spaces/computational-limits/round-02/builder.md}
+\end{proposition}
+
+\begin{proposition}[Fine blind reconstruction is as hard as hCLWE]\blabel{prop-fine-reconstruction-to-hclwe}\status{accepted}
+For a protocol in $\mathcal P_{O(d)}$, frozen or trained, on pancake records with
+$\gamma\ge2\sqrt d$ and $\gamma/\beta$ polynomial, an attacker of time $T$ that
+reconstructs every record's hidden coordinate within $c_1/\gamma$, up to sign, with
+probability $p$ gives an hCLWE distinguisher of time $T$ plus one protocol run plus
+$\mathrm{poly}(d)$ and advantage $p-e^{-\Omega(d)}$. So $p$ is negligible for every
+polynomial-time attacker unless a worst-case lattice problem has a polynomial-time
+quantum algorithm (BRST21 Corollary 4.2).
+\usesstatement{fact-clwe-hardness}
+\usesproof{lem-equivariant-view-coupling}
+\fullproof{prop-fine-reconstruction-to-hclwe}{lab/theory/spaces/computational-limits/round-02/builder.md}
+\end{proposition}
+
+\begin{theorem}[The seed separates attackers for pancake records]\blabel{thm-blind-split-seed-separation}\status{accepted}
+Let the client's first layer be $\mathrm{ReLU}(Wx)$ with i.i.d.\ Gaussian $W$ of
+expansion at least $2.1$, further layers meeting the same assumption, an
+orthogonally equivariant update, and pancake records with $\gamma\ge2\sqrt d$. (i)
+A seed-known server recovers every record exactly in polynomial time, for a frozen
+client and, for a trained one, for the records it sees under the initial weights.
+(ii) A seed-blind SQ server of a frozen client pays the exponential price of
+\cref{prop-sq-blind-reconstruction-bound} (a). (iii) A seed-blind polynomial-time
+server with the record-level view, frozen or trained client, reconstructs finely
+with negligible probability unless a worst-case lattice problem is quantum
+polynomial-time.
+\usesstatement{fact-lei-random-expansive-layers-invertible}
+\usesproof{prop-sq-blind-reconstruction-bound,prop-fine-reconstruction-to-hclwe,lem-equivariant-view-coupling}
+\source{The price of the seed is one linear solve per record against exponentially
+many statistical queries or a quantum lattice algorithm. Astra judges this an
+artificial-distribution reduction. The Gaussian layer is no plug-in, but the
+hardness enters through the record law. Whether that meets Halil's rule on
+cryptographic plug-ins is a decision for Halil. Tracking a trained client's weights
+from a known seed is heuristic and is not claimed.}
+\fullproof{thm-blind-split-seed-separation}{lab/theory/spaces/computational-limits/round-02/builder.md}
+\end{theorem}
+
+\section{The label-relevant coordinate}
+
+\begin{theorem}[A good predictor hands over the label direction]\blabel{thm-reconstruction-from-conditional-mean}\status{accepted}
+Let the client be frozen and linear of full column rank, records Gaussian, labels a
+noisy function of $\langle u,x\rangle$ with conditional mean $m$ and first Hermite
+coefficient $\beta_1\ne0$. A server holding a top model whose predictor has excess
+square risk $\varepsilon$, the population whitening, and $N$ held-out
+representations, recovers $u$ up to sign within $2(\sqrt\varepsilon+\eta_N)/|\beta_1|$
+with probability $1-\delta$, where $\eta_N=B\sqrt{d/(N\delta)}$. It then reconstructs
+the hidden coordinate of any records, training records included, with mean square
+error at most that squared distance times the top eigenvalue of their empirical
+second moment. This is the floor on attack success in Halil's example. The
+attacker's error is bounded above by a function of the attacked model's excess
+risk.
+\usesstatement{def-seed-blind-reconstruction-game}
+\usesproof{lem-whitening-gives-rotated-records}
+\source{The integrator applied the wording correction of round 02 to the sentence on
+Halil's example. The bound holds for any server and costs one pass over $N$
+representations. It is an upper bound on attack cost.}
+\fullproof{thm-reconstruction-from-conditional-mean}{lab/theory/spaces/computational-limits/round-01/builder.md}
+\end{theorem}
+
+\begin{proposition}[What the labels cost the server]\blabel{prop-sq-label-relevant-reconstruction-bound}\status{accepted}
+For a frozen linear client, Gaussian records and labels from a single-index law
+with generative exponent $k^*\ge3$ and finite $\chi^2$ information, all fixed as
+$d$ grows. (a) An SQ attacker reaching weak success $c_0$ with at most $d^r-d$
+queries to VSTAT$(n)$ needs $n\ge c\,d^{k^*/2}$. (b) With population whitening, the
+algorithm of DPLB24 on the whitened representations and denoised labels reaches the
+direction from $O(d^{k^*/2})$ labelled representations and reconstructs the
+coordinate.
+\usesstatement{def-seed-blind-reconstruction-game}
+\usesproof{lem-equivariant-view-coupling,lem-whitening-gives-rotated-records,fact-generative-exponent-sq-recovery-bound,fact-fgrvx17-planted-clique-sq-bound}
+\source{The server's price for the label-relevant coordinate is the generative
+exponent of the task, whatever the trainer's model learned. The lower bound
+measures detection first and the upper bound is sample-based, so the two sides are
+not one SQ price. The off-diagonal correlation bound uses $\lambda_k^2\le1$, which
+holds by conditional Jensen for normalized Hermite coefficients (the integrator's
+reading, DPLB24 not re-read).}
+\fullproof{prop-sq-label-relevant-reconstruction-bound}{lab/theory/spaces/computational-limits/round-02/builder.md}
+\end{proposition}
+
+\begin{conjecture}[Reconstruction at the cost of training]\blabel{conj-reconstruction-at-training-cost}\status{refuted}
+Round 00 conjectured that blind reconstruction of the label-relevant coordinate is
+equivalent to learning the task. Part (b) is false. The labels
+$y=\langle u,x\rangle\xi$ with an independent sign $\xi$ have Bayes square-loss
+predictor zero, so learning needs nothing, while the label law reveals
+$\langle u,x\rangle$ up to sign at generative exponent two. Part (a) became
+\cref{thm-reconstruction-from-conditional-mean}.
+\fullproof{conj-reconstruction-at-training-cost}{lab/theory/spaces/computational-limits/round-01/builder.md}
+\end{conjecture}
+
+\section{The open statement}
+
+\begin{conjecture}[The seed is worth the NGCA price]\blabel{conj-seed-price-is-ngca-price}\status{open}
+For frozen clients of $\mathcal P_{O(d)}$ from which a seed-known attacker recovers
+every record exactly in polynomial time, and records from $P^A_V$ with $A$ of mean
+zero, identity covariance and fixed dimension, the budget sets of seed-blind
+attackers in the SQ game (weak success) and the sample game (fine success) equal,
+up to polynomial factors, those of NGCA coordinate recovery for $A$ with a uniformly
+random hidden frame. Settled so far are the lower inclusion for pancakes in both games
+and for moment-matched laws in the SQ game, and the upper inclusion for frozen
+linear clients given the population whitening.
+\usesstatement{def-seed-blind-reconstruction-game}
+\usesproof{lem-equivariant-view-coupling,lem-whitening-gives-rotated-records,prop-sq-blind-reconstruction-bound,prop-fine-reconstruction-to-hclwe}
+\source{Open: the upper inclusion for ReLU and deeper clients, where the blind
+server must learn the client map without the seed, the cost of estimating the
+whitening, and coarse reconstruction in polynomial time. Accepted in round 02 as a
+well-posed conjecture.}
+\fullproof{conj-seed-price-is-ngca-price}{lab/theory/spaces/computational-limits/round-02/builder.md}
+\end{conjecture}
+
+\paragraph{Decisions proposed for Halil.} The proposed first target is the seed
+separation \cref{thm-blind-split-seed-separation}, with \cref{conj-seed-price-is-ngca-price} as
+its general form and \cref{thm-reconstruction-from-conditional-mean} with
+\cref{prop-sq-label-relevant-reconstruction-bound} as the label side. The proposed
+attacker class for lower bounds uses two games and never mixes them. Population SQ
+attackers of frozen clients give unconditional bounds, and polynomial-time attackers
+with the record-level view give bounds conditional on lattice hardness. The open question is whether a
+separation whose hard instance is a record law meets the rule on cryptographic
+plug-ins. The procedure is standard and no primitive is placed in it, yet the
+hardness comes from the data.

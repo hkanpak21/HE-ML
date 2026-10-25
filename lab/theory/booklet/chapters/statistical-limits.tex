@@ -1,0 +1,118 @@
+\chapter{Statistical limits}\label{ch:statistical-limits}
+Filled from the thinking space \texttt{statistical-limits}. It asks what an
+adversary with unlimited computation achieves from the information a learning
+procedure releases, how many samples, training runs or queries it needs, and which
+of these limits are known, with their exact hypotheses. Three rounds on 25 October
+2026 (discussants astra in place of argon, astra, argon) ended with every object
+below accepted and no blocking challenge. The prices are stated in the trainer's
+units, so they can be set against the computational prices of
+\cref{ch:computational-limits}.
+
+\section{The profile of an unbounded adversary}
+
+\begin{definition}[Uniform security profile]\blabel{def-uniform-security-profile}\status{accepted}
+Fix a procedure, a coalition, a channel interface, a game and a policy, bottom or
+top oracle. An instance fixes the learning function, the seed and hardware laws, the
+data and a reference law. A budget $\beta=(m,N)$ allows $m$ reference samples and $N$
+$\Train$ calls. The \emph{informed optimum} of an instance is the best success of
+any finite-budget adversary that may depend on the instance. Over a class $\mathfrak J$
+of instances, the \emph{uniform regret} at budget $\beta$ is the least, over adversaries
+of that budget chosen before the instance, of the largest gap to the informed optimum
+over the class. The \emph{attained price} at accuracy $a$ is the set of minimal budgets
+at which one adversary has gap at most $a$ on every instance, finite by Dickson's
+lemma. The \emph{threshold price} of a criterion, such as the two conditional
+probabilities of HSU25, is the set of minimal budgets at which one adversary meets it
+on every instance.
+\notation{$g_{\mathfrak J,\mathsf P}(\beta)$}{uniform regret of class $\mathfrak J$ under policy $\mathsf P$ at budget $\beta$}
+\usesstatement{def-learning-oracle-model,def-degenerate-oracles}
+\usesproof{thm-coupling-certificate,thm-black-box-certifiability,fact-hsu-membership-sample-gap}
+\source{On one instance the regret is zero as an infimum, since an adversary that
+knows the instance simulates every finite-budget adversary. On the plain channel the
+optimum is the total variation under the bottom oracle and the top divergence under
+the top oracle, attained with no call. Every positive regret is therefore a price of
+not knowing which member of the class is the instance. For a bounded adversary the
+profile is not degenerate on a singleton (\cref{ch:computational-limits}).}
+\fullproof{def-uniform-security-profile}{lab/theory/spaces/statistical-limits/round-01/builder.md,lab/theory/spaces/statistical-limits/round-02/builder.md}
+\end{definition}
+
+\section{The training-run price of an unbounded attacker}
+
+\begin{lemma}[A scramble of seed cells makes chosen seeds fresh]\blabel{lem-scrambled-seed-urn}\status{accepted}
+Partition the seed interval into $M$ cells, and let a learning function return at
+$x_0$ the label that a uniformly random bijection $\pi$ of the cells, composed with a
+labelling of law $p$, assigns to the seed's cell. Fix a learning setting shared across
+the compared laws. For any adversary with at most $N<M$ $\Train$ calls and any
+$\mathsf{Eval}$ and $\mathsf{Open}$ calls, with chosen inputs, seed values, names and draws,
+its transcript law is within total variation $N^2/(2(M-N))$ of the lazy oracle that
+answers each new cell with a fresh draw of $p$. Two lazy oracles built from $p$ and
+$p'$ give transcripts within Kullback--Leibler divergence $N\,\mathrm{KL}(p\|p')$.
+\usesstatement{def-learning-oracle}
+\source{The statistical form of the switch from a random permutation to a random
+function. The proof is a hybrid bound integrated along the paths of the scrambled run,
+since the index of the $t$-th new-cell call varies with the path.}
+\fullproof{lem-scrambled-seed-urn}{lab/theory/spaces/statistical-limits/round-02/builder.md}
+\end{lemma}
+
+\begin{theorem}[Shadow-run price on finite views]\blabel{thm-shadow-run-price-finite-views}\status{accepted}
+One learning node trains $x_0$ or $x_1$, and its model reaches the adversary only
+through a deterministic map onto $k\ge4$ views. Let $k'=2\lfloor k/2\rfloor$. (a) For
+every learning function, $\lfloor N/2\rfloor$ drawn-seed calls at each input give a
+plug-in test within $2\sqrt{k/\lfloor N/2\rfloor}$ of the total variation. (b) Under
+the bottom oracle every adversary with at most $N$ calls has, on some learning
+function, a gap of at least $\min\{\frac18,\frac1{32}\sqrt{3k'/N}\}$ to the optimum,
+and under the top oracle the same against the top optimum. (c) The same holds over
+learning functions with deterministic kernels, up to any $\zeta>0$, through
+\cref{lem-scrambled-seed-urn}. (d) Under the top oracle with deterministic kernels one
+call at the honest seed reaches the top optimum. (e) So under the bottom oracle a
+regret at most $a<\frac18$ everywhere costs at least $3k'/(1024a^2)$ $\Train$ calls, and
+$2\lceil4k/a^2\rceil$ drawn-seed calls suffice. (f) For label-only access with $C$
+outputs and allowance $q_E$ the bounds hold with $k=C^{q_E}$, and the known upper and
+lower bounds differ by a factor of order $\ln|U|/(C-1)+1$ in the query set $U$.
+\usesstatement{def-uniform-security-profile,def-degenerate-oracles}
+\usesproof{lem-scrambled-seed-urn,thm-coupling-certificate,thm-black-box-certifiability}
+\source{Chosen, opened and reused seeds and calls after the challenge do not beat the
+passive rate under the bottom oracle, while the honest seed collapses the price to one
+call under deterministic kernels. The passive rate is classical (Daniely, Sabato,
+Ben-David and Shalev-Shwartz, JMLR 2015, Theorem 5, as the discussants cite it, not
+read). The oracle part has no published statement known to the space, after one query.
+Without the oracle, \texttt{thm-perfect-substitution} makes (b) and (c) lower bounds on
+the shadow training runs of every attack that treats training as a black box. The
+integrator re-derived (a) to (f) and the lemma on 2026-10-25.}
+\fullproof{thm-shadow-run-price-finite-views}{lab/theory/spaces/statistical-limits/round-01/builder.md,lab/theory/spaces/statistical-limits/round-02/builder.md}
+\end{theorem}
+
+\paragraph{In the trainer's units.} The trainer spends one training run. An attacker
+that must come within $a$ of the best advantage on every learning function with $k$
+views spends of order $k/a^2$ runs. LiRA's 64 to 256 runs per benchmark
+(\cref{fact-lira-priced-in-training-runs}) sit below this worst case because its
+Gaussian model restricts the class. The thousands of shadow runs of the learned
+reconstructor, and its failure without the initialization
+(\cref{fact-balle-reconnn-priced-in-shadow-runs}), point the way part (d) does, in a
+different game. This paragraph is heuristic.
+
+\section{Halil's reconstruction example, statistically}
+
+\begin{proposition}[The label sandwich of an unbounded reconstructor]\blabel{prop-reconstruction-label-sandwich}\status{accepted}
+Let $(X,Y,Z)$ be a record in a Polish metric space, a finite label and a
+representation. Let $\bar\kappa(\eta)$ be the label-weighted best chance of a fixed
+centre falling within $\eta$ of $X$ given $Y$, $S^\star(\eta)$ the best chance of any
+reconstructor of $Z$, and $\varepsilon^\star$ the Bayes error of predicting $Y$ from
+$Z$. (1) Floor. $S^\star\ge\bar\kappa-\varepsilon^\star$, attained by decoding the
+predicted label to its class centre. (2) Ceiling. If $S^\star\ge\bar\kappa$ then
+$\mathrm{kl}(S^\star\|\bar\kappa)\le I(X;Z\mid Y)$, hence
+$S^\star\le\bar\kappa+\sqrt{I(X;Z\mid Y)/2}$. (3) For a Gaussian release $Z=f(X)+B$ the
+conditional mutual information is at most the label average of
+$\frac12\ln\det(I+\Sigma_{f\mid y}\Sigma_B^{-1})$. (4) Both ends are tight. $Z=Y$ gives
+$S^\star=\bar\kappa$, and an injective representation gives $S^\star=1$.
+\notation{$\bar\kappa(\eta)$}{label-weighted best ball mass of the record given its label}
+\usesstatement{fact-balle-reconstruction-robustness-definition}
+\usesproof{fact-pac-privacy-mutual-information-bound,fact-pac-privacy-gaussian-release-bound}
+\source{The floor is the lower bound of Halil's example in the statistical regime. The
+reconstructor recovers at least the class prior of the label the head predicts, less
+the head's error. Only the gain above $\bar\kappa$ needs information beyond the label.
+For a deterministic injective representation the statistical baseline is total, so the
+content of the example lies in the computational regime
+(\cref{thm-reconstruction-from-conditional-mean}), or in noisy, quantized or
+many-to-one representations. The ceiling is XD23 Theorem 1 with side knowledge.}
+\fullproof{prop-reconstruction-label-sandwich}{lab/theory/spaces/statistical-limits/round-01/builder.md,lab/theory/spaces/statistical-limits/round-02/builder.md}
+\end{proposition}

@@ -1,0 +1,305 @@
+\chapter{Borrowed results}\label{ch:borrowed}
+Results taken from the literature. Each names its paper, its library key in
+\texttt{lib/literature/}, its theorem number when known, and its entry in
+\texttt{sink/formalizing/facts.md}. The thinking spaces add to this chapter.
+
+\begin{borrowed}[Tests and data processing]\blabel{fact-test-fact-data-processing}\status{borrowed}
+Let $P_0,P_1$ be laws on one measurable space and $\gamma\ge1$. The best advantage
+of a test, $\sup_E\,(P_1(E)-P_0(E))$ over measurable $E$, equals $\TV(P_0,P_1)$. For
+every Markov kernel $K$, $\Hg(KP_0\|KP_1)\le\Hg(P_0\|P_1)$, where
+$\Hg(P\|Q)=\sup_E\,(P(E)-\gamma Q(E))$. The divergence $\Hg$ is jointly convex
+under mixtures.
+\notation{$\Hg(P\|Q)$}{hockey-stick divergence, $\sup_E (P(E)-\gamma Q(E))$}
+\notation{$\TV$}{total variation, $\Hg$ at $\gamma=1$}
+\source{Standard: Neyman and Pearson for the test, data processing for kernels.}
+\end{borrowed}
+
+\begin{borrowed}[Generative leap]\blabel{fact-generative-leap-multi-index-rate}\status{borrowed}
+For Gaussian multi-index models with generative leap exponent $k^\star$, detecting the
+index space takes $n=\Theta(d^{\max(1,k^\star/2)})$ samples. The lower bound holds
+for low-degree algorithms, and an efficient algorithm meets it.
+\notation{$k^\star$}{generative leap exponent of a multi-index model}
+\source{Damian, Lee and Bruna, NeurIPS 2025, library key \texttt{DLB25}, theorem
+number to be filled when the paper is read. Facts:
+\slug{fact-generative-leap-multi-index-rate}, and
+\slug{fact-generative-exponent-measures-detection}, which records that the bound
+measures detection, not estimation.}
+\end{borrowed}
+
+\section{From the space oracle-and-measurement}
+
+\begin{borrowed}[LiRA prices membership inference in shadow runs]\blabel{fact-lira-priced-in-training-runs}\status{borrowed}
+The likelihood-ratio attack trains $N$ shadow models on random halves of a data
+pool, so each target lies in $N/2$ of them, with $N=256$ and $64$ on ImageNet, and
+one bank serves every target. Its true-positive rate at low false-positive rate
+saturates near $64$ shadow models.
+\source{Carlini, Chien, Nasr, Song, Terzis and Tramèr, IEEE S\&P 2022, library key
+\texttt{CCNSTT22}, \S IV-C (Algorithm 1), \S V-A with Fig.~5, \S VI-B with Fig.~9.
+Empirical. Accepted by argon in round 00.}
+\fullproof{fact-lira-priced-in-training-runs}{lab/theory/spaces/oracle-and-measurement/round-00/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[Sample price of membership against a noisy mean]\blabel{fact-hsu-membership-sample-gap}\status{borrowed}
+Against the noisy empirical mean over all Gaussians, no membership test with $m$
+auxiliary samples succeeds with probability $0.51$ on each side when
+$d>c_1(n+n^2\rho^2)$ and $m\le c_2(n+n^2\rho^2)$. A matching attack exists against
+symmetric estimators at the critical dimension. With known identity covariance no
+test exists for $d<c(n+n^2\rho^2+n^2/m)$.
+\source{Haghifam, Smith and Ullman, arXiv 2508.19458 v1 (FOCS 2026 to appear),
+library key \texttt{HSU25}, Theorems 3.1, 3.3 and 4.1, Definitions 2.1, 2.4 and 3.2.
+Accepted by argon in round 02.}
+\fullproof{fact-hsu-membership-sample-gap}{lab/theory/spaces/oracle-and-measurement/round-02/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[A small seed space breaks the privacy claim]\blabel{fact-small-seed-space-breaks-dp}\status{borrowed}
+A DP-SGD implementation whose noise seed takes 100 values is detected as violating
+its claimed $\varepsilon=1.27$ by the Gaussian-DP audit and missed by
+$(\varepsilon,\delta)$ audits.
+\source{Nasr, Hayes, Steinke, Balle, Tramèr, Jagielski, Carlini and Terzis, USENIX
+Security 2023, library key \texttt{NHSBTJCT23}, \S 6.3, Violation 2, Fig.~8. Accepted
+by argon in round 02.}
+\fullproof{fact-small-seed-space-breaks-dp}{lab/theory/spaces/oracle-and-measurement/round-02/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[Uncontrolled reruns at one seed diverge]\blabel{fact-rerun-reproduction-error}\status{borrowed}
+Whole GPU training reruns at one seed end at an $\ell_2$ distance comparable to the
+distance between independently trained models, while a single step nearly
+reproduces.
+\source{Jia, Yaghini, Choquette-Choo, Dullerud, Thudi, Chandrasekaran and Papernot,
+IEEE S\&P 2021, library key \texttt{JYCDTCP21}, Theorem 1 and Table I. Empirical.
+Accepted by astra in round 01.}
+\fullproof{fact-rerun-reproduction-error}{lab/theory/spaces/oracle-and-measurement/round-01/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[Controlled nondeterminism replicates reruns exactly]\blabel{fact-controlled-nondeterminism-exact-replication}\status{borrowed}
+With deterministic settings reruns are identical on one GPU type and diverge across
+types. Logging the rounding decisions replicates training exactly across three GPU
+types at 1.2 to 1.7 times the training time.
+\source{Srivastava, Arora and Boneh, NeurIPS 2024, library key \texttt{SAB24}, \S 6.
+Empirical. Accepted by astra in round 01.}
+\fullproof{fact-controlled-nondeterminism-exact-replication}{lab/theory/spaces/oracle-and-measurement/round-01/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[A prover that picks the batches passes replay]\blabel{fact-unlearning-verification-fragile}\status{borrowed}
+A proof of retraining, valid when every step replays within $\varepsilon$ and no batch
+meets the unlearned set, is passed at $\varepsilon=0$ by retraining with each unlearned
+point replaced by its nearest same-class neighbour, and at $\varepsilon>0$ by forging from
+the logged proof in at most one run's time.
+\source{Zhang, Chen, Shen and Li, ICML 2024, library
+key \texttt{ZCSL24}, Definition 4.1, Propositions 4.2 to 4.5. Accepted by argon in round 02.}
+\fullproof{fact-unlearning-verification-fragile}{lab/theory/spaces/oracle-and-measurement/round-02/builder.md}
+\end{borrowed}
+
+\section{From the space computational-limits}
+
+\begin{borrowed}[SQ bounds for planted biclique]\blabel{fact-fgrvx17-planted-clique-sq-bound}\status{borrowed}
+For every constant $\delta>0$, every $k\le n^{1/2-\delta}$ and every $r>0$, detecting
+or finding a planted $k$-biclique with probability $2/3$ needs $n^{\Omega(\log r)}$
+queries to VSTAT$(n^2/(rk^2))$, and a 1-bit sampling algorithm needs $\Omega(n^2/k^2)$
+calls to 1-STAT. Search problems are bounded through the statistical dimension.
+\source{Feldman, Grigorescu, Reyzin, Vempala and Xiao, J.~ACM 64(2), 2017, library key
+\texttt{FGRVX17}, Theorems 2.9, 2.10, 3.2 and 5.4, Lemma 3.10, Corollary 3.12.
+Accepted by astra in round 00.}
+\fullproof{fact-fgrvx17-planted-clique-sq-bound}{lab/theory/spaces/computational-limits/round-00/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[When statistical queries bind gradient training]\blabel{fact-sq-simulates-minibatch-sgd}\status{borrowed}
+A mini-batch SGD method with batch size times squared precision above a logarithmic
+factor is simulated by an SQ method, so SQ lower bounds bind it, under worst-case
+rounding. At fine precision, constructed models simulate PAC learning, so a generic
+SQ bound does not cover the whole fine-precision class.
+\source{Abbe, Kamath, Malach, Sandon and Srebro, NeurIPS 2021, library key
+\texttt{AKMSS21}, Theorems 1a and 1c. Accepted by astra in round 01.}
+\fullproof{fact-sq-simulates-minibatch-sgd}{lab/theory/spaces/computational-limits/round-01/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[Random expansive ReLU layers invert by linear programs]\blabel{fact-lei-random-expansive-layers-invertible}\status{borrowed}
+If every layer of a ReLU network has i.i.d.\ Gaussian weights and expands its input
+by a factor at least $2.1$, then for any input the input is recovered from the
+output by layer-wise linear equations with probability $1-e^{-\Omega(k)}$ over the
+weights. Deciding whether a preimage exists is NP-complete in general.
+\source{Lei, Jalal, Dhillon and Dimakis, NeurIPS 2019, library key \texttt{LJDD19},
+Assumption 1, Lemma 1, Theorems 1 to 3. Accepted by astra in round 00.}
+\fullproof{fact-lei-random-expansive-layers-invertible}{lab/theory/spaces/computational-limits/round-00/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[Homogeneous CLWE is a hard hidden-direction law]\blabel{fact-clwe-hardness}\status{borrowed}
+For $\beta\in(0,1)$, $\gamma\ge2\sqrt d$ and $\gamma/\beta$ polynomial, distinguishing the
+pancake law $H_{w,\beta,\gamma}$ from the Gaussian is as hard as a worst-case lattice
+problem for quantum polynomial time. Its covariance is $I/(2\pi)$ off $w$ and
+$1/(2\pi)-\Delta$ along $w$ with $0\le\Delta\le3(\gamma^2+1)e^{-\pi\gamma^2}$, and the law
+determines $w$ only up to sign.
+\source{Bruna, Regev, Song and Tang, STOC 2021, library key \texttt{BRST21},
+Definitions 2.19 and 2.21, Corollary 4.2, Lemma 7.2, Corollary 7.3, Theorem 7.5,
+Corollary 9.4. The covariance clause is proven in the round file. Accepted by argon
+in round 02.}
+\fullproof{fact-clwe-hardness}{lab/theory/spaces/computational-limits/round-02/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[Pairwise correlations of pancake laws]\blabel{fact-hclwe-sq-correlation-bound}\status{borrowed}
+Pancake laws with nearly orthogonal hidden directions have pairwise correlations,
+relative to the Gaussian, exponentially small in $\gamma^2$, which gives SQ lower
+bounds for detecting and finding the direction.
+\source{BRST21, Proposition 8.3 and Theorem 8.1. Accepted by astra in round 01.}
+\fullproof{fact-hclwe-sq-correlation-bound}{lab/theory/spaces/computational-limits/round-01/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[NGCA is SQ-hard under moment matching]\blabel{fact-ngca-sq-lower-bound}\status{borrowed}
+Non-Gaussian component analysis testing is hard for SQ algorithms when the hidden
+law approximately matches the Gaussian moments to a given degree, with no
+chi-square condition. The bound covers SQ algorithms only. Lattice reduction solves
+some noiseless moment-matched instances with $O(n)$ samples.
+\source{Diakonikolas, Kane, Ren and Sun, NeurIPS 2023, library key \texttt{DKRS23},
+Theorem 1.5, Definitions 1.2 and 1.3. Accepted by astra in round 01.}
+\fullproof{fact-ngca-sq-lower-bound}{lab/theory/spaces/computational-limits/round-01/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[The price of a label-relevant direction]\blabel{fact-generative-exponent-sq-recovery-bound}\status{borrowed}
+For Gaussian single-index models with generative exponent $k^*$, SQ algorithms need
+of order $d^{k^*/2}$ samples to find the direction, and a sample-based algorithm with
+a label denoiser matches it. The lower bound measures detection first.
+\source{Damian, Pillaud-Vivien, Lee and Bruna, COLT 2024, library key \texttt{DPLB24},
+Theorem 3.2, Theorem 4.1, Remark 3.3, Lemmas 2.3, E.2 and E.3. Accepted by astra in
+round 01.}
+\fullproof{fact-generative-exponent-sq-recovery-bound}{lab/theory/spaces/computational-limits/round-01/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[Orthogonal equivariance of training]\blabel{fact-orthogonal-equivariance-of-training}\status{borrowed}
+A rotation-invariant initialization with an equivariant update gives an orthogonally
+equivariant learner. Gradient descent from i.i.d.\ Gaussian initialization is
+orthogonally equivariant, momentum included, while Adam and AdaGrad are equivariant
+only under permutations and sign flips.
+\source{Li, Zhang and Arora, arXiv 2010.08515, library key \texttt{LZA21},
+Definition 3.2, Theorem C.1, Remarks C.1 and C.2, Corollary C.2, Table 1. Accepted
+by astra in round 01.}
+\fullproof{fact-orthogonal-equivariance-of-training}{lab/theory/spaces/computational-limits/round-01/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[Narcissus resiliency and one-wayness]\blabel{fact-cohen-narcissus-equals-one-wayness}\status{borrowed}
+Reconstruction security measured against the baseline of a fresh sample from the
+same law, Narcissus resiliency, is equivalent, for the preimage relation of an
+efficiently computable well-spread function, to that function being one-way.
+\source{Cohen, Kaplan, Mansour, Moran, Nissim, Stemmer and Tsfadia, ITCS 2025,
+library key \texttt{CKMMNST25}, Definitions 1.6, C.1 and C.4, Theorem C.5. Accepted
+by astra in round 00.}
+\fullproof{fact-cohen-narcissus-equals-one-wayness}{lab/theory/spaces/computational-limits/round-00/builder.md}
+\end{borrowed}
+
+\section{From the space statistical-limits}
+
+\begin{borrowed}[With the covariance known the sample price falls]\blabel{fact-hsu-gap-prices-covariance}\status{borrowed}
+For identity-covariance Gaussians, $n\ge4$, $m\ge2$ and $d<c(n+n^2\rho^2+n^2/m)$, no
+sample-based membership attack against the noisy mean exists, so at the critical
+dimension an attack needs $m\gtrsim\min\{n,1/\rho^2\}$ reference samples. The price of
+\cref{fact-hsu-membership-sample-gap} at that dimension is the price of not knowing the
+covariance.
+\source{HSU25, Theorem 4.1 and Remark 4.2, with $\rho>0$. Accepted by astra and argon.}
+\fullproof{fact-hsu-gap-prices-covariance}{lab/theory/spaces/statistical-limits/round-01/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[Differential privacy bounds informed membership advantage]\blabel{fact-yeom-dp-bounds-membership-advantage}\status{borrowed}
+An $\varepsilon$-DP learner gives membership advantage at most $e^\varepsilon-1$ against
+every adversary of the membership experiment, which is handed the data distribution.
+\source{Yeom, Giacomelli, Fredrikson and Jha, IEEE CSF 2018, library key \texttt{YGFJ18},
+Experiment 1, Definition 4, Theorem 1. Accepted by astra.}
+\fullproof{fact-yeom-dp-bounds-membership-advantage}{lab/theory/spaces/statistical-limits/round-01/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[A loss threshold gains the generalization error]\blabel{fact-yeom-generalization-error-gives-advantage}\status{borrowed}
+For a loss bounded by $B$, the adversary that outputs one with probability
+$\ell(A_S,z)/B$ has advantage equal to the average generalization error divided by
+$B$, with one model evaluation and no sample or training run.
+\source{YGFJ18, Theorem 2 and Definition 3. Accepted by astra and argon.}
+\fullproof{fact-yeom-generalization-error-gives-advantage}{lab/theory/spaces/statistical-limits/round-01/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[The LiRA game excludes members from the OUT draw]\blabel{fact-lira-low-fpr-yeom-game}\status{borrowed}
+The membership game of LiRA draws its OUT point from the distribution conditioned to
+lie outside the training set, with the bit renamed against Yeom's experiment, so the two
+games agree when that event has probability one.
+\source{CCNSTT22, Definition 1 in \S III-A. Accepted by astra and argon.}
+\fullproof{fact-lira-low-fpr-yeom-game}{lab/theory/spaces/statistical-limits/round-01/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[Reconstruction robustness and its baseline]\blabel{fact-balle-reconstruction-robustness-definition}\status{borrowed}
+A mechanism is $(\eta,\gamma)$-reconstruction-robust for a prior and an error when every
+deterministic reconstructor from the released model, against an informed adversary
+holding all other records, succeeds within $\eta$ with probability at most $\gamma$.
+The baseline $\kappa(\eta)$ is the best chance of a fixed guess under the prior.
+\source{Balle, Cherubin and Hayes, IEEE S\&P 2022, library key \texttt{BCH22},
+Definitions 1 and 2, \S VII-B. Accepted by astra and argon.}
+\fullproof{fact-balle-reconstruction-robustness-definition}{lab/theory/spaces/statistical-limits/round-01/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[Differential privacy bounds reconstruction by the baseline]\blabel{fact-balle-dp-bounds-reconstruction}\status{borrowed}
+An $(\alpha,\varepsilon)$-RDP mechanism is reconstruction-robust with
+$\gamma=(\kappa e^\varepsilon)^{(\alpha-1)/\alpha}$, an $\varepsilon$-DP one with
+$\gamma=\kappa e^\varepsilon$, and a $\rho$-zCDP one with
+$\gamma=\exp(-(\sqrt{\log(1/\kappa)}-\sqrt\rho)^2)$. Conversely, robustness against
+every two-point prior gives differential privacy.
+\source{BCH22, Theorem 2, Corollaries 3 and 4, Propositions 6 and 7, Theorem 5.
+Accepted by astra and argon.}
+\fullproof{fact-balle-dp-bounds-reconstruction}{lab/theory/spaces/statistical-limits/round-01/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[How many outputs a reconstruction attacker must see]\blabel{fact-reconstruction-query-lower-bounds}\status{borrowed}
+For every $(\varepsilon,\delta)$-DP learner on a compact metric space, an adversary that
+sees $n$ independent outputs has worst-case squared reconstruction error of order at
+least the squared diameter times $(2(1-\delta)/(e^\varepsilon+1))^n$. The claimed matching
+upper bound and its R\'enyi extension are not established.
+\source{Mukherjee and Lokam, arXiv 2303.16372v6, library key \texttt{ML24}, Theorem 9. Theorem 10 rests on an adversary that uses the true target, and
+the proof of Lemma 16 bounds the total variation from the wrong side. Accepted by argon
+in round 02.}
+\fullproof{fact-reconstruction-query-lower-bounds}{lab/theory/spaces/statistical-limits/round-01/builder.md,lab/theory/spaces/statistical-limits/round-02/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[Reconstruction thresholds for subset sums]\blabel{fact-dinur-nissim-reconstruction-thresholds}\status{borrowed}
+One reconstruction theorem uses all $2^n$ subset-sum answers and exponential time,
+and another uses $n(\log n)^2$ random answers and a linear program. The two results change the number of answers as
+well as the running time.
+\source{Dinur and Nissim, PODS 2003, library key \texttt{DN03}, Definitions 1 to 4,
+Theorems 2, 3 and 5. Accepted by astra and argon.}
+\fullproof{fact-dinur-nissim-reconstruction-thresholds}{lab/theory/spaces/statistical-limits/round-01/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[Mutual information bounds the gain over the prior guess]\blabel{fact-pac-privacy-mutual-information-bound}\status{borrowed}
+For a data law known to the adversary, an adversary whose failure probability is at
+most the optimal prior failure $\delta_o$ satisfies
+$\mathrm{kl}(\delta\|\delta_o)\le I(X;M(X))$, and every adversary has
+$\delta_o-\delta\le\sqrt{I(X;M(X))/2}$. Side knowledge conditions both sides.
+\source{Xiao and Devadas, CRYPTO 2023, library key \texttt{XD23}, Definition 3,
+Theorem 1, Corollary 1, Remark 1. Accepted by astra and argon.}
+\fullproof{fact-pac-privacy-mutual-information-bound}{lab/theory/spaces/statistical-limits/round-01/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[A Gaussian release has information set by its covariance]\blabel{fact-pac-privacy-gaussian-release-bound}\status{borrowed}
+For a deterministic $M$ with finite second moment and independent Gaussian noise of
+positive definite covariance $\Sigma_B$,
+$I(X;M(X)+B)\le\frac12\log\det(I+\Sigma_{M(X)}\Sigma_B^{-1})$, and an algorithm that
+evaluates $M$ on independent draws calibrates the noise with confidence.
+\source{XD23, Theorems 3 and 4, the deterministic specialization of \S 4.2. Accepted by
+astra and argon.}
+\fullproof{fact-pac-privacy-gaussian-release-bound}{lab/theory/spaces/statistical-limits/round-01/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[An accurate representation leaks a correlated attribute]\blabel{fact-zhao-accuracy-forces-attribute-leakage}\status{borrowed}
+When the target and a sensitive attribute are correlated, every representation on
+which some classifier is accurate lets a measurable classifier infer the attribute
+with an advantage that the accuracy forces, for attribute groups of positive
+probability.
+\source{Zhao, Chi, Tian and Gordon, NeurIPS 2020, library key \texttt{ZCTG20}, Theorems 3.2
+and 3.3.
+Accepted by astra and argon.}
+\fullproof{fact-zhao-accuracy-forces-attribute-leakage}{lab/theory/spaces/statistical-limits/round-01/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[A learned reconstructor costs thousands of shadow runs]\blabel{fact-balle-reconnn-priced-in-shadow-runs}\status{borrowed}
+A reconstructor network trained on pairs of shadow models and their target records
+beats the nearest-neighbour oracle from about 8{,}000 shadow models on MNIST and
+10{,}000 on CIFAR-10 when the initialization is known, and fails on MNIST with a fresh
+initialization per model.
+\source{BCH22, \S IV-B, \S VI-B, Fig.~5, Table III. Empirical. One attack in two
+experiments, not a statement that reconstruction without the initialization is
+impossible. Accepted by astra and argon.}
+\fullproof{fact-balle-reconnn-priced-in-shadow-runs}{lab/theory/spaces/statistical-limits/round-01/builder.md}
+\end{borrowed}
