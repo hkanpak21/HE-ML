@@ -1,49 +1,53 @@
 # Theory state
 
 updated: 2026-10-25
-by: the integrator session of 2026-10-25, after merging the first rounds
+by: the integrator session of 2026-10-25, opening the second milestone
 
-## Milestone closed: first rounds
+## Milestone open: mappings to known hard problems
 
-Opened and closed on 2026-10-25. Each space ran rounds 00 to 02 and stopped at
-BLOCKING 0. The integrator merged every accepted object into the booklet, moved
-the register items into `sink/formalizing/`, recorded its checks in
-`integration-log.md`, and wrote one reading. The ledger is `GATES.md`.
+Opened 2026-10-25 after Halil adopted the objective of booklet chapter 1 and
+answered, on hardness that comes from a data law, "We need such mappings". The
+spaces, their first and last rounds, are in `milestone.json`. Each space runs an
+aims round and at least one more, and stops at BLOCKING 0 or at its last round.
+The ledger is `GATES.md`. The first milestone's ledger is
+`gates/2026-10-25-first-rounds.md`.
 
 ## Spaces
 
 | Space | Question in one line | Last round | Status |
 | --- | --- | --- | --- |
-| `statistical-limits` | what an unbounded adversary gets, priced in the trainer's units | round-02 | done, BLOCKING 0, merged |
-| `computational-limits` | what an efficient or learning adversary gets, by reduction to known learning problems | round-02 | done, BLOCKING 0, merged |
-| `oracle-and-measurement` | how the oracle and experiments realize and measure those prices | round-02 | done, BLOCKING 0, merged |
+| `hard-problem-mappings` | which attack tasks map onto hard problems from the literature, priced on both sides | none | starting |
+| `computational-limits` | blind inversion of ReLU clients and natural record laws | round-02 | milestone 2 from round-03 |
+| `statistical-limits` | the trainer's price against the attacker's in one unit | round-02 | milestone 2 from round-03 |
+| `oracle-and-measurement` | how the oracle and experiments realize and measure the prices | round-02 | paused, done in milestone 1 |
 
 ## The reading folder
 
 - `lib/theory/booklet.pdf`: 63 objects, 30 accepted, 29 borrowed, 2 open, 2
-  refuted, 0 checked. Appendix B holds every merged proof from its round file.
-- `lib/theory/2026-10-25-first-rounds.pdf`: the five results worth reading first,
-  and the decisions.
+  refuted, 0 checked.
+- `lib/theory/2026-10-25-first-rounds.pdf`: the reading of the first milestone.
 
-## Decisions waiting for Halil
+## Decisions taken and waiting
 
-1. Adopt or change the objective of chapter 1.
-2. The two oracle definitions. Proposal in booklet section 6.1.
-3. The first target. Proposal: `thm-blind-split-seed-separation` with
-   `conj-seed-price-is-ngca-price`.
-4. The attacker class for lower bounds. Proposal: two games, never mixed.
-5. Whether a hard record law, the pancakes of homogeneous CLWE, meets the rule
-   that a cryptographic plug-in does not count.
+1. The objective of chapter 1: adopted (Halil, 2026-10-25).
+2. The oracle definitions: left open while the theory develops. Both seed-access
+   modes stay available and each result names the mode it needs.
+3. Hardness from a data law counts, and mappings onto hard problems from the
+   literature are wanted.
+4. The target of milestone 2: chosen by the integrator on Halil's delegation.
+5. The attacker class for lower bounds: two games, never mixed (Halil, 2026-10-25).
 
 ## Discussants
 
-argon runs as gemini-4-argon-medium, one call at a time. The argon-high calls of
-this milestone died on the backend's stream idle timeout when several ran at
-once. astra's plan ran out after about five calls of 130,000 to 170,000 tokens
-each and reset at 21:27. Medium-tier argon reviews were short, so the integrator
-re-derived every proof.
+sol (gpt-6.1-sol at high reasoning, Codex CLI 0.164.0) replaces astra. argon
+(gemini-4-argon-high, permissions bypassed, writing object by object into a
+scratch file, audited after every call) is out of quota until about 2026-10-27
+13:30. Until then every round uses sol and its summary says why. The stress test
+of 2026-10-25 ran argon-high for 25 turns with no stream timeout before the quota
+ran out, so the object-by-object protocol is set but not yet seen to finish.
 
 ## Next actions
 
-1. Halil reads the reading and the booklet and settles the decisions.
-2. The next milestone opens on the chosen target, with its own `GATES.md`.
+1. The three spaces run their rounds.
+2. The integrator merges, rebuilds, writes a reading for results worth Halil's
+   time, and closes the milestone against `GATES.md`.

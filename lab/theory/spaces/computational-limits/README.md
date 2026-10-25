@@ -52,6 +52,23 @@ other space's slug and leaves the work there.
 - The library, `lib/literature/notes/<venue>/<Key>.md` and the PDFs beside them.
   Read the paper itself for any statement the round relies on.
 
+## Milestone 2: mappings to known hard problems (opened 2026-10-25)
+
+Rounds `round-03` to `round-05`. `round-03` states the aims of this milestone,
+with what the first milestone left open. Discussant: sol only until argon's quota
+resets (about 2026-10-27 13:30), each round's summary saying so.
+
+1. The upper inclusion of `conj-seed-price-is-ngca-price`: can a seed-blind server
+   invert an expansive Gaussian ReLU client from representations of an isotropic
+   record law at polynomial cost, learning the client up to rotation
+   (`prob-blind-inversion-relu-clients`)? A proof or a refutation.
+2. From pancakes to hard problems on natural record laws, Halil's wish for mappings
+   onto hard problems from the literature: moment-matched laws with four matched
+   moments in both games, and coarse reconstruction in polynomial time
+   (`prob-coarse-reconstruction-lattice-hardness`).
+3. If time remains, trained clients beyond the records seen under the initial
+   weights.
+
 ## Round log
 
 The space session appends one line per round: the folder, the date, the

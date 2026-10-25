@@ -7,7 +7,7 @@ any time. What changes from session to session lives in `STATE.md` beside it.
 ## What we are building
 
 A theory of the security of learning procedures, measured in the units of
-learning itself. The objective proposed on 2026-10-25, not yet adopted: price an
+learning itself. The objective, adopted by Halil on 2026-10-25, is to price an
 adversary against a learning procedure in the same units as the procedure's own
 training (samples, training runs, queries, compute of a stated learner class),
 prove the prices by reduction to learning problems with known thresholds, with
@@ -79,6 +79,20 @@ what it would cost to approximate the oracle by real training.
 - "use GPT 6 astra from codex cli and argon from aggy cli for discussions ...
   use these models for discussion only, for development use here". See the
   section Discussants.
+- "instead of astra let us use sol 6.1 which is cheaper and better", later the
+  same day, and argon may bypass permissions. See the section Discussants.
+- On the decisions put to him that evening. The objective of booklet chapter 1
+  is adopted as written. On the oracle definitions: "im unsure whether we
+  should fix it currently while developing the theory". So both seed-access
+  modes stay available and each result names the mode it needs. On hardness
+  that comes from a data law: "indeed even better if we can realize hard
+  problems out there in the literature. We need such mappings we cannot just
+  say our problem is wrong because XYZ". On the next target: "You may decide
+  on what to follow up with".
+- The attacker class for lower bounds, chosen the same evening: two games, never
+  mixed. Population statistical-query attackers of frozen clients give
+  unconditional bounds, and polynomial-time attackers with the record-level
+  view give bounds conditional on lattice or other named hardness.
 - "I dont want ugly mathematics in short. Any of these bulletpoints can be
   violated for the sake of beautiful mathematics", on the three constraints of
   the section above.
@@ -97,9 +111,11 @@ what it would cost to approximate the oracle by real training.
 | `lab/theory/booklet/` | the booklet source, one main file and chapter files | the integrator only |
 | `lab/theory/readings/YYYY-MM-DD-<slug>.md` | sources of the reading PDFs | the integrator |
 | `lab/theory/spaces/<space>/` | one thinking space: `README.md` and `round-NN/` folders | that space's session only |
-| `lab/theory/tools/` | `build.py`, `discuss.sh`, `prompt-template.md`, `verify.mjs` | the integrator |
+| `lab/theory/tools/` | `build.py`, `discuss.sh`, `argon_audit.py`, `prompt-template.md`, `verify.mjs` | the integrator |
 | `lab/theory/discussants.csv` | one row per external discussion call | `tools/discuss.sh` |
 | `lab/theory/GATES.md` | the completion ledger of the current milestone | the integrator |
+| `lab/theory/milestone.json` | the open milestone: its spaces with their first and last rounds | the integrator |
+| `lab/theory/gates/YYYY-MM-DD-<slug>.md` | the ledgers of closed milestones, never rewritten | the integrator |
 | `lab/theory/integration-log.md` | what the integrator re-derived before each merge, and what it took on trust | the integrator, appended |
 
 Nothing in `lib/theory/` is edited by hand. Nothing else in the repository
@@ -180,26 +196,37 @@ The two external models only discuss, in the discussant role.
 
 | Name | Command behind `tools/discuss.sh` | Plan |
 | --- | --- | --- |
-| astra | `codex exec -m gpt-6-astra -s read-only` | ChatGPT, 20 dollars a month |
-| argon | `agy -p --model gemini-4-argon-medium --mode plan`, one call at a time | Antigravity, 20 dollars a month |
+| sol | `codex exec -m gpt-6.1-sol -c model_reasoning_effort="high" -s read-only` (Codex CLI 0.164.0 or later) | ChatGPT, 20 dollars a month |
+| argon | `agy -p --model gemini-4-argon-high --mode plan --dangerously-skip-permissions`, one call at a time | Antigravity, 20 dollars a month |
 
-Both run read-only in the repository and can read any file. A codex call costs
-about 26,000 tokens of overhead before any work. The budget per space: one
-discussant call per round, alternating astra and argon, and both only in the
-round that closes a milestone. Every call appends a row to `discussants.csv`. If a
-call fails on a usage limit, the round continues with the other discussant, and
-the summary says so.
+Halil set this on 2026-10-25: "instead of astra let us use sol 6.1 which is
+cheaper and better", and argon may bypass permissions. astra (gpt-6-astra) is
+retired from the rotation. Its files of the first milestone stand.
 
-Argon runs headless and can read a text file only by its exact path. Its
-workspace is the repository, the PDF folder behind the `lib/literature/pdfs`
-symlink and `~/Documents/RESEARCH/FORMAL_SECURITY`. It cannot list a folder or run a
-command, so it cannot extract a PDF's text. A prompt for argon names exact file
-paths and points at paper notes rather than PDFs. Astra runs in a read-only sandbox
-and can run read-only commands, PDF text extraction included. An answer
-without a verdict block counts as a failed call. `discuss.sh` keeps it as
-`<output>.noverdict` and logs it, and the round retries or falls back.
+sol runs in a read-only sandbox, reads any file and can run read-only commands,
+PDF text extraction included. A call costs about 30,000 tokens of overhead before
+any work. Codex 0.155.1 rejected gpt-6.1-sol, and 0.164.0 accepts it.
 
-Usage: `lab/theory/tools/discuss.sh <astra|argon> <prompt.md> <output.md>`. A
+argon runs headless with permissions bypassed, so it can open PDFs with
+`pdftotext`. Its workspace is the repository, the PDF folder behind the
+`lib/literature/pdfs` symlink, `~/Documents/RESEARCH/FORMAL_SECURITY` and a scratch
+folder of its own for each call. `discuss.sh` tells it to judge the objects one at
+a time and append each judgement to the scratch file before starting the next. The
+reason is a measured failure. On 2026-10-25 argon-high, judging a whole round in
+one turn, thought for 22,000 to 27,000 tokens without streaming any, and the
+client's 5-minute stream idle timeout cut every attempt. The scratch file becomes
+the discussant file. After every call `tools/argon_audit.py` reads the agy
+transcript and rejects the call if argon wrote outside its scratch folder or ran a
+command that changes files. The audit line goes into the discussant file's header.
+
+The budget per space: one discussant call per round, alternating sol and argon,
+and both only in the round that closes a milestone. Every call appends a row to
+`discussants.csv`. If a call fails on a usage limit, the round continues with the
+other discussant, and the summary says so. An answer without a verdict block is a
+failed call. `discuss.sh` keeps it as `<output>.noverdict` and logs it, and the
+round retries or falls back.
+
+Usage: `lab/theory/tools/discuss.sh <sol|argon> <prompt.md> <output.md>`. A
 prompt names the discussant's role, the files to read by path, the question,
 and the verdict format. It never pastes file contents.
 

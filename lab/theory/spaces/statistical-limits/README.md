@@ -45,6 +45,28 @@ names the other space's slug and leaves the work there.
 - The library, `lib/literature/notes/<venue>/<Key>.md` and the PDFs beside them.
   Read the paper itself for any statement the round relies on.
 
+## Milestone 2: mappings to known hard problems (opened 2026-10-25)
+
+Rounds `round-03` to `round-05`. `round-03` states the aims of this milestone.
+Discussant: sol only until argon's quota resets (about 2026-10-27 13:30), each
+round's summary saying so.
+
+The adopted objective asks for a natural procedure where the attacker's price
+exceeds the trainer's by a named margin. This space owns that comparison in the
+statistical regime.
+
+1. The statistical baseline of blind reconstruction. An unbounded seed-blind server
+   of a frozen client of `def-seed-blind-reconstruction-game` learns the records
+   only up to the symmetry group of the record law, for Gaussian records up to a
+   common rotation. State and prove it, with the sample price of reaching that
+   limit.
+2. The same-units comparison on the mappings of the first milestone: the trainer's
+   price in samples or runs against the attacker's, for the split-learning
+   separation and for the single-index reconstruction, sharpening or refuting
+   `conj-same-units-gap` (`prob-same-units-matched-budget-separation`).
+3. `prob-train-access-collapses-sample-price`: does Train access collapse the
+   sample price of HSU25 Theorem 3.1?
+
 ## Round log
 
 The space session appends one line per round: the folder, the date, the

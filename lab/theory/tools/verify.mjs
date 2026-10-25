@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-// lab/theory/tools/verify.mjs <context|folder|spaces|convergence|integration>
-// Checks the theory workspace against lab/theory/CONTEXT.md. Each mode prints
+// lab/theory/tools/verify.mjs <context|folder|spaces|convergence|integration|argon>
+// Checks the theory workspace against lab/theory/CONTEXT.md. The open milestone,
+// its spaces and their first and last rounds, is lab/theory/milestone.json. Each mode prints
 // one success line (CONTEXT OK, FOLDER OK, ...) and exits 0, or lists every
 // failure and exits 1. Read-only: it never writes a file.
 import fs from 'node:fs';
@@ -10,8 +11,11 @@ import { fileURLToPath } from 'node:url';
 const THEORY = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const REPO = path.dirname(path.dirname(THEORY));
 const OUT = path.join(REPO, 'lib', 'theory');
-const SPACES = ['statistical-limits', 'computational-limits', 'oracle-and-measurement'];
-const MODEL = { astra: ['gpt-6-astra'], argon: ['gemini-4-argon-high', 'gemini-4-argon-medium'] };
+const MILESTONE = JSON.parse(fs.readFileSync(path.join(THEORY, 'milestone.json'), 'utf8'));
+const SPACES = Object.keys(MILESTONE.spaces);
+const ALL_SPACES = fs.readdirSync(path.join(THEORY, 'spaces')).filter((n) => fs.existsSync(path.join(THEORY, 'spaces', n, 'README.md'))).sort();
+// The rounds of a space that belong to the open milestone.
+const MODEL = { sol: ['gpt-6.1-sol'], argon: ['gemini-4-argon-high', 'gemini-4-argon-medium'], astra: ['gpt-6-astra'] };
 const TEX_ARTIFACT = /\.(aux|log|out|toc|fls|fdb_latexmk|synctex\.gz|bbl|blg|lof|lot|nav|snm|vrb|dvi|xdv)$/;
 
 const fails = [];
@@ -52,7 +56,7 @@ function verdicts(file) {
 }
 
 function discussantFiles(round) {
-  return fs.readdirSync(round).filter((n) => /^discussant-(astra|argon)\.md$/.test(n)).sort().map((n) => path.join(round, n));
+  return fs.readdirSync(round).filter((n) => /^discussant-(sol|argon|astra)\.md$/.test(n)).sort().map((n) => path.join(round, n));
 }
 
 function csvRows() {
@@ -126,12 +130,16 @@ function spaces() {
   const rows = csvRows();
   const used = new Set();
   for (const s of SPACES) {
-    const rs = rounds(s);
+    const all = rounds(s);
+    const first = Number(MILESTONE.spaces[s].slice(6));
+    const last = (MILESTONE.last_round || {})[s];
+    const rs = all.filter((r) => path.basename(r) >= MILESTONE.spaces[s]);
     const readme = read(path.join(THEORY, 'spaces', s, 'README.md')) || '';
-    if (rs.length < 2) fail(`${s}: ${rs.length} rounds, the milestone needs round-00 and at least one more`);
+    if (rs.length < 2) fail(`${s}: ${rs.length} rounds from ${MILESTONE.spaces[s]}, the milestone needs its aims round and at least one more`);
+    if (last && rs.some((r) => path.basename(r) > last)) fail(`${s}: a round beyond ${last}, the last round of the milestone`);
     rs.forEach((r, i) => {
       const name = path.basename(r);
-      if (name !== `round-${String(i).padStart(2, '0')}`) fail(`${s}: rounds are not numbered from 00 without gaps at ${name}`);
+      if (name !== `round-${String(first + i).padStart(2, '0')}`) fail(`${s}: rounds are not numbered from ${MILESTONE.spaces[s]} without gaps at ${name}`);
       if (!readme.includes(name)) fail(`${s}/README.md round log does not mention ${name}`);
       if (!(read(path.join(r, 'builder.md')) || '').match(/^### [a-z]+-[a-z0-9-]+: /m)) fail(`${s}/${name}/builder.md is missing or has no object heading`);
       const summary = read(path.join(r, 'summary.md'));
@@ -150,13 +158,12 @@ function spaces() {
       }
       if (i > 0 && ds.length === 1) {
         const prev = discussantFiles(rs[i - 1]);
-        if (prev.length === 1 && path.basename(prev[0]) === path.basename(ds[0]) && !/usage limit|fallback|fell back/i.test(summary || '')) {
+        if (prev.length === 1 && path.basename(prev[0]) === path.basename(ds[0]) && !/usage limit|quota|fallback|fell back/i.test(summary || '')) {
           fail(`${s}/${name} repeats the discussant of the round before without saying why in its summary`);
         }
       }
     });
   }
-  for (const who of Object.keys(MODEL)) if (!used.has(who)) fail(`no round of the milestone used ${who}`);
   if (!fails.length) console.log('SPACES OK');
 }
 
@@ -182,7 +189,7 @@ function convergence() {
 // space's last round has BLOCKING 0, so no blocking challenge stays open on it.
 function eligible() {
   const out = new Map();
-  for (const s of SPACES) {
+  for (const s of ALL_SPACES) {
     const converged = lastBlocking(s) === 0;
     const latest = new Map();
     for (const r of rounds(s)) {
@@ -219,7 +226,7 @@ function integration() {
   }
   const history = read(path.join(THEORY, 'booklet', 'chapters', 'history.tex')) || '';
   const state = read(path.join(THEORY, 'STATE.md')) || '';
-  for (const s of SPACES) {
+  for (const s of ALL_SPACES) {
     const rs = rounds(s).map((r) => path.basename(r));
     for (const r of rs) if (!history.includes(`${s}/${r}`)) fail(`history.tex does not record ${s}/${r}`);
     const row = state.split('\n').find((l) => l.startsWith(`| \`${s}\``)) || '';
@@ -229,7 +236,7 @@ function integration() {
   const pdf = path.join(OUT, 'booklet.pdf');
   if (fs.existsSync(pdf)) {
     const built = fs.statSync(pdf).mtimeMs;
-    for (const s of SPACES) for (const r of rounds(s)) {
+    for (const s of ALL_SPACES) for (const r of rounds(s)) {
       const sm = path.join(r, 'summary.md');
       if (fs.existsSync(sm) && fs.statSync(sm).mtimeMs > built) fail(`${rel(sm)} is newer than the booklet build`);
     }
@@ -237,8 +244,25 @@ function integration() {
   if (!fails.length) console.log(`INTEGRATION OK eligible=${ok.size}`);
 }
 
+// The object-by-object argon protocol has finished at least once in the milestone:
+// an argon-high discussant file whose audit line passed.
+function argon() {
+  let seen = 0;
+  for (const s of SPACES) for (const r of rounds(s).filter((x) => path.basename(x) >= MILESTONE.spaces[s])) {
+    const f = path.join(r, 'discussant-argon.md');
+    const head = (read(f) || '').slice(0, 600);
+    if (!head) continue;
+    if (!head.includes('model: gemini-4-argon-high')) continue;
+    if (!/^audit: conversation [0-9a-f-]+; tools: /m.test(head)) fail(`${rel(f)} has no audit line`);
+    else if (/REJECTED/.test(head)) fail(`${rel(f)} failed its audit`);
+    else seen += 1;
+  }
+  if (!seen) fail('no argon-high round of the milestone finished under the object-by-object protocol');
+  if (!fails.length) console.log(`ARGON OK rounds=${seen}`);
+}
+
 const mode = process.argv[2];
-const modes = { context, folder, spaces, convergence, integration };
+const modes = { context, folder, spaces, convergence, integration, argon };
 if (!modes[mode]) { console.error(`usage: verify.mjs <${Object.keys(modes).join('|')}>`); process.exit(2); }
 modes[mode]();
 if (fails.length) { console.error(fails.map((f) => `FAIL ${f}`).join('\n')); process.exit(1); }

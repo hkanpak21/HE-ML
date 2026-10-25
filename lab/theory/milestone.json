@@ -1,0 +1,14 @@
+{
+  "name": "mappings to known hard problems",
+  "opened": "2026-10-25",
+  "spaces": {
+    "hard-problem-mappings": "round-00",
+    "computational-limits": "round-03",
+    "statistical-limits": "round-03"
+  },
+  "last_round": {
+    "hard-problem-mappings": "round-02",
+    "computational-limits": "round-05",
+    "statistical-limits": "round-05"
+  }
+}

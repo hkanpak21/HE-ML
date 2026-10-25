@@ -1,4 +1,4 @@
-# Gates: first rounds of the theory
+# Gates: first rounds of the theory (closed 2026-10-25)
 
 OWNS: lab/theory/**, lib/theory/**, CLAUDE.md, AGENTS.md, sink/formalizing/**
 
