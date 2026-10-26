@@ -26,8 +26,10 @@ The ledger is `GATES.md`. The first milestone's ledger is
 - `lib/theory/booklet.pdf`: 63 objects, 30 accepted, 29 borrowed, 2 open, 2
   refuted, 0 checked.
 - `lib/theory/2026-10-25-first-rounds.pdf`: the reading of the first milestone.
-- `lib/theory/2026-10-26-catch-up.pdf`: the reading of the second milestone, with six
-  decisions for Halil. Its results are in `sink/formalizing/` and not yet in the booklet.
+- `lib/theory/2026-10-26-what-we-have.pdf`: what the theory holds, its objects and every
+  result in one or two sentences, with the six open decisions. It replaces the catch-up
+  reading of the same day, at Halil's request.
+  Milestone 2's results are in `sink/formalizing/` and not yet in the booklet.
 
 ## Decisions taken and waiting
 
@@ -59,7 +61,7 @@ ran out, so the object-by-object protocol is set but not yet seen to finish.
 
 ## Next actions
 
-1. Halil reads the booklet and the catch-up reading, and settles its six decisions.
+1. Halil reads the booklet and the reading of what we have, and settles its six decisions.
 2. The integrator merges milestone 2 into the booklet, records its rounds in the
    history chapter, rebuilds, and closes `GATES.md`. Open gates then: G5 (computational
    limits at BLOCKING 1) and G8 (no argon round yet under the new protocol).
