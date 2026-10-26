@@ -98,3 +98,18 @@ Copied on 2026-10-25 from FORMAL_SECURITY raw/BRST21_ContinuousLWE.pdf for the f
 Reading notes: FORMAL_SECURITY `/Users/a90/Documents/RESEARCH/FORMAL_SECURITY/wiki/sources/bruna-continuous-lwe.md`.
 Mapping note: PDF is arXiv v2 (24 Oct 2020); key year follows STOC 2021.
 Reading record: 2026-10-25, the computational-limits space session read the sections named at the top of this note, for lab/theory/spaces/computational-limits/round-00/builder.md.
+
+## Reading for the space statistical-limits, 2026-10-25
+
+Read by the statistical-limits space session on 2026-10-25, §7 around Lemma 7.4 and the
+proof of Theorem 7.5 that uses it. Lemma 7.4 is quoted from Vershynin, High-Dimensional
+Probability (2018), Theorem 4.6.1, without proof. For an $m\times n$ matrix $A$ with
+independent, mean-zero, sub-gaussian, isotropic rows and $K=\max_i\|A_i\|_{\psi_2}$, with
+probability at least $1-2e^{-u^2}$,
+$\|\frac1mA^\top A-I_n\|\le K^2\max(\delta,\delta^2)$ with
+$\delta=C(\sqrt{n/m}+u/\sqrt m)$ for an absolute constant $C$. The proof of Theorem 7.5
+applies it to the sample covariance of $m$ samples to place its eigenvalues within
+$O(\sqrt{n/m})$ of $1/(2\pi)$. The space statistical-limits records it as
+`fact-subgaussian-sample-covariance-concentration` (round-03 of
+`lab/theory/spaces/statistical-limits/`) and uses it in `thm-train-access-price-frontier`
+to whiten with noise samples drawn by Train calls. The book itself is not in the library.

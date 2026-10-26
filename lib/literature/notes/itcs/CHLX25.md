@@ -9,62 +9,68 @@ type: conference
 placed_on: 2026-10-25
 placed_by: agent
 triage: cite
-relation: FILL
-epistemic: FILL
-prov: sweep
+relation: prior-art
+epistemic: "proven, statistical characterization by VC dimension, computational obstruction from OWF and iO"
+prov: full-read
 ---
 
 # CHLX25, Backdoor defense, learnability and obfuscation
 
-The key is the IACR key derived from the author list printed on the paper. It
-never changes once used. Author names are read from the first page, never from
-a file name.
-
-Write this in your own words. A note that is the abstract rearranged is a note
-that proves nothing was read, and it is worth nothing to you in three months.
-
-`prov: sweep` means this page was built from an extraction and not from a full
-read. A page marked `sweep` cannot be cited in paper prose. Change it to
-`full-read` only after reading the paper.
+Read on 2026-10-25 by the hard-problem-mappings space session from the held copy
+(arXiv v2): Section 3 (Definition 3.1 and its discussion), Section 4 (Theorem 4.1 and
+the prediction-strategy definition), Section 5 (Definition 5.1, Corollary 5.2 with
+its proof, Theorem 5.3, Conjecture 5.4, the special-cased example, Theorem 5.5). The
+appendix proofs and Section 6 beyond the statement of Theorem 6.1 were not read.
 
 ## Claim
 
-One sentence, in your words. What the paper says is true that was not known
-before it.
+Backdoor defense, posed as detecting a backdoored function at its trigger, is
+governed statistically by the VC dimension, is implied by efficient PAC learning,
+can be strictly easier than learning, and is impossible for polynomial-size circuits
+under one-way functions and indistinguishability obfuscation.
 
 ## Method
 
-Three sentences. What they built or proved, and how. Name the adversary and
-what it is assumed to know if the paper has one.
+Definition 3.1: the attacker picks $D$ and $f\in F$, a trigger $x^*\sim D$ is
+drawn, the attacker picks $f^*$, $\varepsilon$-valid if it differs from $f$ on mass at
+most $\varepsilon$ and at $x^*$; the detector sees $(f,x)$ with $x\sim D$ or
+$(f^*,x^*)$, with the representation and the example oracle, and must accept the
+first and reject the second. Theorem 4.1: the best confidence is
+$\max\{1/2,1-\Theta(\mathrm{VC}(F)\varepsilon)\}$, proven with the
+Haussler-Littlestone-Warmuth prediction strategy. Corollary 5.2: efficient PAC
+learnability implies efficient defendability (Definition 5.1 requires
+$\varepsilon<1/p(n,1/\delta)$). Theorem 5.3: in the random oracle model some class is
+efficiently defendable and not efficiently PAC learnable. Theorem 5.5: under OWF
+and iO, polynomial-size circuits are not efficiently defendable, through
+puncturable pseudorandom functions.
 
 ## What they measured, and on what
 
-The datasets, the models, the metrics, the baselines. If the evaluation is a
-proof rather than an experiment, say what is assumed and what is concluded.
+Proofs only.
 
 ## Epistemic status
 
-Which parts are proven, which are heuristic, which are empirical, and on what.
-If the paper blurs two of these, say where.
+Proven. Conjecture 5.4 (the standard-model version of Theorem 5.3 from OWF) is open.
 
 ## The limitation that matters to us
 
-The one that bites this project. Say whether the paper states it or whether you
-found it. A limitation the authors state is a different fact from one they do
-not.
+The game has no training procedure and no data law carrying hardness; the
+computational obstruction is obfuscation, a primitive in the attacker's hands. Found
+by me against the rule of `CONTEXT.md`.
 
 ## Relationship to this project
 
-Prior art, baseline, orthogonal, or competitor. Pick one and say why in a
-sentence. This field is what makes `related-work.md` writable later. A note
-without it is a summary, and summaries do not compose into an argument.
+Prior art. Its Corollary 5.2 is a mapping of backdoor detection onto PAC learning in
+the upper-bound direction (`fact-chlx25-defendability-characterization`).
 
 ## What we need to consider for our work
 
-What this changes about what we do next. If the answer is nothing, write that.
+A detection lower bound that counts must come from the law of the model's
+randomness or of the data, as in GKVZ22 Theorem 6.4 or BRV26, not from obfuscation.
 
 ## Provenance
 
 Copied on 2026-10-25 from FORMAL_SECURITY raw/CHLX25_Defendability.pdf for the formalizing line, see `sink/formalizing/README.md`. Title and authors were read from the first page.
 Reading notes: FORMAL_SECURITY `/Users/a90/Documents/RESEARCH/FORMAL_SECURITY/wiki/sources/backdoor-defense-learnability-obfuscation.md`.
 Mapping note: PDF is arXiv v2 (18 Nov 2024); key year follows ITCS 2025 (LIPIcs 325).
+Reading record: 2026-10-25, the hard-problem-mappings space session read the sections named at the top of this note, for lab/theory/spaces/hard-problem-mappings/round-00/builder.md.

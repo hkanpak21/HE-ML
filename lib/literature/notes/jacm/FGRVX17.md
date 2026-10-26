@@ -109,3 +109,4 @@ Copied on 2026-10-25 from FORMAL_SECURITY raw/FGRVX17_SQLowerBoundPC.pdf for the
 Reading notes: FORMAL_SECURITY `/Users/a90/Documents/RESEARCH/FORMAL_SECURITY/wiki/sources/feldman-statistical-algorithms-planted-clique.md`.
 Mapping note: Held PDF is arXiv v6 (15 Aug 2016). Wiki gives the conference version STOC 2013, which would give FGRVX13.
 Reading record: 2026-10-25, the computational-limits space session read the sections named at the top of this note, for lab/theory/spaces/computational-limits/round-00/builder.md.
+Reading record: 2026-10-25, the hard-problem-mappings space session read Section 3.1 (Definition 3.1, Theorem 3.2), Theorem 3.7 with its proof (the decision version), Section 3.2 (Definitions 3.8 and 3.9, Lemma 3.10, Corollaries 3.11 and 3.12), and the statements of Theorems 3.13, 3.16, 3.17 and 3.18, for lab/theory/spaces/hard-problem-mappings/round-01/builder.md.

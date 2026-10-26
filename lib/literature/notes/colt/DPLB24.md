@@ -93,3 +93,18 @@ derive from Theorem 3.2.
 Copied on 2026-10-25 from FORMAL_SECURITY raw/DPLB24_GenerativeExponent.pdf for the formalizing line, see `sink/formalizing/README.md`. Title and authors were read from the first page.
 Reading notes: FORMAL_SECURITY `/Users/a90/Documents/RESEARCH/FORMAL_SECURITY/wiki/sources/generative-exponent-single-index.md`.
 Reading record: 2026-10-25, the computational-limits space session read the sections named at the top of this note, for lab/theory/spaces/computational-limits/round-00/builder.md.
+
+## Reading for the space statistical-limits, 2026-10-25
+
+Read by the statistical-limits space session on 2026-10-25, §6 and §7 of the held copy.
+Theorem 6.1 (Information-Theoretic Upper Bound): for all $k\ge1$ some procedure returns
+$\hat w$ with $(w^\star\cdot\hat w)^2\ge1-\epsilon^2$ with probability at least $1-2e^{-d}$
+once $n=\tilde\Theta(d/(\lambda_k^2\epsilon^2))$. The estimator optimizes a correlation over
+the sphere and uses a corrector step from the paper's reference [DH21, Theorem 5]. §6 calls it
+inefficient, and the appendix proof was not read. §7 pairs it with the SQ and low-degree bounds
+of order $d^{k^\star/2}$ as a computational-statistical gap for $k^\star>2$, and notes that the
+low-degree bound concerns detection, not recovery. The space statistical-limits records
+Theorem 6.1 as `fact-single-index-information-theoretic-rate` and uses it in
+`prop-label-relevant-attacker-at-most-trainer` (round-03 of `lab/theory/spaces/statistical-limits/`).
+Reading record: 2026-10-25, the hard-problem-mappings space session read Definition 1.1, Section 2 (Lemma 2.3, Definition 2.4, Proposition 2.6 and the paragraph after it on Markov post-processing, Example 2.7, Corollary 2.8), Theorem 3.2 with Appendices B and E.2 (Definitions B.3 to B.5, Lemma B.6, Corollary B.7, Lemmas E.2 and E.3 and the proof), Theorem 4.1, Remark 4.2, Corollary 4.4, Theorem 5.2 and Theorem 6.1, for lab/theory/spaces/hard-problem-mappings/round-00/builder.md. Added finding: Example 2.7 (ii) with Corollary 2.8 gives k* = 4 for the link |z|exp(-z^2/2), and the level sets of |z| times the Gaussian density carry exactly the first two Gaussian moments, since d/dr(r phi(r)) = phi(r)(1 - r^2). The Markov remark after Proposition 2.6 gives k*(Z, m_P(Z)) <= k*(Z, Y) whenever Y is a channel of the regression function m_P(Z). The proof of Theorem 3.2 uses the diagonal bound 1 where the diagonal correlation is I_chi2[P].
+Reading record: 2026-10-25, the hard-problem-mappings space session read Proposition 3.7 with its proof in Appendix E.4 (rejection sampling on the set where zeta_k is positive gives NGCA samples of a law with vanishing Hermite moments below k and a positive k-th moment, at rate alpha independent of d) and Appendix E.5, for lab/theory/spaces/hard-problem-mappings/round-01/builder.md.

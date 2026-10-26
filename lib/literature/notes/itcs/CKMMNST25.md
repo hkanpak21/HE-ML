@@ -80,3 +80,4 @@ Copied on 2026-10-25 from FORMAL_SECURITY raw/C+25_DataReconstructionSeeIt.pdf f
 Reading notes: FORMAL_SECURITY `/Users/a90/Documents/RESEARCH/FORMAL_SECURITY/wiki/sources/cohen-data-reconstruction.md`.
 Mapping note: PDF is arXiv v2 (8 Dec 2024); key year follows ITCS 2025 (LIPIcs 325).
 Reading record: 2026-10-25, the computational-limits space session read the sections named at the top of this note, for lab/theory/spaces/computational-limits/round-00/builder.md.
+Reading record: 2026-10-25, the hard-problem-mappings space session re-read Appendix C (Definitions C.1, C.3, C.4, Theorem C.5 with its proof opening) for lab/theory/spaces/hard-problem-mappings/round-00/builder.md. The statement of Theorem C.5 matches this note and the booklet fact.
