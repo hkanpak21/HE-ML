@@ -1,7 +1,7 @@
 # Space: hard-problem mappings
 
-Owner: set by the integrator when it starts a session for this space, with the
-date. One session at a time.
+Owner: session space-mappings (local_8aed3d37), started 2026-10-25 by the integrator.
+One session at a time.
 
 Discussants: sol only until argon's quota resets (about 2026-10-27 13:30), each
 round's summary saying so, then alternating argon and sol.
@@ -59,3 +59,7 @@ Out of scope: deepening the split-learning separation itself (space
 
 The space session appends one line per round: the folder, the date, the
 discussant, the verdict counts and the BLOCKING count.
+
+- round-00, 2026-10-25, sol (argon quota): 1 ACCEPT, 9 REVISE, 0 REJECT, BLOCKING 9.
+- round-01, 2026-10-25, sol again (argon quota): 12 ACCEPT, 5 REVISE, 0 REJECT, BLOCKING 5.
+- round-02, 2026-10-26, sol again (argon quota; the first call of 2026-10-25 failed on a usage limit and was retried after the reset): 5 ACCEPT, 0 REVISE, 0 REJECT, BLOCKING 0. The space stops.

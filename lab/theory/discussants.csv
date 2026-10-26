@@ -25,3 +25,14 @@ date,discussant,model,prompt,output,exit,tokens
 2026-10-25,sol,gpt-6.1-sol,/private/tmp/claude-501/-Users-a90-Documents-RESEARCH-HE-ML/1121bc24-1fe6-4b3a-884e-a2ad4c626f7c/scratchpad/smoke-prompt.md,/private/tmp/claude-501/-Users-a90-Documents-RESEARCH-HE-ML/1121bc24-1fe6-4b3a-884e-a2ad4c626f7c/scratchpad/smoke-sol.md,1,
 2026-10-25,sol,gpt-6.1-sol,/private/tmp/claude-501/-Users-a90-Documents-RESEARCH-HE-ML/1121bc24-1fe6-4b3a-884e-a2ad4c626f7c/scratchpad/smoke-prompt.md,/private/tmp/claude-501/-Users-a90-Documents-RESEARCH-HE-ML/1121bc24-1fe6-4b3a-884e-a2ad4c626f7c/scratchpad/smoke-sol.md,0,30135
 2026-10-25,argon,gemini-4-argon-high,lab/theory/spaces/computational-limits/round-01/prompt-argon.md,/private/tmp/claude-501/-Users-a90-Documents-RESEARCH-HE-ML/1121bc24-1fe6-4b3a-884e-a2ad4c626f7c/scratchpad/argon-stress-round01.md,audit,
+2026-10-25,sol,gpt-6.1-sol,lab/theory/spaces/statistical-limits/round-03/prompt-sol.md,lab/theory/spaces/statistical-limits/round-03/discussant-sol.md,0,183456
+2026-10-25,sol,gpt-6.1-sol,lab/theory/spaces/computational-limits/round-03/prompt-sol.md,lab/theory/spaces/computational-limits/round-03/discussant-sol.md,0,189005
+2026-10-25,sol,gpt-6.1-sol,lab/theory/spaces/hard-problem-mappings/round-00/prompt-sol.md,lab/theory/spaces/hard-problem-mappings/round-00/discussant-sol.md,0,198839
+2026-10-25,sol,gpt-6.1-sol,lab/theory/spaces/statistical-limits/round-04/prompt-sol.md,lab/theory/spaces/statistical-limits/round-04/discussant-sol.md,0,94424
+2026-10-25,sol,gpt-6.1-sol,lab/theory/spaces/statistical-limits/round-05/prompt-sol.md,lab/theory/spaces/statistical-limits/round-05/discussant-sol.md,0,58631
+2026-10-25,sol,gpt-6.1-sol,lab/theory/spaces/computational-limits/round-04/prompt-sol.md,lab/theory/spaces/computational-limits/round-04/discussant-sol.md,0,123906
+2026-10-25,sol,gpt-6.1-sol,lab/theory/spaces/computational-limits/round-05/prompt-sol.md,lab/theory/spaces/computational-limits/round-05/discussant-sol.md,0,98741
+2026-10-25,sol,gpt-6.1-sol,lab/theory/spaces/hard-problem-mappings/round-01/prompt-sol.md,lab/theory/spaces/hard-problem-mappings/round-01/discussant-sol.md,0,157785
+2026-10-25,sol,gpt-6.1-sol,lab/theory/spaces/hard-problem-mappings/round-02/prompt-sol.md,lab/theory/spaces/hard-problem-mappings/round-02/discussant-sol.md,1,105390
+2026-10-26,sol,gpt-6.1-sol,lab/theory/spaces/hard-problem-mappings/round-02/prompt-sol.md,lab/theory/spaces/hard-problem-mappings/round-02/discussant-sol.md,0,123395
+2026-10-26,sol,gpt-6.1-sol,lab/theory/spaces/computational-limits/round-06/prompt-sol.md,lab/theory/spaces/computational-limits/round-06/discussant-sol.md,0,78759

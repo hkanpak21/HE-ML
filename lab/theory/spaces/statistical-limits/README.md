@@ -75,3 +75,6 @@ discussant, the verdict counts and the BLOCKING count.
 - `round-00`, 2026-10-25, astra (fell back from argon, whose headless call could not read files), ACCEPT 2, REVISE 14, REJECT 0, BLOCKING 14.
 - `round-01`, 2026-10-25, astra (fell back after two argon timeouts and an astra usage limit, as the summary records), ACCEPT 14, REVISE 4, REJECT 0, BLOCKING 3.
 - `round-02`, 2026-10-25, argon, ACCEPT 18, REVISE 0, REJECT 0, BLOCKING 0. The space stops here.
+- `round-03`, 2026-10-25, sol (argon quota), ACCEPT 4, REVISE 4, REJECT 1, BLOCKING 7.
+- `round-04`, 2026-10-25, sol (sol again, argon quota), ACCEPT 6, REVISE 1, REJECT 0, BLOCKING 1.
+- `round-05`, 2026-10-25, sol (sol again, argon quota), ACCEPT 7, REVISE 0, REJECT 0, BLOCKING 0. The space stops here for milestone 2.

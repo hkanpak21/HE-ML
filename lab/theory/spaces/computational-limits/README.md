@@ -77,3 +77,7 @@ discussant, the verdict counts and the BLOCKING count.
 - `round-00`, 2026-10-25, astra (gpt-6-astra): ACCEPT 6, REVISE 12, REJECT 0. BLOCKING 12.
 - `round-01`, 2026-10-25, astra (gpt-6-astra) as fallback after three failed argon calls: ACCEPT 13, REVISE 6, REJECT 1. BLOCKING 10.
 - `round-02`, 2026-10-25, argon (gemini-4-argon-medium): ACCEPT 7, REVISE 0, REJECT 0. BLOCKING 0. The space stops here.
+- `round-03`, 2026-10-25, sol (gpt-6.1-sol): ACCEPT 2, REVISE 7, REJECT 0. BLOCKING 11.
+- `round-04`, 2026-10-25, sol (gpt-6.1-sol), sol again, argon quota: ACCEPT 4, REVISE 2, REJECT 0. BLOCKING 3.
+- `round-05`, 2026-10-25, sol (gpt-6.1-sol), sol again, argon quota: ACCEPT 1, REVISE 1, REJECT 0. BLOCKING 1. Last round of milestone 2, the space stops here.
+- `round-06`, 2026-10-26, sol (gpt-6.1-sol), sol again, argon quota: ACCEPT 0, REVISE 1, REJECT 0. BLOCKING 1. One-object round added by the integrator; the space stops here.
