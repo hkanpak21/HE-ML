@@ -3,6 +3,7 @@
 
     python3 lab/theory/tools/build.py             booklet.pdf and every reading
     python3 lab/theory/tools/build.py --changes   also booklet-changes.pdf, against the last commit
+    python3 lab/theory/tools/build.py --readings-only   the readings, booklet.pdf untouched
 
 Sources live in lab/theory/: the booklet in booklet/ (booklet.tex, preamble.tex,
 chapters/), readings in readings/YYYY-MM-DD-<slug>.md. LaTeX runs in a temporary
@@ -197,6 +198,11 @@ def readings():
 
 def main():
     os.makedirs(OUT, exist_ok=True)
+    if "--readings-only" in sys.argv:  # leaves booklet.pdf untouched, for a booklet Halil is reading
+        for name in readings():
+            print(f"READING OK lib/theory/{name}")
+        print("BUILD OK readings only")
+        return
     with tempfile.TemporaryDirectory() as tmp:
         new = stage(tmp, BOOK)
         fails = check(new)

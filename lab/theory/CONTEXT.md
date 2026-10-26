@@ -93,6 +93,9 @@ what it would cost to approximate the oracle by real training.
   mixed. Population statistical-query attackers of frozen clients give
   unconditional bounds, and polynomial-time attackers with the record-level
   view give bounds conditional on lattice or other named hardness.
+- Later that night: "please proceed the development and simplfy whenever
+  possible". Every space prefers the simplest statement and proof that carries
+  a result, and cuts objects that do not earn their place.
 - "I dont want ugly mathematics in short. Any of these bulletpoints can be
   violated for the sake of beautiful mathematics", on the three constraints of
   the section above.

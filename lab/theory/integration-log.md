@@ -69,3 +69,46 @@ Register items of the nine summaries, moved or declined:
   computational space's remark that an unbounded blind server learns Gaussian
   records only up to a common rotation is a statement for the space
   `statistical-limits`, unproven there, so it enters no register.
+
+## 2026-10-26, milestone 2 (mappings to known hard problems)
+
+Re-derived line by line, with the arithmetic recomputed:
+
+- statistical-limits, rounds 03 to 05. `thm-blind-orbit-limit` (a) to (d), the
+  spherical cap and the Chernoff constant $e^{-0.318d}$. `prop-whitening-orbit-sample-price`,
+  the polar decomposition and the Wishart moment $\frac{(N-1)d^2}{N^2}+\frac dN$.
+  `thm-blind-orbit-price` steps 1 to 7: the $\sqrt2$-Lipschitz matrix absolute value, the
+  reduction to $\hat R$, the prior, $I(R;Y)\le D/4$, the small-ball bound $2e^{-D}$ and
+  Fano with $0.32+2e^{-4}<\frac12$. `prop-relu-client-second-moment-identifies-weights`,
+  the arc-cosine integral and $\kappa'$. `thm-train-access-price-frontier` (a) to (d), the
+  simulation by pairs of samples and both Chebyshev bounds (0.05 and 0.49).
+  `thm-same-units-gap-gaussian-mechanism`.
+- hard-problem-mappings, rounds 00 to 02. `lem-level-set-moment-balance`, the branch
+  weights and $E[Z^4\mid t]=1+AB$. `thm-extraction-exponent-price` (a) steps 1 to 5,
+  (b) with the sign selection, (c) and (d), including the symmetry of $P_\natural$.
+  `prop-learner-side-sq-transfer` (a) and (b) with the corrected constant.
+  `lem-sparse-pca-backdoor-width-price` (a) to (d), the Laurent and Massart tails and
+  $\sqrt{3.42/(2\pi)}\approx0.738$. `prop-weight-testing-equals-white-box-detection`.
+- computational-limits, rounds 03 to 06. `lem-agreement-detection`,
+  `thm-coarse-reconstruction-lattice-hard` with $\rho\ge c_0/3$ and the constant
+  $c_0^4/648$, and `prop-blind-lll-label-recovery`.
+
+Taken on trust, as the spaces read them: HSU25 Theorems 3.1, 3.3 and 4.1 (with sol's
+margin note), DPLB24 Theorems 4.1 and 5.2 and Lemma E.3, FGRVX17 Theorems 3.7 and 3.13,
+ZSWB22 Theorem 3.3, DKRS23 Theorem 1.5, BRST21 Corollary 4.2, the facts of DvW22,
+Duc24 and HR14, the reductions of `thm-zlip-reductions` (merged as a sketch), and
+`prop-gram-sufficiency-rotation-invariant` and `lem-feature-matrix-transpose`, which the
+simplified merge keeps out of the booklet.
+
+Strict status. The space computational-limits ended at BLOCKING 1, on
+`thm-zlip-reductions` only. Its three other objects have ACCEPT verdicts, and none uses
+`thm-zlip-reductions`, but by the rule of `CONTEXT.md` they count as accepted only once
+the space converges or Halil leaves the ZLIP sketch out of the milestone.
+
+Register items, moved or declined. Moved: 7 new facts, corrections to 7 facts, 22
+results (18 accepted, one sketch, one refuted, two retracted), 8 search rows, 5 new
+problems, 3 status changes from open to partial, and history lines on 8 problems. The
+lint went from 613 to 647 entries and from 72 to 80 searches. Declined:
+the DK22 and WDS19 corrections, which have no register entry and live in their notes,
+and the withdrawn round-03 aims of computational-limits, recorded as superseded in the
+history lines of the results that replaced them.
