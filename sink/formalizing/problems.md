@@ -46,6 +46,8 @@ history:
   - 2026-10-25 two reductions exist in the space computational-limits. Blind reconstruction reduces to NGCA and hCLWE, and
     reconstruction of the label-relevant coordinate is the single-index problem priced by the generative exponent.
     Whether a hard record law meets the plug-in rule is a decision for Halil.
+  - 2026-10-26 a third reduction: learning-based extraction onto the single-index problem of the released link
+    (thm-extraction-exponent-price). def-hard-problem-mapping fixes what a mapping is.
 
 # Supporting
 
@@ -173,7 +175,7 @@ statement: Can an attacker and a defender be priced in the same exponent units a
   open.
 posed: FORMAL_SECURITY root `CLAUDE.md`, recorded as still open only narrowly
 weight: supporting
-status: open
+status: partial
 literature: FORMAL_SECURITY's root record of restricted-class attackers, which finds the attacker
   as a restricted-class learner occupied in cryptographic units (Canetti and Karchmer, TCC 2021,
   Karchmer, SaTML 2023, Christiano, Hilton, Lecomte and Xu, arXiv 2409.03077, and arXiv
@@ -187,6 +189,10 @@ where: `FS:CLAUDE.md#Established negative results`, and
 history:
   - 2026-08-22 Song's section 1.3 confirmed verbatim and the record corrected (FS programme digest, section 4.8).
   - 2026-10-25 entered from the FS programme digest, sections 4.8 and 5. Weight supporting, set by this register, because it is the slot left open for a restricted-class attacker and prob-reduce-security-to-known-learning-problems must stand against it.
+  - 2026-10-26 open to partial. thm-same-units-gap-gaussian-mechanism gives a natural procedure where the attacker's price,
+    samples plus Train calls, exceeds the trainer's by Theta(1 + n rho^2), attained efficiently. thm-extraction-exponent-price
+    gives an extractor whose SQ exponent is twice the trainer's (heuristic as a sample comparison). The low-rank-adapter
+    form of conj-same-units-gap stays open.
 
 # Side
 
@@ -1087,6 +1093,7 @@ claimed-by: none
 where: `FS:exp/docs/notes/chapter-24.md#message 5`
 history:
   - 2026-10-25 entered from the FS programme digest, section 3.3. Weight side, judged against Halil's direction of 2026-10-25 (HE-ML digest section 7), which does not need it.
+  - 2026-10-26 tried: GKVZ22's sparse-PCA construction fails at its printed parameters (lem-sparse-pca-backdoor-width-price).
 
 ## prob-supply-chain-undetectable-backdoor
 statement: Under a one-way function, does a backdoor planted in an upstream model in the manner of
@@ -1390,6 +1397,8 @@ claimed-by: none
 where: the last section of `FS:exp/survey/paper/parked/formalization/games.tex`
 history:
   - 2026-10-25 entered from the FS programme digest, sections 3.5, 4.8 and 5. Weight side, judged against Halil's direction of 2026-10-25 (HE-ML digest section 7), which does not need it.
+  - 2026-10-26 answered in part by thm-extraction-exponent-price: an SQ extraction bound for a trained single-index predictor
+    priced in the trainer's records, the comparison JCBKP20 Theorem 3 does not make.
 
 ## prob-compute-pricing-lower-bound
 statement: Is there a lower bound over all algorithms that prices compute, so that no algorithm
@@ -1636,13 +1645,18 @@ where: HE-ML:lab/theory/spaces/computational-limits/round-02/builder.md#conj-see
 history:
   - 2026-10-25 entered from the round-02 summary of computational-limits. Weight supporting, since the conjecture of the
     leading candidate needs it.
+  - 2026-10-26 restated in sol's quantitative form (round-03 summary of computational-limits): find a polynomial-time map whose
+    mean squared reconstruction error, after one common orthogonal alignment, is small relative to the record energy, for
+    a frozen expansive Gaussian ReLU client, with stated confidence, expansion, tails and precision. Withdrawn as an aim
+    of milestone 2 under Halil's instruction to simplify. prop-relu-client-second-moment-identifies-weights settles the
+    Gaussian population case.
 
 ## prob-coarse-reconstruction-lattice-hardness
 statement: Is reconstruction of a pancake coordinate to constant correlation hard for polynomial-time algorithms under a
   lattice assumption? The reduction of the space reaches only reconstruction to accuracy of order 1/gamma.
 posed: the space computational-limits, 2026-10-25
 weight: supporting
-status: open
+status: partial
 literature: unchecked
 tried: none
 depends-on: none
@@ -1650,6 +1664,8 @@ claimed-by: none
 where: HE-ML:lab/theory/spaces/computational-limits/round-02/builder.md#prop-fine-reconstruction-to-hclwe
 history:
   - 2026-10-25 entered from the round-00 summary of computational-limits.
+  - 2026-10-26 open to partial. thm-coarse-reconstruction-lattice-hard settles it in the exact-arithmetic model M, conditional on
+    hCLWE hardness in M. The transfer to Turing machines is prob-finite-precision-blind-reconstruction.
 
 ## prob-reconstruction-hardness-without-one-wayness
 statement: Does computational Narcissus resiliency for a reconstruction relation, in a trained or initialized model, imply
@@ -1665,6 +1681,8 @@ claimed-by: none
 where: HE-ML:lab/theory/spaces/computational-limits/round-00/summary.md
 history:
   - 2026-10-25 entered from the round-00 summary of computational-limits.
+  - 2026-10-26 tried: a compressing Gaussian client on uniform integer records gives no computational reconstruction bound,
+    since exact reconstruction is already statistically impossible (HE-ML:lab/theory/spaces/hard-problem-mappings/round-00/builder.md, Part 3).
 
 ## prob-train-access-collapses-sample-price
 statement: In the noisy mean estimator of HSU25 the noise covariance is the population covariance, so Train calls on any
@@ -1672,7 +1690,7 @@ statement: In the noisy mean estimator of HSU25 the noise covariance is the popu
   where HSU25 Theorem 3.1 forces order n + n^2 rho^2 samples without Train access?
 posed: the space statistical-limits, 2026-10-25
 weight: supporting
-status: open
+status: partial
 literature: unchecked
 tried: none
 depends-on: none
@@ -1681,6 +1699,81 @@ where: HE-ML:lab/theory/spaces/statistical-limits/round-00/summary.md
 history:
   - 2026-10-25 entered from the round-00 summary of statistical-limits. Weight supporting, since it decides whether a sample
     price survives the learning oracle.
+  - 2026-10-26 open to partial. Solved in the regime rho = n^-a, 0 < a < 1/2, by thm-train-access-price-frontier: the sample
+    price falls from Theta(n^(2-2a)) to Theta(n^(2a)) with Theta(n^(2-2a)) Train calls. For constant rho, sol's round-03
+    attack needs no reference sample. Under the hypothesis that the noise is calibrated to the population covariance.
+
+## prob-label-direction-same-units
+statement: Compare direction recovery by the trainer and by a split-learning server under one interface and one resource
+  class, for single-index labels with generative exponent at least three.
+posed: sol's challenges in round 03 of statistical-limits, 2026-10-25
+weight: side
+status: open
+literature: unchecked
+tried: prop-label-relevant-attacker-at-most-trainer, refuted in round 04.
+depends-on: none
+claimed-by: none
+where: HE-ML:lab/theory/spaces/statistical-limits/round-03/summary.md
+history:
+  - 2026-10-26 entered from the round-03 summary of statistical-limits.
+
+## prob-relu-blind-inversion-sample-price
+statement: What is the sample price of prop-relu-client-second-moment-identifies-weights when the second moment is
+  estimated from N representations?
+posed: the space statistical-limits, 2026-10-25
+weight: supporting
+status: open
+literature: unchecked
+tried: none
+depends-on: none
+claimed-by: none
+where: HE-ML:lab/theory/spaces/statistical-limits/round-03/builder.md#prop-relu-client-second-moment-identifies-weights
+history:
+  - 2026-10-26 entered from the round-03 summary of statistical-limits. Related to prob-blind-inversion-relu-clients.
+
+## prob-extraction-exponent-fitted-release
+statement: Does the extraction separation of thm-extraction-exponent-price survive a fitted network that approximates the
+  release only in L^2, and does it hold for polynomial-time extractors under a named assumption?
+posed: the space hard-problem-mappings, 2026-10-26
+weight: supporting
+status: open
+literature: search-extraction-generative-exponent
+tried: conj-extraction-priced-by-generative-exponent, retracted, since the exact moment cancellations need not survive
+  an L^2 approximation.
+depends-on: none
+claimed-by: none
+where: HE-ML:lab/theory/spaces/hard-problem-mappings/round-02/summary.md
+history:
+  - 2026-10-26 entered from the round-02 summary of hard-problem-mappings.
+
+## prob-finite-precision-blind-reconstruction
+statement: Do the lattice reductions of computational-limits survive finite-precision representations, so that they bind
+  Turing-machine attackers under the standard assumptions (BRST21 Corollary 4.2 for hCLWE, DvW22 for ZLIP)?
+posed: the space computational-limits, 2026-10-25
+weight: supporting
+status: open
+literature: unchecked
+tried: none
+depends-on: none
+claimed-by: none
+where: HE-ML:lab/theory/spaces/computational-limits/round-05/summary.md
+history:
+  - 2026-10-26 entered from the round-05 summary of computational-limits. Whether exact-arithmetic results are acceptable for
+    now is a decision for Halil.
+
+## prob-zlip-reductions-width-gap
+statement: The lower and upper ZLIP reductions of thm-zlip-reductions lose a factor sqrt(d ln(2d+4)/pi) in the width. Can
+  one width serve both, for polynomial widths?
+posed: the space computational-limits, 2026-10-25
+weight: side
+status: open
+literature: unchecked
+tried: none
+depends-on: none
+claimed-by: none
+where: HE-ML:lab/theory/spaces/computational-limits/round-05/builder.md#thm-zlip-reductions
+history:
+  - 2026-10-26 entered from the round-05 summary of computational-limits.
 
 # Archive
 

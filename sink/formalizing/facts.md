@@ -33,6 +33,9 @@ corrections:
     factors through the empirical mean and lies within squared Mahalanobis distance 2 rho^2 d of it with probability
     0.99. Proposition 2.5, an attacker that knows the distribution, is attributed to Dwork et al. without proof. The
     two bounds match only at d of order n + n^2 rho^2 (Remark 3.4), with rho > 0 (Definition 2.4). Source HE-ML:lab/theory/spaces/statistical-limits/round-01/builder.md.
+  - 2026-10-26 Per sol (statistical-limits round 03), the proof of Theorem 3.1 needs a strict margin, since total variation at
+    most 0.02 does not exclude advantage exactly 0.02, and in §3.2.4 the condition 400m <= n + n^2 rho^2 bounds the
+    square-root term by 0.1, not 0.01. Smaller existential constants repair both. Not re-checked by the builder.
 
 ## fact-hsu-gap-prices-covariance
 claim: The Haghifam, Smith and Ullman separation vanishes when the attacker knows the covariance, since about min{n, 1/ρ²} samples then suffice and are optimal, so it prices the attacker's ignorance of Σ rather than attack difficulty.
@@ -451,7 +454,10 @@ pointer: Theorem 2.9. The parked learning-oracle draft specializes Theorem 2.9 t
 read: recorded, wiki page date_verified 2026-08-20. The oracle draft that quotes it is recorded as re-verified.
 status: verified
 record: FS:wiki/sources/feldman-statistical-algorithms-planted-clique.md, FS:exp/survey/paper/parked/formalization/oracle.tex
-corrections: none
+corrections:
+  - 2026-10-26 Theorem 3.16 prints (2 alpha + 1)^2 in its second term. The proof (simulation error delta = (2 alpha - 1)/4 at
+    VSTAT(m/delta^2)) and the theorem's own case alpha = 2/3 give m >= min(d(2 alpha - 1)/2, (2 alpha - 1)^2/(48 gamma)).
+    Found by sol, checked in the PDF by the space hard-problem-mappings. Source HE-ML:lab/theory/spaces/hard-problem-mappings/round-02/builder.md#prop-learner-side-sq-transfer.
 
 ## fact-fgrvx17-theorem-one-quoted-form
 claim: The proof note of 2026-04-23 quotes FGRVX17 as Theorem 1.1 in the form q·τ² ≥ Ω(n^{2δ}), while the later re-verified oracle draft quotes Theorem 2.9 parameters, and no record reconciles the two citations.
@@ -1316,6 +1322,10 @@ corrections:
   - 2026-10-25 Hypotheses restated from the PDF: Theorem 3 needs distinct non-constant balanced concepts and
     (0.51, delta) plain accuracy, Theorems 4 and 5 give attacks with oracle access to the encoder, and Section 2 does
     not rule out privacy against instance recovery (astra, round 00). Source HE-ML:lab/theory/spaces/computational-limits/round-01/builder.md#fact-instance-encoding-privacy-learnability.
+  - 2026-10-26 Theorems 4 and 5 are proven for a difference of acceptance probabilities, twice the advantage of Definition 5.
+    The proof of Theorem 5 (Appendix A.3) orders the two acceptance probabilities the wrong way, and its instruction to
+    repeat training until the true encoded error meets a threshold is not a finite-sample procedure (sol). Source
+    HE-ML:lab/theory/spaces/hard-problem-mappings/round-01/builder.md#fact-instance-encoding-privacy-learnability.
 
 ## fact-no-hard-learning-attacker-lower-bound
 claim: No paper bounds a membership, inversion, attribute or reconstruction attacker from below with a statistical-query lower bound or another hard learning problem (empirical, search-based).
@@ -1356,6 +1366,9 @@ record: FS:wiki/sources/planting-undetectable-backdoors.md, FS:exp/survey/paper/
 corrections:
   - 2026-08-20 The summary had merged the black-box result for any model with the white-box result for random Fourier features into one claim, and the page now separates them.
   - 2026-08-20 The FOCS venue attribution was flagged as not stated in the PDF.
+  - 2026-10-26 Appendix A (Claim A.5 with Lemma A.3) has a parameter error. Its sparse-PCA backdoor is detected at the printed
+    parameters by a coordinate-variance test, and its activation condition is insufficient (lem-sparse-pca-backdoor-width-price).
+    Theorem 6.4, the RFF construction under CLWE, stands with its margin and normalization. Source HE-ML:lab/theory/spaces/hard-problem-mappings/round-02/builder.md.
 
 ## fact-gkvz-two-threshold-definition
 claim: Goldwasser et al.'s backdoor definition carries two thresholds, γ on the input perturbation and β quantizing an output into a bit, and places the win inside a real against ideal difference for a PPT adversary, arguing the absolute form unsatisfiable.
@@ -1404,6 +1417,7 @@ status: verified
 record: FS:wiki/sources/backdoor-defense-learnability-obfuscation.md, FS:exp/survey/lab/results/literature-sweep/definitions.md
 corrections:
   - 2026-08-20 Theorem labels and the random-oracle setting of Theorem 5.3 were corrected against the PDF.
+  - 2026-10-26 Corollary 5.2 gives no universal sample multiplier between detector and learner. Source HE-ML:lab/theory/spaces/hard-problem-mappings/round-01/builder.md.
 
 ## fact-ball-filter-impossibility-existential
 claim: There exist LLMs for which no efficient prompt filter separates harmful from benign prompts, the result is existential, and nothing is proved about deployed models.
@@ -1632,6 +1646,10 @@ status: verified
 record: FS:exp/survey/paper/parked/formalization/games.tex, FS:wiki/sources/jagielski-model-extraction.md, FS:wiki/sources/learnability-deep-random-networks.md
 corrections:
   - 2026-08-20 The Jagielski page was rebuilt from its PDF, recovering a missing SQ sample lower bound.
+  - 2026-10-26 JCBKP20 Theorem 3 is informal with no formal version. Its exponent and DGKP20 Theorem 16's are printed O(h)
+    where Lemma 12 with Theorem 15 gives exp(Omega(h)). DGKP20 Section 2 says uniform [0,1] weights while Lemma 3 needs
+    Gaussian rows. The bound is on queries times squared inverse tolerance. JCBKP20 Theorem 1 gives the constructed
+    worst case, and Appendix A NP-hardness of inequivalence. Source {M1}#fact-jagielski-extraction-query-bounds.
 
 ## fact-extraction-success-undefined
 claim: The model-extraction literature has no formal definition of a successful attack, as Shafran et al. state from inside the field, scoped to accuracy-driven extraction.
@@ -1670,6 +1688,8 @@ status: recorded
 record: FS:exp/survey/paper/parked/formalization/games.tex, FS:wiki/sources/active-learning-model-extraction.md
 corrections:
   - 2026-08-20 A correction was filed in raw/SOURCES.md, recording that the definition lower-bounds one adversary rather than upper-bounding all.
+  - 2026-10-26 Verified in the PDF: CCGJY20 Definitions 2 and 3, Experiment 1, Observation 1, Proposition 1. Proposition 1
+    needs fresh independent answer randomness at every repetition (sol). Source HE-ML:lab/theory/spaces/hard-problem-mappings/round-01/builder.md#fact-active-learning-is-extraction.
 
 ## fact-cjm20-cryptanalytic-extraction-cost
 claim: Carlini, Jagielski and Mironov recover ReLU parameters with polynomially many queries and work exponential in width for sign recovery, extracting a 100,000-parameter MNIST network with 2^{21.5} queries to worst-case error 2^{−25}, an empirical cost with no lower bound.
@@ -2719,6 +2739,90 @@ record: HE-ML:lab/theory/spaces/statistical-limits/round-01/builder.md#fact-ball
 corrections:
   - 2026-10-25 "Needs the initialization" describes this attack in these experiments, not a statistical impossibility
     (ch-reconnn-seed-interpretation, astra, round 01).
+
+# Milestone 2 of the theory: hard-problem mappings
+
+Facts read by the thinking spaces of `lab/theory/` in milestone 2 (2026-10-25 and 26).
+
+## fact-subgaussian-sample-covariance-concentration
+claim: For an N x d matrix with independent, mean-zero, isotropic, sub-gaussian rows of norm K, with probability at least
+  1 - 2 exp(-u^2), |A^T A / N - I| <= K^2 max(delta, delta^2) with delta = C (sqrt(d/N) + u/sqrt(N)) (proven).
+paper: Bruna, Regev, Song and Tang, Continuous LWE, STOC 2021, library key BRST21, quoting Vershynin, High-Dimensional
+  Probability (2018), Theorem 4.6.1 (book not in the library).
+pointer: BRST21 Lemma 7.4.
+read: full, HE-ML space statistical-limits, 2026-10-25.
+status: verified
+record: HE-ML:lab/theory/spaces/statistical-limits/round-03/builder.md#fact-subgaussian-sample-covariance-concentration
+corrections: none
+
+## fact-generative-exponent-post-processing-monotone
+claim: Label post-processing never lowers the generative exponent: if Y -> Y' is a Markov chain with E[Y'^2] finite then
+  k*(Z, Y') >= k*(Z, Y), Gaussian label noise preserves it, and invertible label maps leave it unchanged (proven).
+paper: Damian, Pillaud-Vivien, Lee and Bruna, COLT 2024, library key DPLB24.
+pointer: Proposition 2.6 and the paragraph after it, Example 2.7 (ii), Corollary 2.8, Theorem 5.2, Lemma 2.3.
+read: full, HE-ML space hard-problem-mappings, 2026-10-25.
+status: verified
+record: HE-ML:lab/theory/spaces/hard-problem-mappings/round-00/builder.md#fact-generative-exponent-post-processing-monotone
+corrections:
+  - 2026-10-25 The proof of Theorem 3.2 takes the diagonal correlation bound to be 1 (Definition B.4), while it equals
+    the chi-square information, which can exceed 1 and is infinite for deterministic labels. Recorded in both spaces.
+
+## fact-frozen-gaussian-layer-collision-hardness
+claim: Under a symmetric bounded perceptron assumption, which the paper ties to worst-case lattice problems by citation, a
+  frozen compressing Gaussian first layer with bilipschitz later layers resists approximate collisions on integer inputs,
+  and a statistically undetectable planted backdoor gives exponentially closer collisions (proven given the assumption).
+paper: BRV26, authors and ICML 2026 venue from the library record; the held copy is the anonymous ICLR 2026 submission.
+pointer: Definitions 5 and 6, Assumption 2, Theorems 2, 5 and 7, Corollary 3 (sufficient ranges, necessity not shown).
+read: full, HE-ML space hard-problem-mappings, 2026-10-25.
+status: verified
+record: HE-ML:lab/theory/spaces/hard-problem-mappings/round-01/builder.md#fact-frozen-gaussian-layer-collision-hardness
+corrections: none
+
+## fact-lip-average-case
+claim: The lattice isomorphism problem has an average-case form over the Gaussian form distribution, sampled in expected
+  polynomial time, and an average-case oracle at exponentially large width solves the worst case with polynomial overhead
+  (proven).
+paper: Ducas and van Woerden, On the Lattice Isomorphism Problem, Quadratic Forms, Remarkable Lattices, and Cryptography,
+  EUROCRYPT 2022, library key DvW22 (PDF not placed).
+pointer: Definitions 2.1, 2.2, 3.3, 3.7, Lemmas 2.9, 3.4, 3.6, 3.9, 3.10.
+read: full, CWI copy, HE-ML space computational-limits, 2026-10-25.
+status: verified
+record: HE-ML:lab/theory/spaces/computational-limits/round-03/builder.md#fact-lip-average-case
+corrections: none
+
+## fact-zlip-best-algorithms
+claim: For ZLIP, LIP with Q = I_n, the best provable algorithm costs 2^(n/2 + o(n)) and the best heuristic one 2^(0.146n +
+  o(n)), and no polynomial-time algorithm is known (as Duc24 reports, the second figure heuristic).
+paper: Ducas, Provable lattice reduction of Z^n with blocksize n/2, Designs, Codes and Cryptography 2024, library key Duc24.
+pointer: Theorems 1 and 2, Section 1 and 1.1.
+read: full, HE-ML space computational-limits, 2026-10-25.
+status: verified
+record: HE-ML:lab/theory/spaces/computational-limits/round-03/builder.md#fact-zlip-best-algorithms
+corrections: none
+
+## fact-lll-recovers-discrete-hidden-labels
+claim: From d + 1 samples z_i ~ N(a x_i u, Sigma) with integer labels, a weakly separable Sigma and a known spacing, LLL on
+  the coefficients of the linear dependency returns, in polynomial time and with probability 1 - exp(-Omega(d)), an integer
+  vector rationally proportional to the labels, provided some label among x_2..x_(d+1) is nonzero (proven).
+paper: Zadik, Song, Wein and Bruna, COLT 2022, library key ZSWB22.
+pointer: Assumption 3.1, Model 3.2, Theorem 3.3, Lemma 3.4, Model 4.3, Corollary 4.4.
+read: full, HE-ML space computational-limits, 2026-10-25.
+status: verified
+record: HE-ML:lab/theory/spaces/computational-limits/round-04/builder.md#fact-lll-recovers-discrete-hidden-labels
+corrections:
+  - 2026-10-25 Theorem 3.3 fails when x_2..x_(d+1) all vanish (sol's counterexample, which also affects Lemma 6.3), and
+    the LLL output is rationally proportional to the labels, not an integer multiple.
+
+## fact-discrete-gaussian-samples-generate
+claim: For a rank-n lattice of determinant at least 1 and width at least its shortest-basis length, about
+  n^2 + n log(s sqrt n)(n + 20 log log(s sqrt n)) independent discrete Gaussian samples generate the lattice except with
+  probability 2^(-Omega(n)) (proven).
+paper: Haviv and Regev, SODA 2014 (as sol gives the venue, the arXiv copy names none), arXiv 1311.0366, library key HR14.
+pointer: Lemma 5.4, with Lemma 5.1.
+read: full, arXiv, HE-ML space computational-limits, 2026-10-25.
+status: verified
+record: HE-ML:lab/theory/spaces/computational-limits/round-04/builder.md#fact-discrete-gaussian-samples-generate
+corrections: none
 
 # Bibliographic records
 

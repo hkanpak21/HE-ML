@@ -822,6 +822,344 @@ history:
   - 2026-10-25 accepted in rounds 01 and 02 of statistical-limits, merged into the booklet. The statistical floor of Halil's
     reconstruction example. Supersedes conj-reconstruction-label-sandwich of round 00.
 
+# Milestone 2 of the theory (HE-ML lab/theory)
+
+Objects accepted or withdrawn in the spaces statistical-limits (rounds 03 to 05) and hard-problem-mappings (rounds 00 to 02), 2026-10-25 and 26. The booklet merge waits for Halil's reading of the frozen booklet.
+
+## thm-blind-orbit-limit
+kind: theorem
+statement: An unbounded seed-blind server of a protocol in P_H learns the records only up to the symmetry group of the record law,
+  frozen or trained client. For Gaussian records and orthogonally equivariant training it cannot place even one record
+  within sqrt(d)/(2 sqrt 2) except with probability (1/2) exp(-d/16) + 2 exp(-0.31 d).
+where: HE-ML:lab/theory/spaces/statistical-limits/round-03/builder.md#thm-blind-orbit-limit
+uses-to-state: def-seed-blind-reconstruction-game
+uses-to-prove: lem-equivariant-view-coupling
+status: proven
+evidence: a Haar averaging argument over the symmetry group and a spherical cap bound.
+checked-by: sol (gpt-6.1-sol) rounds of the space and the integrator's re-derivation, 2026-10-26. Not checked by Halil.
+oracle: holds-without-oracle
+history:
+  - 2026-10-26 accepted in rounds 03 to 05 of statistical-limits, BLOCKING 0 at round 05.
+
+## prop-whitening-orbit-sample-price
+kind: proposition
+statement: Empirical whitening of a frozen affine client returns the empirically whitened records up to one rotation, and for
+  Gaussian records its orbit error has mean at most (d^2 + 2d)/N.
+where: HE-ML:lab/theory/spaces/statistical-limits/round-03/builder.md#prop-whitening-orbit-sample-price, with HE-ML:lab/theory/spaces/statistical-limits/round-04/builder.md
+uses-to-state: thm-blind-orbit-limit
+uses-to-prove: lem-whitening-gives-rotated-records
+status: proven
+evidence: polar decomposition and Wishart moments.
+checked-by: sol (gpt-6.1-sol) rounds of the space and the integrator's re-derivation, 2026-10-26. Not checked by Halil.
+oracle: holds-without-oracle
+history:
+  - 2026-10-26 accepted in round 05 of statistical-limits.
+
+## thm-blind-orbit-price
+kind: theorem
+statement: For frozen linear clients near an isometry and Gaussian records with no side data, the minimax orbit error of
+  reconstruction is Theta(d^2/N), so relative accuracy epsilon costs Theta(d/epsilon^2) representations, attained by
+  empirical whitening.
+where: HE-ML:lab/theory/spaces/statistical-limits/round-04/builder.md#thm-blind-orbit-price, with HE-ML:lab/theory/spaces/statistical-limits/round-05/builder.md
+uses-to-state: prop-whitening-orbit-sample-price
+uses-to-prove: prop-reconstruction-label-sandwich, fact-subgaussian-sample-covariance-concentration
+status: proven
+evidence: reduction of any reconstruction to an estimate of the inverse square root of the covariance, a Lipschitz bound for
+  the matrix absolute value, and Fano through the ceiling of prop-reconstruction-label-sandwich.
+checked-by: sol (gpt-6.1-sol) rounds of the space and the integrator's re-derivation, 2026-10-26. Not checked by Halil.
+oracle: holds-without-oracle
+history:
+  - 2026-10-26 accepted in round 05 of statistical-limits.
+
+## prop-relu-client-second-moment-identifies-weights
+kind: proposition
+statement: The population second moment of a frozen Gaussian ReLU client on Gaussian records identifies its weights up to
+  rotation through the arc-cosine kernel, and a polynomial-time server then inverts every record up to that rotation.
+where: HE-ML:lab/theory/spaces/statistical-limits/round-03/builder.md#prop-relu-client-second-moment-identifies-weights, with HE-ML:lab/theory/spaces/statistical-limits/round-04/builder.md
+uses-to-state: thm-blind-orbit-limit
+uses-to-prove: fact-lei-random-expansive-layers-invertible
+status: proven
+evidence: the first-order arc-cosine kernel of Cho and Saul (NeurIPS 2009, not in the library) and LJDD19 Theorem 3. The finite
+  sample price is open.
+checked-by: sol (gpt-6.1-sol) rounds of the space and the integrator's re-derivation, 2026-10-26. Not checked by Halil.
+oracle: holds-without-oracle
+history:
+  - 2026-10-26 accepted in round 05 of statistical-limits.
+
+## thm-train-access-price-frontier
+kind: theorem
+statement: In the noisy mean estimator of HSU25 with noise calibrated to the population covariance and rho = n^-a, 0 < a < 1/2,
+  Train access cuts the membership sample price from Theta(n^(2-2a)) to Theta(n^(2a)) reference samples, paid with
+  Theta(n^(2-2a)) Train calls, and in samples plus Train calls the price is Theta(n^(2-2a)) either way.
+where: HE-ML:lab/theory/spaces/statistical-limits/round-03/builder.md#thm-train-access-price-frontier, with HE-ML:lab/theory/spaces/statistical-limits/round-04/builder.md and HE-ML:lab/theory/spaces/statistical-limits/round-05/builder.md
+uses-to-state: fact-hsu-membership-sample-gap, def-uniform-security-profile
+uses-to-prove: fact-hsu-gap-prices-covariance, fact-subgaussian-sample-covariance-concentration
+status: proven
+evidence: a simulation of Train calls by pairs of reference samples, HSU25 Theorems 3.1, 3.3 and 4.1, and a whitened
+  Train-access attack analysed by Chebyshev.
+checked-by: sol (gpt-6.1-sol) rounds of the space and the integrator's re-derivation, 2026-10-26. Not checked by Halil.
+oracle: needs-oracle
+history:
+  - 2026-10-26 accepted in round 05 of statistical-limits. The modelling hypothesis (noise calibrated to the population
+    covariance, so Train calls leak it) is a decision for Halil.
+
+## thm-same-units-gap-gaussian-mechanism
+kind: theorem
+statement: In Gaussian-mechanism mean estimation with Train access, every membership attack meeting the HSU25 criterion costs more
+  than (c_2/2)(n + n^2 rho^2) in samples plus Train calls, against the trainer's n samples and one run, and an efficient
+  attack attains it, so the attacker pays the factor Theta(1 + n rho^2).
+where: HE-ML:lab/theory/spaces/statistical-limits/round-03/builder.md#thm-same-units-gap-gaussian-mechanism, with HE-ML:lab/theory/spaces/statistical-limits/round-04/builder.md
+uses-to-state: thm-train-access-price-frontier
+uses-to-prove: fact-hsu-membership-sample-gap
+status: proven
+evidence: parts (a), (c) and (d) of thm-train-access-price-frontier.
+checked-by: sol (gpt-6.1-sol) rounds of the space and the integrator's re-derivation, 2026-10-26. Not checked by Halil.
+oracle: needs-oracle
+history:
+  - 2026-10-26 accepted in round 05 of statistical-limits. Sharpens conj-same-units-gap for a natural procedure, whose own
+    low-rank-adapter form stays open.
+
+## prop-label-relevant-attacker-at-most-trainer
+kind: proposition
+statement: For the label-relevant coordinate of split learning the attacker never pays more than the trainer.
+where: HE-ML:lab/theory/spaces/statistical-limits/round-03/builder.md#prop-label-relevant-attacker-at-most-trainer
+uses-to-state: none
+uses-to-prove: none
+status: refuted
+evidence: sol, round 03: generative exponent at least three makes the first Hermite coefficient vanish, and a good predictor
+  need not recover the direction.
+checked-by: sol (gpt-6.1-sol) rounds of the space and the integrator's re-derivation, 2026-10-26. Not checked by Halil.
+oracle: n/a
+history:
+  - 2026-10-26 posed in round 03 of statistical-limits, withdrawn in round 04.
+
+## def-hard-problem-mapping
+kind: definition
+statement: A mapping between an attack task on a learning procedure and a hard problem from the literature states the procedure
+  with its cost meter, the task with its success functional and baseline, the hard problem, the direction of the
+  reduction with its simulated training runs, the prices on both sides, the regime, the exponent ratio for named scalar
+  resources, the carrier of the hardness, and an experiment. A mapping whose only hard instance is a key-dependent change
+  the designer makes for security does not count. Read forward, a mapping transfers thresholds (lem-mapping-transfer).
+where: HE-ML:lab/theory/spaces/hard-problem-mappings/round-01/builder.md#def-hard-problem-mapping, with HE-ML:lab/theory/spaces/hard-problem-mappings/round-02/builder.md
+uses-to-state: def-seed-access-modes, def-seed-blind-reconstruction-game
+uses-to-prove: none
+status: proven
+evidence: a definition.
+checked-by: sol (gpt-6.1-sol) rounds of the space and the integrator's re-derivation, 2026-10-26. Not checked by Halil.
+oracle: n/a
+history:
+  - 2026-10-26 accepted in round 02 of hard-problem-mappings.
+
+## lem-mapping-transfer
+kind: lemma
+statement: A mapping transfers the hard problem's threshold to the attack task, up to the reduction's budget.
+where: HE-ML:lab/theory/spaces/hard-problem-mappings/round-01/builder.md#lem-mapping-transfer
+uses-to-state: def-hard-problem-mapping
+uses-to-prove: none
+status: proven
+evidence: direct from the reduction and its accounting.
+checked-by: sol (gpt-6.1-sol) rounds of the space and the integrator's re-derivation, 2026-10-26. Not checked by Halil.
+oracle: n/a
+history:
+  - 2026-10-26 accepted in round 01 of hard-problem-mappings.
+
+## prop-learner-side-sq-transfer
+kind: proposition
+statement: If a procedure reaches its records only through m one-bit statistical queries, every unbounded white-box attacker of its
+  output that solves an SQ-hard testing problem forces m >= min(q, delta^2 t), and in statistical-dimension form
+  m >= min(d(2 alpha - 1)/2, (2 alpha - 1)^2/(48 gamma)).
+where: HE-ML:lab/theory/spaces/hard-problem-mappings/round-02/builder.md#prop-learner-side-sq-transfer
+uses-to-state: lem-mapping-transfer
+uses-to-prove: lem-sq-learner-post-processing
+status: proven
+evidence: FGRVX17 Theorems 3.7 and 3.13, with the corrected constant of Theorem 3.16.
+checked-by: sol (gpt-6.1-sol) rounds of the space and the integrator's re-derivation, 2026-10-26. Not checked by Halil.
+oracle: holds-without-oracle
+history:
+  - 2026-10-26 accepted in round 02 of hard-problem-mappings. lem-sq-learner-post-processing is its planted-biclique case.
+
+## lem-level-set-moment-balance
+kind: lemma
+statement: Conditioned on a level set of |z| phi(z), a standard Gaussian has the Gaussian's first three moments, and its fourth
+  moment exceeds them by AB, so the link |z| exp(-z^2/2) has generative exponent 4.
+where: HE-ML:lab/theory/spaces/hard-problem-mappings/round-01/builder.md#lem-level-set-moment-balance
+uses-to-state: none
+uses-to-prove: none
+status: proven
+evidence: the Jacobian weights 1/(1 - a^2) and 1/(b^2 - 1) of the two branches balance the second moment exactly.
+checked-by: sol (gpt-6.1-sol) rounds of the space and the integrator's re-derivation, 2026-10-26. Not checked by Halil.
+oracle: n/a
+history:
+  - 2026-10-26 accepted in round 01 of hard-problem-mappings.
+
+## thm-extraction-exponent-price
+kind: theorem
+statement: Extracting a released single-index predictor m(<w,x>) with a known link from noisy answers on random inputs needs
+  VSTAT(c d^(k*(m)/2)) for SQ extractors and is achieved from O(d^(k*(m)/2)) answered pairs. For the label law with
+  E[Y|Z] = |Z| exp(-Z^2/2), the trainer recovers the direction from O(d) records (exponent 2 law) while extracting its
+  release costs exponent 4, an attacker SQ sample exponent twice the trainer's.
+where: HE-ML:lab/theory/spaces/hard-problem-mappings/round-01/builder.md#thm-extraction-exponent-price, with HE-ML:lab/theory/spaces/hard-problem-mappings/round-02/builder.md
+uses-to-state: lem-level-set-moment-balance, def-hard-problem-mapping
+uses-to-prove: fact-generative-exponent-post-processing-monotone, fact-generative-exponent-sq-recovery-bound
+status: proven
+evidence: a fidelity-to-detection reduction with Haar rotation and FGRVX17 Lemma 3.10 and Theorem 3.7 on the code of DPLB24
+  Lemma E.3, DPLB24 Theorem 4.1 for the upper bound, with a sign-selection step.
+checked-by: sol (gpt-6.1-sol) rounds of the space and the integrator's re-derivation, 2026-10-26. Not checked by Halil.
+oracle: holds-without-oracle
+history:
+  - 2026-10-26 accepted in round 02 of hard-problem-mappings. The trainer-to-extractor comparison sets a sample count against a
+    VSTAT parameter, so as a sample separation it is heuristic. Chosen inputs break it.
+
+## lem-sparse-pca-backdoor-width-price
+kind: lemma
+statement: The sparse-PCA backdoor of GKVZ22 Appendix A is either detected in time O(md) from m >= 64 k^2 ln(4(d+1))/theta^2
+  weight vectors, or the key buys at most a factor sqrt(1 + theta) in perturbation length over a key-free radial input, and
+  Claim A.5's activation condition is insufficient (theta = 1, lambda = 1.1, tau = 1 fails).
+where: HE-ML:lab/theory/spaces/hard-problem-mappings/round-02/builder.md#lem-sparse-pca-backdoor-width-price
+uses-to-state: fact-gkvz22-backdoor-scope
+uses-to-prove: none
+status: proven
+evidence: Laurent and Massart chi-square tails and Gaussian concentration of the averaged ReLU response.
+checked-by: sol (gpt-6.1-sol) rounds of the space and the integrator's re-derivation, 2026-10-26. Not checked by Halil.
+oracle: holds-without-oracle
+history:
+  - 2026-10-26 accepted in round 02 of hard-problem-mappings.
+
+## prop-weight-testing-equals-white-box-detection
+kind: proposition
+statement: White-box detection of a planted weight law in a random-feature release is exactly testing m rows of the planted law,
+  in every algorithm class closed under sampling the offsets, the data and the head training.
+where: HE-ML:lab/theory/spaces/hard-problem-mappings/round-01/builder.md#prop-weight-testing-equals-white-box-detection
+uses-to-state: fact-gkvz22-backdoor-scope
+uses-to-prove: none
+status: proven
+evidence: simulation in one direction and projection in the other.
+checked-by: sol (gpt-6.1-sol) rounds of the space and the integrator's re-derivation, 2026-10-26. Not checked by Halil.
+oracle: holds-without-oracle
+history:
+  - 2026-10-26 accepted in round 01 of hard-problem-mappings.
+
+## prop-gram-sufficiency-rotation-invariant
+kind: proposition
+statement: For a uniformly random key, the row Gram matrix of a planted Gaussian layer is all a white-box auditor needs, and the
+  feature second moments of a ReLU layer recover it.
+where: HE-ML:lab/theory/spaces/hard-problem-mappings/round-01/builder.md#prop-gram-sufficiency-rotation-invariant, with HE-ML:lab/theory/spaces/hard-problem-mappings/round-02/builder.md
+uses-to-state: prop-weight-testing-equals-white-box-detection
+uses-to-prove: none
+status: proven
+evidence: orbit argument under Haar randomization and the arc-cosine kernel. Finite precision and probe complexity open.
+checked-by: sol (gpt-6.1-sol) rounds of the space and the integrator's re-derivation, 2026-10-26. Not checked by Halil.
+oracle: holds-without-oracle
+history:
+  - 2026-10-26 accepted in round 02 of hard-problem-mappings.
+
+## lem-feature-matrix-transpose
+kind: lemma
+statement: An auditor of a planted Gaussian layer that sees features on Gaussian probes is a split server with the roles of
+  records and weights exchanged, and recovers every nonzero row by layer-wise inversion with high probability.
+where: HE-ML:lab/theory/spaces/hard-problem-mappings/round-01/builder.md#lem-feature-matrix-transpose
+uses-to-state: none
+uses-to-prove: fact-lei-random-expansive-layers-invertible
+status: proven
+evidence: LJDD19 Theorem 3 per row with a union bound.
+checked-by: sol (gpt-6.1-sol) rounds of the space and the integrator's re-derivation, 2026-10-26. Not checked by Halil.
+oracle: holds-without-oracle
+history:
+  - 2026-10-26 accepted in round 01 of hard-problem-mappings.
+
+## conj-extraction-priced-by-generative-exponent
+kind: conjecture
+statement: Extraction costs the generative exponent of the model's own link.
+where: HE-ML:lab/theory/spaces/hard-problem-mappings/round-00/builder.md
+uses-to-state: none
+uses-to-prove: none
+status: retracted
+evidence: superseded by thm-extraction-exponent-price for releases with a known link. The fitted-network remainder is not kept.
+checked-by: sol (gpt-6.1-sol) rounds of the space and the integrator's re-derivation, 2026-10-26. Not checked by Halil.
+oracle: n/a
+history:
+  - 2026-10-26 posed in round 00, withdrawn in round 01 of hard-problem-mappings.
+
+## conj-backdoor-detection-is-ngca
+kind: conjecture
+statement: Detection of a weight-law backdoor is NGCA at the trainer's width.
+where: HE-ML:lab/theory/spaces/hard-problem-mappings/round-00/builder.md
+uses-to-state: none
+uses-to-prove: none
+status: retracted
+evidence: split into prop-weight-testing-equals-white-box-detection, prop-gram-sufficiency-rotation-invariant and
+  lem-feature-matrix-transpose.
+checked-by: sol (gpt-6.1-sol) rounds of the space and the integrator's re-derivation, 2026-10-26. Not checked by Halil.
+oracle: n/a
+history:
+  - 2026-10-26 posed in round 00, withdrawn in round 01 of hard-problem-mappings.
+
+## lem-agreement-detection
+kind: lemma
+statement: For a rotation-equivariant family of laws and a rotation-invariant null, any algorithm that recovers the hidden
+  direction to correlation rho from N samples gives a tester: two runs under independent Haar rotations agree to rho^2/2
+  with probability at least p^2 - 2 exp(-(d-1) rho^4/8) under the planted law and at most 2 exp(-d rho^4/8) under the null.
+where: HE-ML:lab/theory/spaces/computational-limits/round-04/builder.md#lem-agreement-detection
+uses-to-state: none
+uses-to-prove: none
+status: proven
+evidence: invariance under the stabilizer of the hidden direction and concentration of inner products of uniform vectors.
+  Sample game only.
+checked-by: sol (gpt-6.1-sol) rounds of computational-limits and the integrator's re-derivation, 2026-10-26. Not checked by Halil.
+oracle: holds-without-oracle
+history:
+  - 2026-10-26 accepted in round 04 of computational-limits.
+
+## prop-blind-lll-label-recovery
+kind: proposition
+statement: Behind a hidden injective linear client, records with exactly discrete hidden labels (noiseless homogeneous
+  CLWE) give up their labels to a polynomial-time server from d + 1 representations, while every SQ tester needs
+  2^(d^Omega(c)) queries or polynomially small tolerance, so the two games separate on one task.
+where: HE-ML:lab/theory/spaces/computational-limits/round-04/builder.md#prop-blind-lll-label-recovery
+uses-to-state: def-seed-blind-reconstruction-game
+uses-to-prove: fact-lll-recovers-discrete-hidden-labels, fact-ngca-sq-lower-bound, lem-equivariant-view-coupling
+status: proven
+evidence: ZSWB22 Algorithm 1 on representations, a gcd argument for primitive labels, and DKRS23 Theorem 1.5 through
+  moment matching by Poisson summation. Exact-arithmetic model.
+checked-by: sol (gpt-6.1-sol) rounds of computational-limits and the integrator's re-derivation, 2026-10-26. Not checked by Halil.
+oracle: holds-without-oracle
+history:
+  - 2026-10-26 accepted in round 04 of computational-limits. Supersedes conj-sq-sample-games-separate of round 03.
+
+## thm-coarse-reconstruction-lattice-hard
+kind: theorem
+statement: In the exact-arithmetic model M, a seed-blind attacker that reconstructs pancake records to any constant
+  correlation with probability p, from a frozen or trained client of P_O(d), gives an hCLWE algorithm of advantage
+  (p - exp(-Omega(d)))^2 - 4 exp(-(d-1) c_0^4/648) at twice its cost plus two protocol runs.
+where: HE-ML:lab/theory/spaces/computational-limits/round-05/builder.md#thm-coarse-reconstruction-lattice-hard
+uses-to-state: def-seed-blind-reconstruction-game, fact-clwe-hardness
+uses-to-prove: lem-agreement-detection, lem-equivariant-view-coupling
+status: proven
+evidence: the view coupling turns a reconstruction into a direction estimate, and lem-agreement-detection turns two of
+  them into a tester. Conditional on hCLWE hardness in M.
+checked-by: sol (gpt-6.1-sol) rounds of computational-limits and the integrator's re-derivation, 2026-10-26. Not checked by Halil.
+oracle: holds-without-oracle
+history:
+  - 2026-10-26 accepted in round 05 of computational-limits. Supersedes conj-coarse-reconstruction-lattice-hard of round 03.
+
+## thm-zlip-reductions
+kind: theorem
+statement: In the exact-arithmetic model M, blind exact reconstruction of quantized Gaussian records (discrete Gaussian on
+  Z^d) from any client of P_O(d) is at least as hard as average-case ZLIP, and for a frozen injective linear client it is
+  no harder, at a width loss of sqrt(d ln(2d+4)/pi).
+where: HE-ML:lab/theory/spaces/computational-limits/round-05/builder.md#thm-zlip-reductions, with HE-ML:lab/theory/spaces/computational-limits/round-06/builder.md
+uses-to-state: def-seed-blind-reconstruction-game
+uses-to-prove: lem-equivariant-view-coupling, fact-lip-average-case, fact-discrete-gaussian-samples-generate, fact-zlip-best-algorithms
+status: heuristic
+evidence: the reductions are accepted line by line by sol in rounds 05 and 06. Assumed and not yet shown: that the
+  procedures attain the stated expected overhead in M (finite encodings of real widths, a Gram-Schmidt abort, abort rules
+  on encoding lengths), the open challenge ch-zlip-model-realization.
+checked-by: sol, rounds 05 and 06 of computational-limits, with one blocking challenge open, 2026-10-26.
+oracle: holds-without-oracle
+history:
+  - 2026-10-26 round 05 REVISE and round 06 REVISE with BLOCKING 1. Merged as a sketch on the integrator's decision, following
+    Halil's instruction to simplify. Supersedes conj-quantized-records-zlip-equivalence of round 03.
+
 # Adversary interface (HE-ML)
 
 ## def-interface-data-space
