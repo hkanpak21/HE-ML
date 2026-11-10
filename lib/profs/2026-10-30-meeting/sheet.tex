@@ -1,0 +1,163 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=2cm,footskip=1cm]{geometry}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{hyperref}
+
+\definecolor{kred}{RGB}{178,28,36}
+\definecolor{kgrey}{RGB}{90,90,90}
+\hypersetup{colorlinks=true,urlcolor=kred,linkcolor=kred}
+
+\titleformat{\section}{\large\bfseries\color{kred}}{\thesection.}{0.6em}{}
+\titlespacing*{\section}{0pt}{1.2ex}{0.5ex}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.6em}{}
+\titlespacing*{\subsection}{0pt}{0.9ex}{0.3ex}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5ex}
+\setlist{nosep,leftmargin=1.4em}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[L]{\textcolor{kgrey}{\small 30 October 2026}}
+\fancyfoot[R]{\textcolor{kgrey}{\small\thepage}}
+
+\newcommand{\redline}{\textcolor{kred}{\rule{\textwidth}{1pt}}}
+
+\begin{document}
+\thispagestyle{fancy}
+
+{\LARGE\bfseries\textcolor{kred}{meeting 2026-10-30}}\\[0.3em]
+{\large Leakage and Encryption Placement in Federated Fine-Tuning of Large Models}\\[0.2em]
+\redline
+
+\section{Introduction}
+
+Federated fine-tuning adapts a large pretrained model to data held by several clients without collecting the data. In the common setting, the backbone is frozen and public, and each client trains a low-rank adapter and a classifier head on its own data. The clients share their updates with a server, which aggregates them into a shared model. The shared updates and the aggregated model can leak information about the clients' training data.
+
+Two protections are used in practice. Differential privacy adds noise to the updates and gives a formal guarantee at a cost in accuracy. Homomorphic encryption hides the updates from the server without affecting accuracy, but its cost grows quickly with model size, so encrypting a full large model is not practical. A protocol must therefore decide which components to encrypt, and this decision should follow from what each component actually leaks. When the aggregated model stays encrypted and answers queries with labels only, it can still be extracted through its answers. In addition, once updates are encrypted, the server can no longer inspect them, which gives a deviating client room to manipulate the shared model.
+
+This project studies these questions for the model families and sizes used in practice today.
+
+\section{Research Questions}
+
+\begin{enumerate}
+\item How much does federated fine-tuning leak for the large models used in practice today, across architectures, model sizes, fine-tuned components and attacks?
+\item Which components of the federated fine-tuning pipeline should be encrypted? We look for the least expensive placement whose measured leakage stays below a given threshold, and for formal guarantees where they are available.
+\item How far can a single deviating client shift the aggregated model without being detected, and which checks can the server perform on encrypted updates?
+\end{enumerate}
+
+\section{Threat Model}
+
+\begin{center}
+\small
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{6.4cm}>{\raggedright\arraybackslash}p{6.2cm}@{}}
+\toprule
+Party & Observations & Behaviour \\
+\midrule
+Server & all components sent in plaintext under the given placement, and ciphertexts of the remaining components & semi-honest \\
+Client & its own data and update, and any value released by threshold decryption & semi-honest, and may collude with the server \\
+Querier & the labels returned for its queries, up to the query limit & adaptive choice of queries \\
+Deviating client (Experiment 4) & the same as an honest client & submits a crafted head update or incorrect class counts (the per-class sample counts used as aggregation weights), and otherwise follows the protocol \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Deviations at the protocol level, such as malformed ciphertexts or incorrect partial decryptions, are outside the scope of this work. They require zero-knowledge techniques such as those of PELTA (Chatel et al., CCS 2023).
+
+\section{Related Work}
+
+Privacy-preserving federated fine-tuning of large models is mostly based on differential privacy applied to low-rank adapters. Sun et al.\ (ICLR 2024) freeze one of the two adapter matrices to reduce the effect of the noise, and Liu et al.\ (ICLR 2026) revisit low-rank adaptation for this setting.
+
+Encryption-based approaches either encrypt the full computation or a selected part of it. HETAL (Lee et al., ICML 2023) trains a classifier head on encrypted features. Rho et al.\ (ICLR 2025) modify the transformer architecture so that fine-tuning and inference can run entirely under homomorphic encryption. Our earlier protocol HE-OFT (arXiv 2610.08255) encrypts only the classifier head in one-shot federated fine-tuning, and finds membership inference against the heads close to random guessing for one backbone size. Selective encryption methods choose the encrypted parameters with a sensitivity score: SHE-LoRA (Liu et al., ICLR 2026) for adapter updates, and FedML-HE (arXiv 2303.10837) for full models.
+
+For membership inference, the likelihood-ratio attack (Carlini et al., IEEE S\&P 2022) and RMIA (Zarifzadeh et al., ICML 2024) are the strongest known attacks on small models, and Deng et al.\ (IEEE S\&P 2026) give an attack on federated large language models. Steinke et al.\ (NeurIPS 2023) audit privacy with a single training run, and Andrew et al.\ (ICLR 2024) do the same for federated learning.
+
+Regarding the cryptographic layer, Hwang et al.\ (ASIACRYPT 2026) show that approximate CKKS computation leaks through decryption unless sufficient noise is added. For deviating clients, RoFL (Lycklama et al., IEEE S\&P 2023) enforces norm bounds on updates the server cannot see, and Choudhary et al.\ (IEEE S\&P 2024) show that robust aggregation degrades in high dimensions. Finally, models that return only labels remain vulnerable to extraction (Carlini et al., ICML 2024, Chen et al., ASIACRYPT 2024).
+
+\subsection*{Contribution}
+
+Existing selective encryption methods select individual parameters according to a sensitivity score. We instead select protocol components (the adapter update, the head update, the aggregated head and the returned labels) according to the measured success of membership inference attacks at fixed false-positive rates, across model sizes. Each placement is evaluated by its encryption cost and by the attacks it leaves open, namely label-only extraction and undetected deviation by a client. To our knowledge no prior work takes this approach. We will verify this claim against SHE-LoRA and FedML-HE.
+
+\section{Proposed Experiments}
+
+We implement a federated fine-tuning pipeline with a frozen backbone, low-rank adapters and a classifier head in PyTorch, and the encrypted components with a CKKS library (Lattigo or OpenFHE). Every leakage measurement is reported together with the test accuracy of the same run.
+
+\subsection*{Experiment 1. Leakage across architectures and model sizes}
+We run federated fine-tuning without encryption on two or three sizes per model family: ViT-B and ViT-L on CIFAR-100, RoBERTa-base and RoBERTa-large on AG News and DBpedia-14, CLIP-B and CLIP-L, and one open decoder family between 0.5 and 3 billion parameters. We vary the adapter rank (4, 8, 16), the number of clients (2, 10, 50), and the data partition (IID, and Dirichlet with concentration 0.1). For each party in the threat model, we attack its full view with the likelihood-ratio attack and with RMIA. RMIA requires few reference models, which keeps the cost manageable for the larger backbones. We report the true-positive rate at false-positive rates of 0.01 and 0.001.
+
+\subsection*{Experiment 2. Placement of encryption}
+We compare six configurations: no encryption, the head only, the head and the adapter, a subset of the adapter selected as in SHE-LoRA, the full model as in Rho et al., and differential privacy on the adapter at a fixed $\varepsilon$ without encryption. Differential privacy serves as the baseline with a formal guarantee, since an empirical attack only gives a lower bound on leakage. For each configuration, the leakage is the largest true-positive rate at a false-positive rate of 0.001 over all parties, taken from Experiment 1. We measure the encryption cost in our implementation for the head and adapter configurations, and report the cost given by Rho et al.\ for the full model. A configuration is dominated if a cheaper one has no higher measured leakage for every party and attack. The output is a leakage-cost trade-off curve with the accuracy of each configuration, for each model size.
+
+\subsection*{Experiment 3. Label-only model extraction}
+We measure the number of label queries needed to extract the encrypted head to a given agreement, as a function of the feature dimension, the number of classes, the backbone, and the noise added at decryption, with and without a check that rejects repeated queries. We compare this number with the total number of training samples of the clients. Extracting a linear head from labels is an instance of learning a linear classifier with membership queries, so we first review the known query complexity bounds from active learning. Such a bound would determine the query limit of the protocol.
+
+\subsection*{Experiment 4. Deviating client}
+A single client submits a crafted head update or incorrect class counts that target one class or one trigger input. We measure the resulting shift of the aggregated head when the server applies a norm check to encrypted updates, as in RoFL, and the cost of this check under encryption. We also consider a second detector that compares the trained head with its variation across honest training runs. For a linear head trained with Gaussian noise and this second detector, the undetected shift along a fixed direction is at most a constant times the honest standard deviation along that direction (proven for linear regression in our internal notes). Whether a similar bound holds under the norm check or for nonlinear heads is open, and this experiment measures how tight the bound is in practice.
+
+\section{Expected Results}
+
+\begin{enumerate}
+\item Membership leakage at low false-positive rates, with accuracy, for each party, model family and model size, under two attacks.
+\item A leakage-cost trade-off for encryption placement at each model size, including a differentially private baseline.
+\item The query complexity of label-only extraction of the encrypted head across model sizes and noise levels, with a lower bound for the linear case if active learning does not already provide one.
+\item The shift achievable by an undetected deviating client under two detectors, a bound for the linear case, and the cost of the encrypted check.
+\end{enumerate}
+
+\section{Reading List}
+
+\begin{description}[style=nextline,leftmargin=1.4em,font=\normalfont\itshape]
+\item[Membership inference]
+Carlini et al., Membership Inference Attacks From First Principles, IEEE S\&P 2022.\\
+Zarifzadeh, Liu and Shokri, Low-Cost High-Power Membership Inference Attacks, ICML 2024.\\
+Deng et al., Toward Efficient Membership Inference Attacks against Federated Large Language Models, IEEE S\&P 2026.
+\item[Measuring leakage]
+Steinke, Nasr and Jagielski, Privacy Auditing with One (1) Training Run, NeurIPS 2023.\\
+Andrew et al., One-shot Empirical Privacy Estimation for Federated Learning, ICLR 2024.
+\item[Federated fine-tuning of large models]
+Sun et al., Improving LoRA in Privacy-Preserving Federated Learning, ICLR 2024.\\
+Liu et al., Rethinking LoRA for Privacy-Preserving Federated Learning in Large Models, ICLR 2026.
+\item[Homomorphic encryption with transformers]
+Lee et al., HETAL: Efficient Privacy-preserving Transfer Learning with Homomorphic Encryption, ICML 2023.\\
+Liu et al., SHE-LoRA: Selective Homomorphic Encryption for Federated Tuning with Heterogeneous LoRA, ICLR 2026.\\
+Rho et al., Encryption-Friendly LLM Architecture, ICLR 2025.
+\item[Security of the encryption layer]
+Hwang et al., On the (In)security of Approximate Computation Protocols from CKKS, ASIACRYPT 2026.\\
+Chatel et al., PELTA: Shielding Multiparty-FHE against Malicious Adversaries, CCS 2023.
+\item[Deviating clients]
+Lycklama et al., RoFL: Robustness of Secure Federated Learning, IEEE S\&P 2023.\\
+Choudhary, Kolluri and Saxena, Attacking Byzantine Robust Aggregation in High Dimensions, IEEE S\&P 2024.
+\item[Extraction through labels]
+Carlini et al., Stealing Part of a Production Language Model, ICML 2024.\\
+Chen et al., Hard-Label Cryptanalytic Extraction of Neural Network Models, ASIACRYPT 2024.
+\end{description}
+
+In addition, FedML-HE (arXiv 2303.10837) is needed to verify the contribution claim.
+
+\section{Next Steps}
+
+\begin{enumerate}
+\item Build the federated fine-tuning pipeline for one backbone, and reproduce a published membership inference result on it as a sanity check.
+\item Fix the backbones for Experiment 1 with their parameter counts, feature dimensions and memory requirements, and the number of reference models for each attack.
+\item Read the papers in Section 7, starting with SHE-LoRA, HETAL and FedML-HE, and confirm or revise the contribution claim.
+\item Benchmark the CKKS cost of encrypted aggregation and encrypted inference of a head and an adapter as a function of the feature dimension and the number of parameters.
+\end{enumerate}
+
+\section{Decisions for This Meeting}
+
+\begin{enumerate}
+\item The order of the experiments. We propose to start with Experiment 1, since Experiment 2 depends on its results. Experiment 3 can run in parallel, and Experiment 4 starts once its detectors are fixed.
+\item Whether the contribution claim is strong enough with respect to the selective encryption literature.
+\item Whether the differentially private baseline is included in Experiment 2.
+\item Who builds the pipeline in step 1.
+\end{enumerate}
+
+\end{document}

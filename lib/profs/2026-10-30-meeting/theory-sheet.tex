@@ -1,0 +1,85 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=2cm,footskip=1cm]{geometry}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{hyperref}
+
+\definecolor{kred}{RGB}{178,28,36}
+\definecolor{kgrey}{RGB}{90,90,90}
+\hypersetup{colorlinks=true,urlcolor=kred,linkcolor=kred}
+
+\titleformat{\section}{\large\bfseries\color{kred}}{\thesection.}{0.6em}{}
+\titlespacing*{\section}{0pt}{1.2ex}{0.5ex}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45ex}
+\setlist{nosep,leftmargin=1.4em}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[L]{\textcolor{kgrey}{\small 30 October 2026}}
+\fancyfoot[R]{\textcolor{kgrey}{\small\thepage}}
+
+\newcommand{\redline}{\textcolor{kred}{\rule{\textwidth}{1pt}}}
+
+\begin{document}
+\thispagestyle{fancy}
+
+{\LARGE\bfseries\textcolor{kred}{meeting 2026-10-30}}\\[0.3em]
+{\large Five problems we can study, each with a setting, a theorem to aim at and an experiment}\\[0.2em]
+\redline
+
+The project prices an attack on a learning procedure in the units of learning itself: records, training runs, queries and gradient steps. Three findings of the last two weeks decide what is worth studying.
+
+\begin{itemize}
+\item That the attacker is a learning algorithm gives no lower bound on its cost by itself. Mini-batch SGD with fine enough gradient precision simulates every learning algorithm that uses samples (Abbe, Kamath, Malach, Sandon and Srebro, NeurIPS 2021, Theorem 1a, proven). A bound therefore sees a learning attacker only through what it reads, through the noise in its own updates, or through a hardness assumption.
+\item Every computational hardness we found for an attack rests on structure placed in the data along a hidden direction. The two undetectable backdoor constructions we read have the same shape, with the secret in the training randomness (Goldwasser, Kim, Vaikuntanathan and Zamir, FOCS 2022, Theorem 6.4) or in a frozen random layer (Bogdanov, Rosen and Vafa, ICML 2026, Theorems 2 and 5).
+\item On natural data an assumption that forbids an attack contradicts the attacks we observe, membership inference among them. A security claim should therefore be a pair of costs. The lower one is proven and binds every attacker, and the upper one is the measured cost of the cheapest attack known.
+\end{itemize}
+
+Each problem below states the setting, the theorem to aim at, what holds today, and an experiment. Each claim carries one of four labels, proven, heuristic, empirical or open. Where we write open with a draft, a written proof exists and nobody outside the project has checked it.
+
+\section{Does an undetected poisoner move the model only where the trainer is uncertain?}
+
+A trainer fits a model that is linear in its parameters by gradient descent with Gaussian noise added to each step. Linear regression, a random-feature model and a wide network close to its linearization are examples. An attacker changes some training labels or sends altered updates, and its changes do not depend on the trainer's noise. It must stay undetected. Over the training randomness, with the data fixed, the law of the trained model moves by at most $\delta$ in total variation. An auditor who sees one trained model then tells the two cases apart with advantage at most $\delta$.
+
+The theorem to aim at says that at every input the attacker moves the mean prediction by at most $m(\delta)$ honest standard deviations. Here $m(\delta)=2\Phi^{-1}((1+\delta)/2)$, $\Phi$ is the standard normal distribution function, and the honest standard deviation is the spread of the prediction at that input over the training randomness with no attacker. Both laws of the prediction are Gaussian with one variance, which is what makes the constant exact. One poison attains the bound. A label poisoner moves the parameters only inside the span of the training inputs, so it reaches only that part of the spread, while an attacker that sends updates reaches all of it (open with a draft).
+
+The bound is proven for linear regression when the attacker shifts the parameters along one fixed direction. For every model linear in its parameters it is open with a draft, and under feature learning it is open. The experiment trains a two-layer network on MNIST digits 3 against 8 at widths 64 and 4096, and the same network with frozen features. The attacker poisons labels toward one trigger input, and we run 200 honest and 200 poisoned trainings per setting. The result would measure, in honest standard deviations at the trigger, how far label poisoning moves the prediction at each width, with no secret placed in the model.
+
+\section{Does honest noise slow an observer quadratically and the trainer linearly?}
+
+Clients in federated learning add Gaussian noise of variance $\varsigma^2$ per coordinate to each update. The labels are chosen so that the trained model carries no information about a hidden direction in the clients' data. Two roles act. The trainer, which is the server, trains the model. The observer, which is the server or an eavesdropper, watches the updates to recover the hidden direction. Write $r=b\varsigma^2/\mu_2$ for the ratio of noise to signal, with $b$ the batch size and $\mu_2$ the second moment of the labels.
+
+The theorem to aim at says that every observer, with unlimited computation, needs of order $d(1+r)^2$ updates, while the trainer reaches a fixed loss after of order $d(1+r)$ updates. At matched budgets the observer then pays $1+r$ times what the trainer pays. Each exponent equals the lowest degree of a polynomial in the observed updates whose expectation depends on that party's target, which we call the degree of the party. The theorem is open with a draft. The experiment fits the slopes of both costs against $\log(1+r)$, and slopes far from two and one refute it. The result would make the degree, which the theory defines only for Gaussian data, a slope one measures on real data.
+
+\section{Which attacker classes matter?}
+
+Two results say when the attacker's own model enters its cost. Both hold for the updates of problem 2. The first prices an attacker that is itself a learner, a shadow model trained by gradient descent on examples it makes by rerunning the training procedure. If the attacker adds Gaussian noise of variance $\tau^2$ to its own steps, it needs at least of order $\tau^2d^{\lceil(l+1)/2\rceil}/G^2$ steps. Here $l$ is the information exponent, the lowest Hermite degree at which the hidden direction correlates with the observation, and $G^2$ is the mean squared gradient norm of the attacker's model family, which grows with $d$ for usual families. For $l\le3$ this is proven conditional on one hypothesis, that no fixed readout recovers the hidden direction from the observation averaged over all directions. For $l>3$ it is heuristic. The bound needs noise in the attacker's own steps, so a real attacker running SGD at fine precision escapes it, by the first finding above.
+
+The second result says that a linear attacker, principal components or a linear autoencoder, is as good as every attacker on large-batch updates. The ratio of the two costs exceeds one by a term of order $1/b$, set by how far each update is from a Gaussian. Its mechanism holds and its constants are open with a draft. The study would ask for which architectures and data the model a practical attacker uses matters at all.
+
+\section{Security levels for learning attacks}
+
+Lattice schemes carry security levels. A level is the cost of the best known attack, and it falls when a better attack appears. We propose the same for attacks on learning procedures. A level is the measured cost of the cheapest attack written up with its cost, and a floor is a proven cost below which no attack goes. Theorems are of three kinds: reductions that show two attacks are one learning problem, floors, and statements of how a training choice, such as batch size, honest noise or clipping, moves a level. One task already has both. In one round of federated learning, recovering the hidden direction from client updates needs at least 46 updates at dimension 200 (proven), and a spectral attack succeeded with 4000 in 40 of 40 runs (empirical). The two differ by a factor 86 at dimension 200 and 81 at dimension 400 (our report of 29 October, the debate on learning-attacker prices).
+
+The rule this needs first is open. When does a cost measured on real data, where no law of the data is written down, count as matching a floor proven on a law we constructed? Without such a rule, no result on a real model says more than the cost of one attack.
+
+\section{Does a better learner leak more?}
+
+The answer splits by the secret. For a secret about the population, an attacker who sees only the trained model learns at most what the model holds (proven, data processing). A more accurate model holds more of its task, so the attacker reaches more of a secret aligned with the task (heuristic). Under the Gaussian mechanism with noise scale $\rho$ on a mean of $n$ records, membership costs the attacker $1+n\rho^2$ times what training costs, so less noise makes membership cheaper (proven).
+
+For the membership of one record, the loss-threshold attack has advantage equal to the generalization error divided by the bound on the loss (Yeom, Giacomelli, Fredrikson and Jha, CSF 2018, Theorem 2, proven). Against that attack a learner that generalizes better leaks less. Generalization alone does not protect against every attack, since their Theorem 4 builds a stable learner that leaks every membership (proven). On long-tailed data, near-optimal accuracy requires memorizing rare records (Feldman, arXiv 1906.05271, read from its abstract only). For an undetected poisoner, a better trainer leaves less room, if problem 1 holds. The experiment runs trainers of rising quality against one fixed membership attack and one fixed reconstruction attack. If the most accurate trainer is the worst case, each security level is dated by the best trainer available when it was measured.
+
+\medskip
+\redline
+
+The question for today is which one or two of these to take first. Our proposal is problem 1 and the rule of problem 4. In problem 1 the hardness comes from what the trainer has not learned, and nothing is placed in the data. The rule of problem 4 decides whether any experiment on a real model can meet a proof.
+
+\end{document}
