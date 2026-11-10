@@ -3,68 +3,50 @@ key: CGZ24
 title: Undetectable Watermarks for Language Models
 authors: Miranda Christ and Sam Gunn and Or Zamir
 venue: COLT 2024
-venue_evidence: /Users/a90/Documents/RESEARCH/FORMAL_SECURITY/wiki/sources/undetectable-watermarks-lm.md
+venue_evidence: dblp COLT 2024 pp. 1125-1139, recorded in FS wiki undetectable-watermarks-lm.md
 year: 2024
 type: conference
 placed_on: 2026-10-25
 placed_by: agent
 triage: cite
-relation: FILL
-epistemic: FILL
+relation: prior-art
+epistemic: "proven, from one-way functions, and the necessity of computational assumptions proven unconditionally"
 prov: sweep
 ---
 
 # CGZ24, Undetectable Watermarks for Language Models
 
-The key is the IACR key derived from the author list printed on the paper. It
-never changes once used. Author names are read from the first page, never from
-a file name.
-
-Write this in your own words. A note that is the abstract rearranged is a note
-that proves nothing was read, and it is worth nothing to you in three months.
-
-`prov: sweep` means this page was built from an extraction and not from a full
-read. A page marked `sweep` cannot be cited in paper prose. Change it to
-`full-read` only after reading the paper.
-
 ## Claim
 
-One sentence, in your words. What the paper says is true that was not known
-before it.
+Watermarks for language models can be undetectable to every polynomial-time user from one-way functions, and no sound watermark is undetectable to an unbounded user.
 
 ## Method
 
-Three sentences. What they built or proved, and how. Name the adversary and
-what it is assumed to know if the paper has one.
+The provider holds a secret key and samples text so that, without the key, outputs are computationally indistinguishable from the original model even under adaptive prompts. With the key, detection works on any contiguous substring of enough empirical entropy, and soundness keeps independently written text undetected. Lemma 4 shows that a distinguisher with polynomially many queries and time exponential in the key length tells the watermarked model from the original for any sound scheme. Theorem 10 shows that watermarking outputs of low empirical entropy is detectable with exp(t) queries and time.
 
 ## What they measured, and on what
 
-The datasets, the models, the metrics, the baselines. If the evaluation is a
-proof rather than an experiment, say what is assumed and what is concluded.
+Proofs only, plus a discussion of empirical removal attacks.
 
 ## Epistemic status
 
-Which parts are proven, which are heuristic, which are empirical, and on what.
-If the paper blurs two of these, say where.
+Proven. Section 6.2 gives a removal attack for prefix-specifiable models, called expensive by the authors, not read in detail.
 
 ## The limitation that matters to us
 
-The one that bites this project. Say whether the paper states it or whether you
-found it. A limitation the authors state is a different fact from one they do
-not.
+Undetectability is a property of the user's compute, so it says nothing about a user who learns the watermark statistically with exponential time. Stated by the authors (Section 5).
 
 ## Relationship to this project
 
-Prior art, baseline, orthogonal, or competitor. Pick one and say why in a
-sentence. This field is what makes `related-work.md` writable later. A note
-without it is a summary, and summaries do not compose into an argument.
+Prior art. It is the case where the unbounded side is proven to fail, so the computational bound is necessary and not a convenience.
 
 ## What we need to consider for our work
 
-What this changes about what we do next. If the answer is nothing, write that.
+Lemma 4 prices the unbounded attacker in queries and in time separately, polynomial and exponential. Our measure should keep the two separate in the same way.
 
 ## Provenance
 
 Copied on 2026-10-25 from FORMAL_SECURITY raw/CGZ24_UndetectableWatermarks.pdf for the formalizing line, see `sink/formalizing/README.md`. Title and authors were read from the first page.
 Reading notes: FORMAL_SECURITY `/Users/a90/Documents/RESEARCH/FORMAL_SECURITY/wiki/sources/undetectable-watermarks-lm.md`.
 Mapping note: PDF is arXiv v1 (stamp 25 May 2023, dated 16 Jun 2023); key year follows COLT 2024 (wiki, dblp). Also IACR ePrint 2023/763.
+Read on 2026-10-27 for the meeting of that day: abstract, Section 1 to the property list, Section 5 to the proof of Lemma 4, and the opening of Section 6.2. prov stays sweep, since the paper was not read in full.
