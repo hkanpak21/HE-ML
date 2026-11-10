@@ -102,6 +102,54 @@ what it would cost to approximate the oracle by real training.
 - "fill them on the fly in detail instead of using a herd of subagents", for
   paper notes, see the repo `CLAUDE.md`.
 
+## Halil's instructions of 2026-10-27
+
+- On modifications of the data or the protocol made by the designer, such as
+  canaries and release noise: "This is allowed in the sense of an random oracle
+  is allowed to return a fixed output instead of sampling. Because in its case it
+  is indsitnguishable from random wheter it has returned a pre fixed data point or
+  indeed sampled from random". A modification is admissible when it programs an
+  oracle with a value no party can tell apart from an honest sample.
+- An oracle that returns natural data points, which could carry embedded
+  structure, is parked: "SO let this idea sit aside for a while just for you to
+  note it down". It is `prob-natural-data-oracle` in `sink/formalizing/problems.md`.
+  No session develops it until Halil reopens it.
+- "Instead of us blindly picking what we have initialize an agentic coucil to
+  discuss these topics. Initialize opus agents for each and make them meditate on
+  their selection of topic and then send each of their resulting meditations on
+  this topic to argon, fable and sol 6.1 agents for them to read and have an
+  critique upon." A council lives in `council/YYYY-MM-DD-<slug>/`. For this
+  request Halil set aside the budget of one discussant call per round.
+
+## Halil's instructions of 2026-10-28
+
+- "Ok I assume the state of theory we have as today is not standing well. So
+  now I want you to create a discussion round again among two opus models that
+  one tries building the theory upon our accumulated knowledge and the critiques
+  we have against the other models etc". The space `learning-attacker-prices`
+  runs a Claude Opus builder against a Claude Opus challenger in place of the
+  external discussants.
+
+## Halil's instructions of 2026-10-29
+
+- "start a discussion round with 3 fable agents each of them will discuss and
+  select a different aspect of the theory as per my intention and idealization".
+  The round is `council/2026-10-29-statement-of-the-theory/`.
+- A recording of Halil's meeting with Küpçü is transcribed to Halil's Desktop and
+  kept nowhere else. No file of the repository quotes it, and its audio is
+  deleted. Halil's own ideas from it enter only in the integrator's paraphrase,
+  and they rank below this file and the established discussions: "take my ideas
+  from the recording but do not overrule our discussions with the
+  transcription".
+
+## Halil's instructions of 2026-10-30
+
+- "Proceed another set of discussion rounds on this with 3 fable agents I want
+  more rounds of refinement". The set is
+  `council/2026-10-30-statement-refinement/`, which refines the statement of
+  `council/2026-10-29-statement-of-the-theory/statement/final.md` and its three
+  statements to prove.
+
 ## Where things are
 
 | Path | Holds | Written by |
@@ -114,6 +162,7 @@ what it would cost to approximate the oracle by real training.
 | `lab/theory/booklet/` | the booklet source, one main file and chapter files | the integrator only |
 | `lab/theory/readings/YYYY-MM-DD-<slug>.md` | sources of the reading PDFs | the integrator |
 | `lab/theory/spaces/<space>/` | one thinking space: `README.md` and `round-NN/` folders | that space's session only |
+| `lab/theory/council/YYYY-MM-DD-<slug>/` | one council: a `README.md`, and per topic a meditation with the critiques of fable, sol and argon | the integrator, each topic's meditator and critics |
 | `lab/theory/tools/` | `build.py`, `discuss.sh`, `argon_audit.py`, `prompt-template.md`, `verify.mjs` | the integrator |
 | `lab/theory/discussants.csv` | one row per external discussion call | `tools/discuss.sh` |
 | `lab/theory/GATES.md` | the completion ledger of the current milestone | the integrator |

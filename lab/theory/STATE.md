@@ -1,7 +1,7 @@
 # Theory state
 
-updated: 2026-10-26
-by: the integrator session, after the rounds of the second milestone
+updated: 2026-10-30
+by: the integrator session, after the council and the space learning-attacker-prices
 
 ## Milestone open: mappings to known hard problems
 
@@ -20,16 +20,18 @@ The ledger is `GATES.md`. The first milestone's ledger is
 | `computational-limits` | lattice hardness of blind reconstruction, natural record laws | round-06 | done, BLOCKING 1 on the ZLIP sketch |
 | `statistical-limits` | the trainer's price against the attacker's in one unit | round-05 | done, BLOCKING 0 |
 | `oracle-and-measurement` | how the oracle and experiments realize and measure the prices | round-02 | paused, done in milestone 1 |
+| `learning-attacker-prices` | a learning attacker priced in learning units, Opus builder against Opus challenger (Halil, 2026-10-28) | round-03 | done, SATISFIED yes, BLOCKING 0, critiqued by fable and sol |
 
 ## The reading folder
 
 - `lib/theory/booklet.pdf`: 63 objects, 30 accepted, 29 borrowed, 2 open, 2
   refuted, 0 checked.
 - `lib/theory/2026-10-25-first-rounds.pdf`: the reading of the first milestone.
-- `lib/theory/2026-10-26-what-we-have.pdf`: what the theory holds, its objects and every
-  result in one or two sentences, with the six open decisions. It replaces the catch-up
-  reading of the same day, at Halil's request.
-  Milestone 2's results are in `sink/formalizing/` and not yet in the booklet.
+- `lib/theory/2026-10-26-what-we-have.pdf`: superseded by the reading of 2026-10-29.
+- Readings of 2026-10-27 to 2026-10-30: definitions, what Halil wants, the council, the debate,
+  and the statement of the theory.
+- `lib/theory/2026-10-29-what-we-have.pdf`: every finding to date, with the eighteen open
+  decisions of the earlier readings merged into nine. It supersedes the 2026-10-26 one.
 
 ## Decisions taken and waiting
 
@@ -43,25 +45,36 @@ The ledger is `GATES.md`. The first milestone's ledger is
 
 ## The booklet is frozen for Halil's reading
 
-Halil reads `lib/theory/booklet.pdf` in detail on the morning of 2026-10-26:
-"you can make it stay as is and give me a reading for me to catch you up". Until
-he has read it, the integrator does not change the booklet's sources or rebuild
-it. What milestone 2 produces goes into a catch-up reading in `lib/theory/`, built
-with `tools/build.py --readings-only`, and into `sink/formalizing/`. The merge into
-the booklet follows his reading.
+Halil, 2026-10-26: "you can make it stay as is and give me a reading for me to catch you
+up". Until he has read it, the integrator does not change the booklet's sources or rebuild it.
+New work goes into readings built with `tools/build.py --readings-only`, and the merge into the
+booklet follows his reading.
 
 ## Discussants
 
-sol (gpt-6.1-sol at high reasoning, Codex CLI 0.164.0) replaces astra. argon
-(gemini-4-argon-high, permissions bypassed, writing object by object into a
-scratch file, audited after every call) is out of quota until about 2026-10-27
-13:30. Until then every round uses sol and its summary says why. The stress test
-of 2026-10-25 ran argon-high for 25 turns with no stream timeout before the quota
-ran out, so the object-by-object protocol is set but not yet seen to finish.
+sol (gpt-6.1-sol, Codex CLI 0.164.0) replaces astra. argon (gemini-4-argon-high, object by
+object, audited) is out of quota, and its council critiques wait (Halil, 2026-10-27). The
+object-by-object protocol is set but not yet seen to finish.
+
+## Council of 2026-10-27
+
+`council/2026-10-27-theory-directions/`: four Opus meditations, criticized by fable and sol,
+read by Halil in `lib/theory/2026-10-27-council.pdf`, five corrections and three rulings.
+`council/2026-10-29-statement-of-the-theory/`: three Fable discussants, four rounds, one statement
+of the theory in 26 clauses (`statement/final.md`), read in `2026-10-30-statement-of-the-theory.pdf`.
+Nothing from either enters the booklet or the registers before Halil rules.
+
+## Space learning-attacker-prices, 2026-10-28 to 2026-10-29
+
+Four rounds until the challenger was satisfied, ten objects standing, read by Halil in
+`lib/theory/2026-10-29-learning-attacker-prices.pdf`. Fable found the update stream to be the
+single-index model of DPLB24, so the objects need the search gate on spectral initialization
+before any enters the booklet. Ledger: the space's `GATES.md`.
 
 ## Next actions
 
-1. Halil reads the booklet and the reading of what we have, and settles its six decisions.
+1. Halil reads `2026-10-29-what-we-have.pdf` and `2026-10-30-statement-of-the-theory.pdf`
+   and settles their decisions. argon critiques the council meditations once its quota returns.
 2. The integrator merges milestone 2 into the booklet, records its rounds in the
    history chapter, rebuilds, and closes `GATES.md`. Open gates then: G5 (computational
    limits at BLOCKING 1) and G8 (no argon round yet under the new protocol).
