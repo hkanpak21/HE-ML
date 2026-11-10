@@ -36,3 +36,8 @@ date,discussant,model,prompt,output,exit,tokens
 2026-10-25,sol,gpt-6.1-sol,lab/theory/spaces/hard-problem-mappings/round-02/prompt-sol.md,lab/theory/spaces/hard-problem-mappings/round-02/discussant-sol.md,1,105390
 2026-10-26,sol,gpt-6.1-sol,lab/theory/spaces/hard-problem-mappings/round-02/prompt-sol.md,lab/theory/spaces/hard-problem-mappings/round-02/discussant-sol.md,0,123395
 2026-10-26,sol,gpt-6.1-sol,lab/theory/spaces/computational-limits/round-06/prompt-sol.md,lab/theory/spaces/computational-limits/round-06/discussant-sol.md,0,78759
+2026-10-27,sol,gpt-6.1-sol,lab/theory/council/2026-10-27-theory-directions/pseudorandomness-for-learner-classes/prompt-critique.md,lab/theory/council/2026-10-27-theory-directions/pseudorandomness-for-learner-classes/sol.md,0,181275
+2026-10-27,sol,gpt-6.1-sol,lab/theory/council/2026-10-27-theory-directions/degree-of-a-channel/prompt-critique.md,lab/theory/council/2026-10-27-theory-directions/degree-of-a-channel/sol.md,0,161288
+2026-10-27,sol,gpt-6.1-sol,lab/theory/council/2026-10-27-theory-directions/trainer-as-filter/prompt-critique.md,lab/theory/council/2026-10-27-theory-directions/trainer-as-filter/sol.md,0,166847
+2026-10-27,sol,gpt-6.1-sol,lab/theory/council/2026-10-27-theory-directions/oracle-as-random-oracle/prompt-critique.md,lab/theory/council/2026-10-27-theory-directions/oracle-as-random-oracle/sol.md,0,139616
+2026-10-29,sol,gpt-6.1-sol,lab/theory/spaces/learning-attacker-prices/critique/prompt-critique.md,lab/theory/spaces/learning-attacker-prices/critique/sol.md,0,262250
