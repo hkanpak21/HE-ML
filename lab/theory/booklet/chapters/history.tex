@@ -59,4 +59,104 @@ integrator when it merges the round.
   \slug{lem-scrambled-seed-urn}, \slug{thm-shadow-run-price-finite-views},
   \slug{prop-reconstruction-label-sandwich}, and twelve borrowed facts. The
   integrator re-derived every proof.
+\item[2026-10-25, hard-problem-mappings/round-00, sol]
+  The literature round of milestone 2, run on sol while argon was out of quota. Six
+  facts with theorem numbers read in the papers, one lemma on the sparse-PCA backdoor
+  of GKVZ22 and three aims. ACCEPT 1, REVISE 9, BLOCKING 9. Sol confirmed the level-set
+  identity behind the extraction conjecture line by line and found three source
+  errors, among them the parameter error of GKVZ22 Appendix A.
+\item[2026-10-25, hard-problem-mappings/round-01, sol]
+  All twelve challenges answered. The extraction aim became
+  \slug{thm-extraction-exponent-price}, the definition got its transfer lemma, and the
+  backdoor conjecture was replaced by three statements. ACCEPT 12, REVISE 5, BLOCKING 5.
+  Sol verified the lower bound step by step and found the misprint $(2\alpha+1)^2$ in
+  FGRVX17 Theorem 3.16.
+\item[2026-10-25, statistical-limits/round-03, sol]
+  The aims round of milestone 2. ACCEPT 4, REVISE 4, REJECT 1, BLOCKING 7. Sol refuted
+  the lower-bound conjecture through invariant side data and part (d) of the frontier
+  for constant noise, and rejected the proposition that the label-relevant attacker
+  never pays more than the trainer, which the builder withdrew.
+\item[2026-10-25, statistical-limits/round-04, sol]
+  The builder file cut after Halil's instruction to simplify. \slug{thm-blind-orbit-price}
+  proved, the frontier restated for $\rho=n^{-a}$. ACCEPT 6, REVISE 1, BLOCKING 1. Sol
+  found one false sentence on the hidden rotation.
+\item[2026-10-25, statistical-limits/round-05, sol]
+  The false sentence deleted and four nonblocking corrections applied. ACCEPT 7,
+  BLOCKING 0. Merged on 2026-10-30: \slug{thm-blind-orbit-limit},
+  \slug{prop-whitening-orbit-sample-price}, \slug{thm-blind-orbit-price},
+  \slug{prop-relu-client-second-moment-identifies-weights},
+  \slug{thm-train-access-price-frontier}, \slug{thm-same-units-gap-gaussian-mechanism}
+  and one borrowed fact. The integrator re-derived every proof on 2026-10-26.
+\item[2026-10-25, computational-limits/round-03, sol]
+  The aims round of milestone 2, four aims with five literature facts on lattice
+  isomorphism, LLL and ReLU inversion. ACCEPT 2, REVISE 7, BLOCKING 11. Sol recast the
+  ZLIP mapping as two reductions with a width loss and named Haviv and Regev's
+  generation lemma.
+\item[2026-10-25, computational-limits/round-04, sol]
+  Three aims proved in four objects after Halil's instruction to simplify, aim 1 and two
+  facts withdrawn. ACCEPT 4, REVISE 2, BLOCKING 3. Sol accepted
+  \slug{lem-agreement-detection} and \slug{prop-blind-lll-label-recovery} line by line
+  and found a counterexample to the upper ZLIP reduction at width $d^{-1/4}$.
+\item[2026-10-25, computational-limits/round-05, sol]
+  The two theorems resubmitted in the exact-arithmetic model $\mathsf M$. ACCEPT 1,
+  REVISE 1, BLOCKING 1. Sol accepted \slug{thm-coarse-reconstruction-lattice-hard} line
+  by line and found that no bounded run in $\mathsf M$ samples an infinitely supported law
+  exactly.
+\item[2026-10-26, hard-problem-mappings/round-02, sol]
+  The five blocking challenges answered, after the first sol call of the round failed on
+  a usage limit on 2026-10-25. ACCEPT 5, BLOCKING 0. Merged on 2026-10-30:
+  \slug{def-hard-problem-mapping}, \slug{lem-mapping-transfer},
+  \slug{prop-learner-side-sq-transfer}, \slug{lem-level-set-moment-balance},
+  \slug{thm-extraction-exponent-price}, \slug{lem-sparse-pca-backdoor-width-price},
+  \slug{prop-weight-testing-equals-white-box-detection},
+  \slug{prop-gram-sufficiency-rotation-invariant}, \slug{lem-feature-matrix-transpose},
+  the two withdrawn conjectures and two borrowed facts. Five further facts went to the
+  registers only. The integrator re-derived every proof on 2026-10-26.
+\item[2026-10-26, computational-limits/round-06, sol]
+  A one-object round the integrator added for \slug{thm-zlip-reductions}, with time
+  counted in expectation. REVISE 1, BLOCKING 1, on three implementation obligations of
+  \slug{ch-zlip-model-realization}. The space stopped. Merged on 2026-10-30 as a sketch,
+  with \slug{lem-agreement-detection}, \slug{thm-coarse-reconstruction-lattice-hard} and
+  \slug{prop-blind-lll-label-recovery} as sketches that wait for the status accepted,
+  and four borrowed facts.
+\item[2026-10-26, the booklet frozen]
+  Halil froze the booklet for his reading, and the merge of milestone 2 waited until he
+  lifted the freeze on 2026-10-30. The integrator's re-derivations of 2026-10-26 are in
+  \texttt{lab/theory/integration-log.md}.
+\item[2026-10-27, council theory-directions]
+  Four Claude Opus 5.5 meditations, on pseudorandomness for learner classes, the degree
+  of a channel, the trainer as a filter and the oracle as a random oracle, criticized by
+  fable and sol, with argon's critiques pending. Thirty claims, five accepted by both
+  critics and two rejected by sol. Five findings narrow registered results, and they
+  enter this booklet as remarks in the sources of the objects they narrow, with no
+  change of status. The sentence of the reading of 27 October that an efficient learner
+  outputs a cheap predictor holds for circuits and fails for uniform descriptions
+  (fable). No claim of the council enters the booklet as an object before Halil rules.
+\item[2026-10-28, learning-attacker-prices/round-00, Opus builder and Opus challenger]
+  The aims round of the debate space Halil asked for on 2026-10-28. Three aims and one
+  bound. ACCEPT 1, REVISE 2, REJECT 1, BLOCKING 4. The challenger's law $Q_\delta$
+  refuted the builder's thesis that the learner class plays no part where no
+  statistical-computational gap exists.
+\item[2026-10-28 to 2026-10-29, learning-attacker-prices/round-01, Opus builder and Opus challenger]
+  The thesis and two conjectures withdrawn, six objects proposed. ACCEPT 5, REVISE 1,
+  BLOCKING 1, SATISFIED no. The challenger derived the outlier equation of the empirical
+  covariance and refuted the conjecture's part (a) on a band law.
+\item[2026-10-29, learning-attacker-prices/round-02, Opus builder and Opus challenger]
+  The Cauchy-transform conjecture, signed weights, the first price known within a factor
+  at a measured dimension, and a proposition on the trainer. ACCEPT 5, REVISE 1,
+  BLOCKING 1, SATISFIED no. The challenger refuted the remark that release noise prices
+  the attacker, through chosen query norms.
+\item[2026-10-29, learning-attacker-prices/round-03, Opus builder and Opus challenger]
+  The release re-learning bracket. ACCEPT 4, BLOCKING 0, SATISFIED yes, so the space
+  stopped by Halil's rule. The challenger proved the inverse-Wishart moment. Criticized
+  the same day by fable (ACCEPT 9, REVISE 1, BLOCKING 0) and sol (ACCEPT 4, REVISE 6,
+  BLOCKING 6). Merged on 2026-10-30: the ten objects of \cref{ch:learning-attackers},
+  with the critiques recorded in their sources. The integrator re-derived every proof
+  and recomputed every constant on 2026-10-30.
+\item[2026-10-29 to 2026-10-30, discussion statement-of-the-theory]
+  Three Claude Fable 5.1 discussants, four rounds, one statement of the theory in 26
+  clauses and three statements to prove, read by Halil in the reading of 30 October.
+  Under refinement since 2026-10-30 in
+  \texttt{council/2026-10-30-statement-refinement/} by three fresh Fable discussants,
+  one per theorem. Nothing from it enters the booklet yet.
 \end{description}

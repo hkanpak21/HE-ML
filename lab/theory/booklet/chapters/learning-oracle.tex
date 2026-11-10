@@ -137,6 +137,11 @@ $(q+1)n_{\mathrm{rep}}$ times the chance that an honest run lands within the tol
 of the target. Grinding attains this bound within a constant factor under
 deterministic kernels, and an auditor without seed control cannot verify at all.
 \usesstatement{def-learning-oracle}
+\source{Council of 2026-10-27, a correction and no change of status. The audit is a
+Fiat-Shamir audit, and it is uninstantiable over the class of all learning functions,
+since it fails under every function used in place of the random oracle. The interactive
+audit, in which the auditor draws the seed after the commitment, removes the plug-in
+(\slug{prop-replay-audit-uninstantiable}, fable REVISE, sol ACCEPT).}
 \end{theorem}
 
 \section{Further results, stated}

@@ -10,7 +10,11 @@ reconstructor is a learner from representations to records. After a symmetry
 argument its problem is non-Gaussian component analysis on the record law when
 the server has no labels, and the trainer's own single-index problem for the
 label-relevant part. No result of this chapter uses the learning oracle, and
-each reduction costs one honest training run.
+each reduction costs one honest training run. Four further rounds on 25 and 26
+October 2026, all with sol, opened milestone 2 and added the lattice prices of the
+section before the open statement. They ended with one blocking challenge, on the time
+accounting of \cref{thm-zlip-reductions}, so the four statements of that section carry
+the status sketch until the space converges or Halil rules.
 
 \section{A refuted bound, and what survives}
 
@@ -47,7 +51,12 @@ coarse-precision regime.
 \usesproof{fact-sq-simulates-minibatch-sgd}
 \source{The bound is priced in the trainer's fresh samples and binds unbounded
 attackers. An SQ bound on the learner binds every attacker, while an SQ bound on
-the attacker binds only SQ attackers.}
+the attacker binds only SQ attackers. \cref{prop-learner-side-sq-transfer} is the
+general form, for any SQ-hard test. Council of 2026-10-27, a correction and no change
+of status. The SGD clause holds only in the worst-rounding model of AKMSS21, in which
+memorization cannot be stated (\slug{thm-null-trajectory-filter} (b), both critics
+ACCEPT), and no bound on the trainer's output composes with an SQ bound
+(\slug{prop-output-bounds-do-not-filter}, fable ACCEPT, sol REVISE).}
 \fullproof{lem-sq-learner-post-processing}{lab/theory/spaces/computational-limits/round-00/builder.md}
 \end{lemma}
 
@@ -161,7 +170,15 @@ many statistical queries or a quantum lattice algorithm. Astra judges this an
 artificial-distribution reduction. The Gaussian layer is no plug-in, but the
 hardness enters through the record law. Whether that meets Halil's rule on
 cryptographic plug-ins is a decision for Halil. Tracking a trained client's weights
-from a known seed is heuristic and is not claimed.}
+from a known seed is heuristic and is not claimed. Council of 2026-10-27, two
+corrections and no change of status. The theorem is a result for SGD, since Adam is
+equivariant under signed permutations only (both critics, sol citing Li, Zhang and
+Arora). A real seed is a short key. For seeds whose representation laws are separated,
+about 400 representations identify a 64-bit seed, so every seed-blind lower bound is
+capped at the number of seeds (\slug{thm-short-seed-dichotomy}, fable ACCEPT with the
+count recomputed as 397.3, sol REVISE), while seeds with identical representation laws,
+such as a client and its negation, stay hidden (sol). Milestone 2 sharpened (iii) from
+fine to coarse reconstruction in \cref{thm-coarse-reconstruction-lattice-hard}.}
 \fullproof{thm-blind-split-seed-separation}{lab/theory/spaces/computational-limits/round-02/builder.md}
 \end{theorem}
 
@@ -216,6 +233,126 @@ $\langle u,x\rangle$ up to sign at generative exponent two. Part (a) became
 \fullproof{conj-reconstruction-at-training-cost}{lab/theory/spaces/computational-limits/round-01/builder.md}
 \end{conjecture}
 
+\section{Lattice prices of blind reconstruction}
+Rounds 03 to 06 of the space proved the four statements below in the exact-arithmetic
+model. The space ended at BLOCKING 1 on the time accounting of
+\cref{thm-zlip-reductions} alone, so no round after them ends with BLOCKING 0 and, under
+the status rule, none of them is accepted yet. The three that carry ACCEPT verdicts have
+no gap known to the space or to the integrator. Whether the ZLIP block stays in the
+milestone is Halil's decision.
+
+\begin{lemma}[Weak recovery of a hidden direction gives detection]\blabel{lem-agreement-detection}\status{sketch}
+Let $\{P_w\}_{w\in S^{d-1}}$ be laws on $\mathbb R^d$ with $Q_\#P_w=P_{Qw}$ for
+$Q\in O(d)$, and $P_0$ a rotation-invariant law. Let an algorithm map $N$ samples to a
+nonzero vector whose normalized correlation with $w$ is at least $\rho$ with probability
+at least $p$, for every $w$. The tester runs it on two independent blocks of $N$ samples
+under independent Haar rotations, rotates the outputs back, normalizes them and accepts
+when their inner product is at least $\rho^2/2$ in absolute value. It accepts with
+probability at most $2e^{-d\rho^4/8}$ under $P_0$ and at least
+$p^2-2e^{-(d-1)\rho^4/8}$ under $P_w$.
+\source{Under the null the two outputs are independent uniform unit vectors. Under the
+planted law the output's law is invariant under the stabilizer of $w$, so its component
+orthogonal to $w$ is uniform, and the concentration of inner products of uniform vectors
+gives both bounds, for $d\ge2$ and with an independent uniform perpendicular direction
+at a pole. Sample game only. In the SQ game an adversarial oracle can correlate the two
+runs under the null, so nothing is claimed there. The integrator re-derived it on
+2026-10-26. sol accepted it line by line in round 04, at BLOCKING 3, and no later round
+of the space ends with BLOCKING 0, so the status accepted waits on the ZLIP block.}
+\fullproof{lem-agreement-detection}{lab/theory/spaces/computational-limits/round-04/builder.md}
+\end{lemma}
+
+\begin{theorem}[Coarse blind reconstruction of pancake records is as hard as hCLWE]\blabel{thm-coarse-reconstruction-lattice-hard}\status{sketch}
+Let $\mathsf M$ be the exact-arithmetic model, a uniform stochastic algebraic RAM with
+unit-cost field operations, square roots, comparisons and standard Gaussian draws. Let a
+protocol of $\mathcal P_{O(d)}$ computable in $\mathsf M$, frozen or trained, run on
+$N\ge Cd\log^2(\gamma/\beta)$ pancake records $H_{v,\beta,\gamma}$ with $\beta\in(0,1)$,
+$\gamma\ge2\sqrt d$ and $\gamma/\beta$ polynomial, with no side data, and let
+$a_i=\langle v,x_i\rangle$. If a seed-blind attacker of time $T$ outputs $t\ne0$ with
+$\lvert\langle t,a\rangle\rvert\ge c_0\lVert t\rVert\lVert a\rVert$ with probability $p$,
+for a fixed $c_0>0$, then hCLWE$_{\beta,\gamma}$ has an algorithm in $\mathsf M$ of time
+$2(T+T_{\mathrm{run}})+\mathrm{poly}(d)$ and advantage at least
+$(p-e^{-\Omega(d)})^2-4e^{-(d-1)c_0^4/648}$. So if hCLWE has no polynomial-time
+algorithm in $\mathsf M$ with non-negligible advantage, no polynomial-time attacker in
+$\mathsf M$ reconstructs pancake records to any constant correlation.
+\notation{$\mathsf M$}{the exact-arithmetic model, a stochastic algebraic RAM with Gaussian draws}
+\usesstatement{def-seed-blind-reconstruction-game,fact-clwe-hardness}
+\usesproof{lem-agreement-detection,lem-equivariant-view-coupling}
+\source{The view coupling turns a reconstruction into a direction estimate $U^\top t$,
+or an independent uniform direction when $U^\top t=0$, with correlation $\rho\ge c_0/3$
+from $\sigma_a^2\ge0.99/(2\pi)$ and $\lVert U\rVert\le2\sqrt N\sigma_{\max}$, and
+\cref{lem-agreement-detection} turns two of them into a tester, which gives the constant
+$c_0^4/648$. The integrator re-derived it on 2026-10-26. It sharpens
+\cref{prop-fine-reconstruction-to-hclwe} from fine to coarse reconstruction and settles
+\slug{prob-coarse-reconstruction-lattice-hardness} in $\mathsf M$. The security
+conclusion is conditional on hCLWE hardness in $\mathsf M$, and its transfer to Turing
+machines under BRST21 Corollary 4.2 needs a finite-precision simulation of the protocol
+and the attacker, which is open (\slug{prob-finite-precision-blind-reconstruction}). sol
+accepted it line by line in round 05, at BLOCKING 1 on \cref{thm-zlip-reductions}, so the
+status accepted waits as for \cref{lem-agreement-detection}.}
+\fullproof{thm-coarse-reconstruction-lattice-hard}{lab/theory/spaces/computational-limits/round-05/builder.md}
+\end{theorem}
+
+\begin{proposition}[Discrete hidden labels behind a hidden linear client separate the two games]\blabel{prop-blind-lll-label-recovery}\status{sketch}
+Records follow ZSWB22 Model 4.3. Integer labels $k_i$ have mass proportional to
+$e^{-k^2/(2\gamma^2)}$, $\ell_i=k_i/\gamma$ and $x_i\sim\mathcal N(\ell_iv,I-vv^\top)$,
+with $2\sqrt d\le\gamma\le\mathrm{poly}(d)$, behind a frozen client $z=Wx$ with $W$
+right rotation invariant, of full column rank and hidden from the attacker. (a) In the
+sample game a polynomial-time seed-blind server recovers $\ell_1,\dots,\ell_{d+1}$
+exactly up to one global sign from $d+1$ representations with probability
+$1-e^{-\Omega(d)}$, and so detects the discrete hidden structure. (b) In the SQ game
+every algorithm with access to the law of the representation that tells these records
+from Gaussian records needs $2^{d^{\Omega(c)}}$ queries or a tolerance polynomially
+small in $d$. Detection is one task on one protocol, polynomial in the sample game and
+superpolynomial in the SQ game.
+\usesstatement{def-seed-blind-reconstruction-game}
+\usesproof{fact-lll-recovers-discrete-hidden-labels,fact-ngca-sq-lower-bound,lem-equivariant-view-coupling}
+\source{The linear dependency of the representations has the coefficients of the
+dependency of the records, since $W$ is injective, so ZSWB22's Algorithm 1 runs on
+representations. A gcd argument makes the labels primitive, and Poisson summation on
+$(1/\gamma)\mathbb Z$ matches the moments DKRS23 Theorem 1.5 needs. The general
+separation of SQ and LLL for NGCA is in DKRS23 Section 1.1.1 and ZSWB22, and the content
+here is that it survives a hidden injective client. Exact-arithmetic model. The
+recovered integer vector satisfies the untruncated dependency exactly, which Gaussian
+records do not allow, a detection certificate (sol, round 04). The integrator re-derived
+it on 2026-10-26. sol accepted it in round 04, at BLOCKING 3, so the status accepted
+waits as for \cref{lem-agreement-detection}.}
+\fullproof{prop-blind-lll-label-recovery}{lab/theory/spaces/computational-limits/round-04/builder.md}
+\end{proposition}
+
+\begin{theorem}[Blind reconstruction of quantized Gaussian records against ZLIP]\blabel{thm-zlip-reductions}\status{sketch}
+In the model $\mathsf M$ with time counted in expectation, records are i.i.d.\ discrete
+Gaussians on $\mathbb Z^d$ of width $s$ with
+$\max\{1,\eta_{1/2}(\mathbb Z^d)\}\le s\le\mathrm{poly}(d)$ and known covariance, and
+exact success means that some signed permutation $P$ has $t_i=Px_i$ for every record.
+(a) For any client of $\mathcal P_{O(d)}$ computable in $\mathsf M$, with no side data,
+an attacker of expected time $T$ with exact success $p$ on $N\ge\lceil2d/C\rceil$ records
+at width $s=s_0\sqrt{d\ln(2d+4)/\pi}$ gives an algorithm for average-case ZLIP at width
+$s_0$ of expected time $T+T_{\mathrm{run}}+\mathrm{poly}(d)$ and success $p-O(d2^{-d})$.
+(b) For a frozen client $z=Wx$ with $W$ of full column rank,
+$\mathrm{poly}(d,\log(1/\delta))$ records and an oracle for average-case ZLIP at the
+record width with success $q$ give exact success with probability at least
+$q-2^{-\Omega(d)}-\delta$. So if average-case ZLIP at polynomial widths has no
+expected-polynomial-time algorithm in $\mathsf M$, no such seed-blind attacker
+reconstructs quantized Gaussian records, while for a frozen injective linear client the
+seed-known server recovers each record by one linear solve.
+\usesstatement{def-seed-blind-reconstruction-game}
+\usesproof{lem-equivariant-view-coupling,fact-lip-average-case,fact-discrete-gaussian-samples-generate,fact-zlip-best-algorithms}
+\source{The lower reduction samples the records from the given form through DvW22
+Lemma 2.9 and transports the attacker's success by the view coupling. The upper one
+recovers a basis of $W\mathbb Z^d$ by a Hermite normal form, the integral Gram matrix by
+rounding a covariance estimate, and the isomorphism through DvW22's Extract. The width
+loss $\sqrt{d\ln(2d+4)/\pi}$ between the two sides is
+\slug{prob-zlip-reductions-width-gap}. sol accepted the algebra of both reductions line
+by line in rounds 05 and 06 and kept one blocking challenge,
+\slug{ch-zlip-model-realization}, on the time accounting in $\mathsf M$. A real width has
+no finite encoding to hand the sampler, the expected-time bound needs an abort above the
+Gram-Schmidt threshold of DvW22 Lemma 3.6, and rational recovery, the Hermite normal
+form and Extract need abort rules on encoding lengths. The space ended there at
+BLOCKING 1, and whether the block stays in the milestone is Halil's decision. The best
+attacks known are those of \cref{fact-zlip-best-algorithms}.}
+\fullproof{thm-zlip-reductions}{lab/theory/spaces/computational-limits/round-05/builder.md,lab/theory/spaces/computational-limits/round-06/builder.md}
+\end{theorem}
+
 \section{The open statement}
 
 \begin{conjecture}[The seed is worth the NGCA price]\blabel{conj-seed-price-is-ngca-price}\status{open}
@@ -232,7 +369,11 @@ linear clients given the population whitening.
 \source{Open: the upper inclusion for ReLU and deeper clients, where the blind
 server must learn the client map without the seed, the cost of estimating the
 whitening, and coarse reconstruction in polynomial time. Accepted in round 02 as a
-well-posed conjecture.}
+well-posed conjecture. Milestone 2 added the coarse lower inclusion for pancakes
+(\cref{thm-coarse-reconstruction-lattice-hard}), the separation of the two games on
+discrete labels (\cref{prop-blind-lll-label-recovery}) and, for Gaussian records, the
+population-level upper inclusion for ReLU clients
+(\cref{prop-relu-client-second-moment-identifies-weights}).}
 \fullproof{conj-seed-price-is-ngca-price}{lab/theory/spaces/computational-limits/round-02/builder.md}
 \end{conjecture}
 

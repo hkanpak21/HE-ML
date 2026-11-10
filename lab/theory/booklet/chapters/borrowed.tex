@@ -185,6 +185,64 @@ by astra in round 00.}
 \fullproof{fact-cohen-narcissus-equals-one-wayness}{lab/theory/spaces/computational-limits/round-00/builder.md}
 \end{borrowed}
 
+\begin{borrowed}[The lattice isomorphism problem has an average case]\blabel{fact-lip-average-case}\status{borrowed}
+The lattice isomorphism problem in quadratic-form language asks, given $Q'$ in the
+class of $Q$, for $U\in GL_n(\mathbb Z)$ with $Q'=U^\top QU$. For
+$s\ge\lVert B_Q^*\rVert\sqrt{\ln(2n+4)/\pi}$ exact discrete Gaussian samples of
+$D_{Q,s,c}$ are drawn in expected polynomial time. The Gaussian form distribution
+$D_s([Q])$ draws $\lceil2n/C\rceil$ vectors from $D_{Q,s}$ until they span and returns
+the form of the extracted basis, which depends only on the class. The average-case
+problem asks for an isomorphism from $Q$ to $Q'\sim D_s([Q])$. An average-case oracle at
+width $s\ge2^{\Theta(n)}\lambda_n(Q)$ solves the worst case with polynomial overhead, and
+at $s\ge\lambda_n(Q)$ with an SIVP oracle.
+\source{Ducas and van Woerden, EUROCRYPT 2022, library key \texttt{DvW22}, Definitions
+2.1, 2.2, 3.3 and 3.7, Lemmas 2.9, 3.4, 3.6, 3.9 and 3.10, read in the CWI copy, PDF
+not placed. Accepted by sol in round 03.}
+\fullproof{fact-lip-average-case}{lab/theory/spaces/computational-limits/round-03/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[The price of a rotation of $\mathbb Z^n$]\blabel{fact-zlip-best-algorithms}\status{borrowed}
+For ZLIP, the lattice isomorphism problem with $Q=I_n$, a specialization of slide
+reduction returns an orthogonal basis of a lattice isometric to $\mathbb Z^n$ after
+$O(n^2\log\max_i\lVert b_i\rVert)$ iterations, each with an SVP oracle in dimension at
+most $n/2+1$. The best provable algorithm costs $2^{n/2+o(n)}$ and the best heuristic
+one $2^{0.146n+o(n)}$, as Duc24 reports them, and no polynomial-time algorithm is known.
+\usesstatement{fact-lip-average-case}
+\source{Ducas, Designs, Codes and Cryptography 2024, library key \texttt{Duc24}, Theorems
+1 and 2, Sections 1 and 1.1, citing Bennett, Ganju, Peetathawatchai and
+Stephens-Davidowitz (EUROCRYPT 2023) for the provable cost and Ducas, Postlethwaite,
+Pulles and van Woerden (ASIACRYPT 2022) for the heuristic one, neither read. Accepted by
+sol in round 03.}
+\fullproof{fact-zlip-best-algorithms}{lab/theory/spaces/computational-limits/round-03/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[LLL reads integer labels off a Gaussian background]\blabel{fact-lll-recovers-discrete-hidden-labels}\status{borrowed}
+From $d+1$ samples $z_i\sim\mathcal N(ax_iu,\Sigma)$ with integer labels $x_i$, a known
+spacing $a$, a unit $u$ and a $u$-weakly separable $\Sigma$, LLL on the coefficients of
+the linear dependency of the samples returns in polynomial time, with probability
+$1-e^{-\Omega(d)}$, an integer vector rationally proportional to the labels, provided
+some label among $x_2,\dots,x_{d+1}$ is nonzero. Noiseless homogeneous CLWE with labels
+from the discrete Gaussian on $(1/\gamma)\mathbb Z$ is solved this way for $\gamma$
+polynomial.
+\source{Zadik, Song, Wein and Bruna, COLT 2022, library key \texttt{ZSWB22}, Assumption
+3.1, Model 3.2, Theorem 3.3, Lemma 3.4, Model 4.3 and Corollary 4.4. Theorem 3.3 fails
+when $x_2,\dots,x_{d+1}$ all vanish, which also affects its Lemma 6.3, and the output is
+rationally proportional to the labels and not an integer multiple (sol's corrections,
+round 03). The paper states that inverse-polynomial noise breaks the method. Accepted
+by sol in round 04.}
+\fullproof{fact-lll-recovers-discrete-hidden-labels}{lab/theory/spaces/computational-limits/round-04/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[Polynomially many discrete Gaussian samples generate the lattice]\blabel{fact-discrete-gaussian-samples-generate}\status{borrowed}
+For a lattice of rank $n$ with determinant at least one and a width $s$ at least the
+length of a shortest basis, $n^2+n\log(s\sqrt n)(n+20\log\log(s\sqrt n))$ independent
+discrete Gaussian samples of width $s$ fail to generate the lattice with probability
+$2^{-\Omega(n)}$. For $\mathbb Z^n$ the shortest basis has length one.
+\source{Haviv and Regev, SODA 2014 as sol gives the venue, arXiv 1311.0366, library key
+\texttt{HR14}, Lemma 5.4 with Lemma 5.1, PDF not placed. Accepted by sol in round 04.}
+\fullproof{fact-discrete-gaussian-samples-generate}{lab/theory/spaces/computational-limits/round-04/builder.md}
+\end{borrowed}
+
 \section{From the space statistical-limits}
 
 \begin{borrowed}[With the covariance known the sample price falls]\blabel{fact-hsu-gap-prices-covariance}\status{borrowed}
@@ -302,4 +360,51 @@ initialization per model.
 experiments, not a statement that reconstruction without the initialization is
 impossible. Accepted by astra and argon.}
 \fullproof{fact-balle-reconnn-priced-in-shadow-runs}{lab/theory/spaces/statistical-limits/round-01/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[The sample covariance of sub-gaussian rows concentrates]\blabel{fact-subgaussian-sample-covariance-concentration}\status{borrowed}
+Let $A$ be an $N\times d$ matrix with independent, mean-zero, isotropic, sub-gaussian
+rows of $\psi_2$ norm at most $K$. For every $u\ge0$, with probability at least
+$1-2e^{-u^2}$, $\lVert A^\top A/N-I_d\rVert\le K^2\max(\delta,\delta^2)$ with
+$\delta=C(\sqrt{d/N}+u/\sqrt N)$ for an absolute constant $C$.
+\source{BRST21 Lemma 7.4, which quotes Vershynin, High-Dimensional Probability (2018),
+Theorem 4.6.1, a book not in the library. fable's critique of the debate space notes,
+from memory, that the book places $K^2$ inside $\delta$, so the quadratic branch there
+carries $K^4$. Every use in this booklet stays in the linear branch, where the two forms
+agree up to the absolute constant. Accepted by sol in rounds 03 to 05.}
+\fullproof{fact-subgaussian-sample-covariance-concentration}{lab/theory/spaces/statistical-limits/round-03/builder.md}
+\end{borrowed}
+
+\section{From the space hard-problem-mappings}
+
+\begin{borrowed}[Label post-processing never lowers the generative exponent]\blabel{fact-generative-exponent-post-processing-monotone}\status{borrowed}
+For the class $\mathcal G$ of laws of $(Z,Y)$ with Gaussian $Z$, finite second moment
+and positive $\chi^2$ information, the generative exponent $k^*$ is the least $k$ with
+$\lambda_k=\lVert\mathbb E[h_k(Z)\mid Y]\rVert\ne0$, and the $\chi^2$ information is
+$\sum_k\lambda_k^2$. It is the infimum over label transforms of the information
+exponent of the transformed law. If $Y\to Y'$ is a Markov chain with
+$\mathbb E[Y'^2]<\infty$ then $k^*(Z,Y')\ge k^*(Z,Y)$, invertible label maps leave it
+unchanged, and Gaussian label noise on a deterministic link preserves it.
+\notation{$k^*$}{generative exponent of a single-index law, the least Hermite degree with a nonzero conditional moment}
+\source{Damian, Pillaud-Vivien, Lee and Bruna, COLT 2024, library key \texttt{DPLB24},
+Definitions 1.1 and 2.4, Lemma 2.3, Proposition 2.6 and the paragraph after it,
+Example 2.7 (ii), Corollary 2.8, Theorem 5.2. The proof of its Theorem 3.2 takes the
+diagonal correlation bound to be one where it equals the $\chi^2$ information, which
+can exceed one and is infinite for deterministic labels, so a bound for a deterministic
+link needs label noise (the space, from Appendix E.2). Accepted by sol in round 00.}
+\fullproof{fact-generative-exponent-post-processing-monotone}{lab/theory/spaces/hard-problem-mappings/round-00/builder.md}
+\end{borrowed}
+
+\begin{borrowed}[Backdoors planted in the weight law of random features]\blabel{fact-gkvz22-backdoor-scope}\status{borrowed}
+Under one-way functions every training procedure admits black-box undetectable
+backdoors, built from digital signatures. White-box undetectability is shown for random
+Fourier features whose weights come from sparse Gaussian pancakes under CLWE, with a
+normalized head of inverse-polynomial margin and width
+$m=\Theta(d\log(d/\varepsilon\delta)/\varepsilon^2)$. The second white-box construction,
+random ReLU features with a sparse-PCA spike in the weights, fails at its printed
+parameters (\cref{lem-sparse-pca-backdoor-width-price}).
+\source{Goldwasser, Kim, Vaikuntanathan and Zamir, arXiv 2204.06974, library key
+\texttt{GKVZ22}, Definition 4.6, Theorems 2.1, 2.2, 5.4 and 6.4, Lemmas 6.2 and 6.6,
+Appendix A with Claim A.5 and Lemma A.3. Accepted by sol in round 01.}
+\fullproof{fact-gkvz22-backdoor-scope}{lab/theory/spaces/hard-problem-mappings/round-01/builder.md}
 \end{borrowed}

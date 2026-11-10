@@ -77,3 +77,7 @@
 \providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \providecommand{\pandocbounded}[1]{#1}
 \usepackage{longtable,booktabs,array}
+\newcounter{none} % pandoc's counter for an unnumbered longtable, as in its own template
+\usepackage{calc} % pandoc's column widths, \real{}
+% In a converted table the cells are narrow and hold slugs, so slugs break at their hyphens there.
+\AtBeginEnvironment{longtable}{\footnotesize\renewcommand{\texttt}[1]{\path{#1}}}

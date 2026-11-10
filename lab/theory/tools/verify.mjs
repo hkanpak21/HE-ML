@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// lab/theory/tools/verify.mjs <context|folder|spaces|convergence|integration|argon>
+// lab/theory/tools/verify.mjs <context|folder|spaces|convergence|integration|argon|debate <space>|critique <space>>
 // Checks the theory workspace against lab/theory/CONTEXT.md. The open milestone,
 // its spaces and their first and last rounds, is lab/theory/milestone.json. Each mode prints
 // one success line (CONTEXT OK, FOLDER OK, ...) and exits 0, or lists every
@@ -184,23 +184,40 @@ function convergence() {
   if (!fails.length) console.log('CONVERGENCE OK');
 }
 
-// A slug is eligible for status accepted when its latest verdict in the space is
-// ACCEPT from every discussant of that round, and either that round or the
-// space's last round has BLOCKING 0, so no blocking challenge stays open on it.
+// A slug is eligible for status accepted under the rule of CONTEXT.md: its latest
+// verdict in the space is ACCEPT from every verdict file of that round, and that round
+// ends with BLOCKING 0 or a later round of the space does. A round that ends with
+// BLOCKING 0 closes every challenge then open, so no blocking challenge stays open on
+// the object. A challenge raised later on the object comes with a later verdict on it,
+// which replaces the ACCEPT, and a later challenge on another object does not touch
+// it. So a space that reopens at BLOCKING 1 on one object keeps the objects it accepted
+// before that round, and the objects it accepted in or after that round wait. The
+// verdicts of a round are the discussants' or, in a space run by an Opus builder
+// against an Opus challenger (CONTEXT.md, 2026-10-28), the challenger's, which end
+// challenger.md and not a discussant file. Edited by the booklet editor, 2026-10-30.
 function eligible() {
+  const verdictFiles = (round) => {
+    const ds = discussantFiles(round);
+    if (ds.length) return ds;
+    const ch = path.join(round, 'challenger.md');
+    return fs.existsSync(ch) ? [ch] : [];
+  };
   const out = new Map();
   for (const s of ALL_SPACES) {
-    const converged = lastBlocking(s) === 0;
+    const rs = rounds(s);
+    const perRound = rs.map((r) => verdictFiles(r).map(verdicts).filter(Boolean));
+    const blocking = perRound.map((vs) => (vs.length ? Math.max(...vs.map((v) => v.blocking)) : null));
+    const closedFrom = (i) => blocking.slice(i).some((b) => b === 0);
     const latest = new Map();
-    for (const r of rounds(s)) {
-      const vs = discussantFiles(r).map(verdicts).filter(Boolean);
+    rs.forEach((r, i) => {
+      const vs = perRound[i];
       const slugs = new Set(vs.flatMap((v) => Object.keys(v.verdicts)));
       for (const slug of slugs) {
         const all = vs.filter((v) => slug in v.verdicts);
-        const ok = all.every((v) => v.verdicts[slug] === 'ACCEPT') && (converged || vs.every((v) => v.blocking === 0));
+        const ok = all.every((v) => v.verdicts[slug] === 'ACCEPT') && closedFrom(i);
         latest.set(slug, { ok, where: `${s}/${path.basename(r)}` });
       }
-    }
+    });
     for (const [slug, v] of latest) if (v.ok) out.set(slug, v.where);
   }
   return out;
@@ -261,8 +278,77 @@ function argon() {
   if (!fails.length) console.log(`ARGON OK rounds=${seen}`);
 }
 
+// A space run by an Opus builder against an Opus challenger (CONTEXT.md, Halil's
+// instructions of 2026-10-28). Rounds run from round-00 with no gap, each with both
+// prompts, builder.md, challenger.md and summary.md. Every builder object has one
+// verdict and every verdict names a builder object. From round-01 on the challenger
+// writes `SATISFIED yes` or `SATISFIED no` before its verdict block. The space stops
+// at the first round from 01 on with SATISFIED yes and BLOCKING 0, or at round-09.
+function builderSlugs(file) {
+  const t = read(file) || '';
+  return [...t.matchAll(/^### ([a-z]+-[a-z0-9-]+): /gm)].map((m) => m[1]);
+}
+
+function debate() {
+  const space = process.argv[3];
+  const dir = space && path.join(THEORY, 'spaces', space);
+  if (!dir || !fs.existsSync(path.join(dir, 'README.md'))) { console.error('usage: verify.mjs debate <space>'); process.exit(2); }
+  const rs = rounds(space);
+  if (!rs.length) fail(`${space}: no rounds`);
+  const readme = read(path.join(dir, 'README.md'));
+  let stop = -1;
+  rs.forEach((r, i) => {
+    const name = path.basename(r);
+    if (name !== `round-${String(i).padStart(2, '0')}`) fail(`${rel(r)}: rounds are not numbered from round-00 without a gap`);
+    for (const f of ['prompt-builder.md', 'builder.md', 'prompt-challenger.md', 'challenger.md', 'summary.md']) {
+      if (!(read(path.join(r, f)) || '').trim()) fail(`${rel(r)}/${f} is missing or empty`);
+    }
+    const objs = builderSlugs(path.join(r, 'builder.md'));
+    if (!objs.length) fail(`${rel(r)}/builder.md has no object heading`);
+    const v = verdicts(path.join(r, 'challenger.md'));
+    if (!v) { fail(`${rel(r)}/challenger.md has no well-formed verdict block`); return; }
+    for (const s of objs) if (!(s in v.verdicts)) fail(`${rel(r)}: object ${s} has no verdict`);
+    for (const s of Object.keys(v.verdicts)) if (!objs.includes(s)) fail(`${rel(r)}: verdict on ${s}, which is not a builder object`);
+    const t = read(path.join(r, 'challenger.md'));
+    const sat = t.slice(0, t.lastIndexOf('## Verdicts')).match(/^SATISFIED (yes|no)$/m);
+    if (i >= 1 && !sat) fail(`${rel(r)}/challenger.md has no SATISFIED line`);
+    if (!new RegExp(`^\\| ${name} \\|`, 'm').test(readme)) fail(`${rel(r)} has no row in the round log of README.md`);
+    if (stop < 0 && i >= 1 && sat && sat[1] === 'yes' && v.blocking === 0) stop = i;
+    if (sat && sat[1] === 'yes' && v.blocking !== 0) fail(`${rel(r)}: SATISFIED yes with BLOCKING ${v.blocking}`);
+  });
+  const last = rs.length - 1;
+  if (stop >= 0 && stop !== last) fail(`${space}: round-${String(stop).padStart(2, '0')} satisfied the challenger, yet rounds continued`);
+  if (stop < 0 && last !== 9) fail(`${space}: the challenger is not satisfied and round-09 is not reached (last round ${last})`);
+  if (last > 9) fail(`${space}: more than ten rounds`);
+  if (!fails.length) console.log(`DEBATE OK ${space} rounds=${rs.length} stop=${stop >= 0 ? 'satisfied' : 'ten-rounds'}`);
+}
+
+// The closing critiques of a debate space: critique/fable.md by claude-fable-5-1 and
+// critique/sol.md by gpt-6.1-sol with an exit-0 row in discussants.csv, each with a
+// well-formed verdict block, after the space's last challenger turn.
+function critique() {
+  const space = process.argv[3];
+  const dir = space && path.join(THEORY, 'spaces', space, 'critique');
+  if (!dir) { console.error('usage: verify.mjs critique <space>'); process.exit(2); }
+  const rs = rounds(space);
+  const lastFile = rs.length ? path.join(rs[rs.length - 1], 'challenger.md') : null;
+  if (!lastFile || !fs.existsSync(lastFile)) fail(`${space}: no last challenger turn`);
+  const lastTurn = lastFile && fs.existsSync(lastFile) ? fs.statSync(lastFile).mtimeMs : Infinity;
+  const who = { fable: 'claude-fable-5-1', sol: 'gpt-6.1-sol' };
+  for (const [name, model] of Object.entries(who)) {
+    const f = path.join(dir, `${name}.md`);
+    const t = read(f);
+    if (!t) { fail(`${rel(f)} is missing`); continue; }
+    if (!t.slice(0, 400).includes(`model: ${model}`)) fail(`${rel(f)} header does not name ${model}`);
+    if (!verdicts(f)) fail(`${rel(f)} has no well-formed verdict block`);
+    if (fs.statSync(f).mtimeMs < lastTurn) fail(`${rel(f)} is older than the last challenger turn`);
+    if (name === 'sol' && !csvRows().some((x) => x.output === rel(f) && x.exit === '0' && x.model === model)) fail(`${rel(f)} has no exit-0 row in discussants.csv`);
+  }
+  if (!fails.length) console.log(`CRITIQUE OK ${space}`);
+}
+
 const mode = process.argv[2];
-const modes = { context, folder, spaces, convergence, integration, argon };
+const modes = { context, folder, spaces, convergence, integration, argon, debate, critique };
 if (!modes[mode]) { console.error(`usage: verify.mjs <${Object.keys(modes).join('|')}>`); process.exit(2); }
 modes[mode]();
 if (fails.length) { console.error(fails.map((f) => `FAIL ${f}`).join('\n')); process.exit(1); }

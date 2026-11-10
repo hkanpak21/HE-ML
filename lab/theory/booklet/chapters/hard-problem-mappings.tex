@@ -1,0 +1,284 @@
+\chapter{Mappings onto hard problems}\label{ch:hard-problem-mappings}
+Filled from the thinking space \texttt{hard-problem-mappings}. Halil answered, on
+hardness that comes from a data law, that mappings onto hard problems from the
+literature are wanted. The space asks which attack tasks map onto such problems, with
+the prices on both sides, and fixes the form of a mapping. Three rounds on 25 and 26
+October 2026, all with sol, ended with every object below accepted and no blocking
+challenge. The space's one clean mapping is learning-based extraction of a single-index
+predictor, where the extractor's statistical-query exponent is twice the trainer's. It
+also corrects one literature mapping, the sparse-PCA backdoor of GKVZ22, and reduces
+the detection of a planted weight law to testing its rows. No result of this chapter
+uses the learning oracle.
+
+\section{The form of a mapping}
+
+\begin{definition}[Mapping between an attack task and a hard problem]\blabel{def-hard-problem-mapping}\status{accepted}
+A \emph{mapping} fixes nine things for a family indexed by a dimension $d$. (1) The
+procedure, with the cost meter of \cref{def-seed-access-modes} and the trainer's budget
+vector. (2) The attack task, a game with a view, a success functional, a baseline and
+the advantage as their difference. (3) The hard problem $\Pi$, a distributional decision
+or search problem with a cited set $B_\Pi(a)$ of budgets at which no solver of the
+stated regime reaches advantage $a$. (4) The direction. $\Pi\lhd\mathcal T$ when a
+reduction simulates the game without the secret, counts every training run it
+simulates and maps the attacker's output to a solution, and $\mathcal T\lhd\Pi$ when a
+solver becomes an attacker. (5) The price maps, $p_A$ from the attacker's budget and
+advantage to the solver's, monotone with loss $\eta$, and $p_P$ with a named learning
+target. (6) The regime with its accounting. Population SQ with recorded VSTAT
+parameters, sample-based with counted samples, low-degree with the composed degree
+stated, or polynomial time under a named assumption with the overhead stated. One
+mapping lives in one regime, and a VSTAT parameter compared with a sample count is
+labelled heuristic. (7) The exponent ratio, defined only for named scalar resources
+with polynomial prices on both sides. (8) The carrier of the hardness, declared
+metadata with no order. The record law, the honest randomness of the procedure, the
+choice of a trainer who plants, or a key-dependent change the designer makes for
+security. A mapping whose only hard instance is of the last kind does not count. (9) An
+experiment with its measured budgets and training runs. Read forward, a mapping
+transfers thresholds (\cref{lem-mapping-transfer}).
+\usesstatement{def-seed-access-modes,def-seed-blind-reconstruction-game}
+\source{The round file tabulates thirteen instances, one row per mapping and regime,
+from \cref{thm-blind-split-seed-separation} to
+\cref{prop-weight-testing-equals-white-box-detection}. The carrier rule counts mappings
+carried by the record law, by the honest randomness of a standard procedure and by the
+choice of a trainer who plants, and excludes only a key-dependent change the designer
+makes for security. Whether this reading of the rule on cryptographic plug-ins is
+Halil's is a decision for him. Council of 2026-10-27, on item (7), a remark and no change
+of status. The price exponent at one degree depends on the geometry of the hidden
+index, $d^{k/2}$ in a Gaussian frame and $d^k$ in a subset frame, so the exponent alone
+is no unit (\slug{prop-overlap-grading-carries-price}, fable ACCEPT, sol REVISE).}
+\fullproof{def-hard-problem-mapping}{lab/theory/spaces/hard-problem-mappings/round-01/builder.md,lab/theory/spaces/hard-problem-mappings/round-02/builder.md}
+\end{definition}
+
+\begin{lemma}[A mapping transfers thresholds]\blabel{lem-mapping-transfer}\status{accepted}
+Let $\Pi\lhd\mathcal T$ in regime $R$ with price map $p_A$ and loss $\eta$, and let
+$B_\Pi(a)$ be the cited set of solver budgets at which no $R$-solver reaches advantage
+$a$. Every $R$-attacker with advantage at least $a+\eta$ has a budget $b_A$ with
+$p_A(b_A)\notin B_\Pi(a)$. If $\mathcal T\lhd\Pi$ with price map $q$ and loss $\eta'$, a
+solver with budget $b$ and advantage $a$ gives an attacker with budget $q(b)$ and
+advantage $a-\eta'$.
+\usesstatement{def-hard-problem-mapping}
+\source{The definition read forward. The lemma holds in each regime separately and
+never across two.}
+\fullproof{lem-mapping-transfer}{lab/theory/spaces/hard-problem-mappings/round-01/builder.md}
+\end{lemma}
+
+\begin{proposition}[An SQ bound on testing binds every attacker of a one-bit learner]\blabel{prop-learner-side-sq-transfer}\status{accepted}
+Let a procedure reach its records only through $m$ calls to 1-STAT, each an adaptively
+chosen Boolean function of one fresh record, with coins independent of the record law,
+and let any randomized map, unbounded and white-box, read its output. Let $B$ be the
+problem of telling a law $D_0$ from the members of a family $\mathfrak D$. (a) If every
+SQ algorithm that solves $B$ with probability $\alpha-\delta$ needs more than $q$
+queries to VSTAT$(t)$, then every procedure-attacker pair that solves $B$ with
+probability $\alpha$ has $m\ge\min\{q,\delta^2t\}$, for $\delta\in(0,\frac14]$. (b)
+With $\mathrm{SDA}(B,\bar\gamma)=d$ and $\alpha>\frac12$,
+$m\ge\min\{d(2\alpha-1)/2,(2\alpha-1)^2/(48\bar\gamma)\}$.
+\usesstatement{lem-mapping-transfer}
+\usesproof{lem-sq-learner-post-processing,fact-fgrvx17-planted-clique-sq-bound}
+\source{The composition of the procedure and the attacker is a one-bit sampling
+algorithm, which FGRVX17 Theorem 3.13 simulates by $m$ queries to VSTAT$(m/\delta^2)$,
+and Theorem 3.7 gives (b). FGRVX17 Theorem 3.16 prints $(2\alpha+1)^2$ where its proof
+gives $(2\alpha-1)^2$, found by sol and checked in the PDF by the builder.
+\cref{lem-sq-learner-post-processing} is the planted-biclique instance. The bound is
+unconditional and binds unbounded attackers, because the restriction is on the
+procedure, and it says nothing about procedures that read their records in full.
+Council of 2026-10-27, a remark and no change of status. The transfer to SGD learners
+through \cref{fact-sq-simulates-minibatch-sgd} holds only in the worst-rounding model
+of AKMSS21, in which memorization cannot be stated
+(\slug{thm-null-trajectory-filter} (b), both critics ACCEPT), and no bound on the
+trainer's output composes with an SQ bound (\slug{prop-output-bounds-do-not-filter},
+fable ACCEPT, sol REVISE).}
+\fullproof{prop-learner-side-sq-transfer}{lab/theory/spaces/hard-problem-mappings/round-02/builder.md}
+\end{proposition}
+
+\section{Extraction priced by the released link}
+
+\begin{lemma}[The level sets of $\lvert z\rvert\phi(z)$ carry the Gaussian's first two moments]\blabel{lem-level-set-moment-balance}\status{accepted}
+Let $Z$ be standard Gaussian and $G(r)=r\phi(r)$ for $r\ge0$. For $t\in(0,G(1))$ let
+$a<1<b$ solve $G(r)=t$, and put $A=1-a^2$ and $B=b^2-1$. Conditionally on
+$G(\lvert Z\rvert)=t$, $Z$ takes the values $\pm a$ with total probability $B/(A+B)$
+and $\pm b$ with total probability $A/(A+B)$, signs equally likely. Hence
+$\mathbb E[Z\mid t]=\mathbb E[Z^3\mid t]=0$, $\mathbb E[Z^2\mid t]=1$ and
+$\mathbb E[Z^4\mid t]=1+AB$, so the conditional Hermite moments of degrees one to three
+vanish and $\mathbb E[h_4(Z)\mid t]=(AB-2)/\sqrt{24}$. The link
+$m_\natural(z)=\lvert z\rvert e^{-z^2/2}$ has generative exponent four.
+\source{The identity $\frac{d}{dr}(r\phi(r))=\phi(r)(1-r^2)$ is the whole argument.
+The Jacobian weights of a level set are $1/(1-a^2)$ and $1/(b^2-1)$, which balance the
+second moment exactly. The value agrees with DPLB24 Example 2.7 (ii) and Corollary 2.8.
+sol confirmed it line by line in round 00 and the integrator re-derived it on
+2026-10-26.}
+\fullproof{lem-level-set-moment-balance}{lab/theory/spaces/hard-problem-mappings/round-01/builder.md}
+\end{lemma}
+
+\begin{theorem}[Extraction costs the generative exponent of the released link]\blabel{thm-extraction-exponent-price}\status{accepted}
+A trainer releases $\hat f(x)=m(\langle w,x\rangle)$ for a known measurable link
+$m:\mathbb R\to[-M,M]$, not almost everywhere constant, and a unit $w$. The extractor
+sees answers $\hat f(x)+\sigma\xi$ at random Gaussian inputs, through VSTAT$(n)$ in the
+SQ game or as $n$ answered pairs in the sample game, and outputs $g$ with values in
+$[-1,1]$. It has weak fidelity $c_0$ when
+$\mathrm{Cov}(g(x),\hat f(x))\ge c_0\,\mathrm{sd}(m(Z))$. Let $k=k^*(m)$. (a) For fixed
+$m$, $\sigma$, $c_0$ and $r$, every SQ extractor with at most $d^r$ queries that reaches
+weak fidelity $c_0$ with probability $\frac23$ for uniform $w$ needs $n\ge c\,d^{k/2}$,
+for $d$ large. (b) Given the denoiser of DPLB24 Theorem 4.1 for the noisy answers,
+$O(d^{k/2}/\tilde\lambda_k^2+d/(\tilde\lambda_k^2\epsilon^2))$ answered pairs, plus
+$n_s$ pairs to fix the sign when $m$ is not even, give normalized error $\eta$ with
+probability $1-2e^{-d^{c'}}-\delta_s$. (c) If the training labels are a channel of the
+regression function $m_P(Z)$, then $k^*(m_P)\le k^*(P)$, so extracting the Bayes
+predictor never needs a larger exponent than recovering the direction from labels. (d)
+For the label law $P_\natural$ of $(Z,Z\varepsilon)$ with
+$\Pr[\varepsilon=1\mid Z]=(1+\mathrm{sgn}(Z)e^{-Z^2/2})/2$, the trainer recovers the
+direction from $O(d(1+\epsilon^{-2}))$ records at exponent two, the Bayes link is
+$m_\natural$ of exponent four, and extracting the release needs VSTAT$(c\,d^2)$ while
+$O(d^2)$ answered pairs suffice.
+\usesstatement{lem-level-set-moment-balance,def-hard-problem-mapping}
+\usesproof{fact-generative-exponent-post-processing-monotone,fact-generative-exponent-sq-recovery-bound,fact-fgrvx17-planted-clique-sq-bound}
+\source{A fidelity-to-detection reduction with a Haar rotation and three clipped
+queries, the code of DPLB24 Lemma E.3, the correlation series of its Lemma 3.1, and
+FGRVX17 Lemma 3.10 with Theorem 3.7, which sol verified step by step in round 01. The
+integrator re-derived (a) to (d) on 2026-10-26. The trainer-to-extractor comparison
+sets a sample count against a VSTAT parameter, so as a sample separation it is
+heuristic, and chosen inputs break it, since the release then gives $w$ coordinate by
+coordinate. The cost of computing the denoiser in (b) is not charged and is open.
+Council of 2026-10-27, a correction and no change of status. Against a square-loss
+population gradient trainer the gap vanishes, since extracting a Bayes release costs
+what training costs (\slug{thm-bayes-release-loss-matched-price}, fable ACCEPT, sol
+REVISE). The gap exists only against a trainer that reads squared labels, and the
+information exponent of the label law bounds it
+(\slug{prop-extraction-gap-information-exponent}, fable ACCEPT, sol REVISE). The
+degree-four link is a knife edge. Every even link strictly monotone on the half line
+has generative exponent at most two, because each level set is a pair $\{\pm a\}$ on
+which $\mathbb E[h_2(Z)\mid t]=(a^2-1)/\sqrt2$ (fable, checked by the integrator).}
+\fullproof{thm-extraction-exponent-price}{lab/theory/spaces/hard-problem-mappings/round-01/builder.md,lab/theory/spaces/hard-problem-mappings/round-02/builder.md}
+\end{theorem}
+
+\begin{conjecture}[Extraction costs the generative exponent of the model's own link]\blabel{conj-extraction-priced-by-generative-exponent}\status{accepted}
+Round 00 conjectured that extracting a released single-index predictor from noisy
+answers at random inputs costs the generative exponent of its own link, that the Bayes
+predictor never costs a larger exponent than training, and that the law $P_\natural$
+separates the two by a factor two in the exponent. Round 01 proved the three claims for
+releases with a known link as \cref{thm-extraction-exponent-price} and withdrew the
+remainder, a fitted network that approximates the link in $L^2$ only, as an aim, since
+the exact moment cancellations need not survive the approximation. The space accepted
+the withdrawal.
+\usesstatement{thm-extraction-exponent-price}
+\source{The object records the aim and adds no claim to the theorem. The booklet has no
+status for a withdrawn object, so it carries the status of its last verdict. The fitted
+remainder is open and no space pursues it.}
+\fullproof{conj-extraction-priced-by-generative-exponent}{lab/theory/spaces/hard-problem-mappings/round-00/builder.md,lab/theory/spaces/hard-problem-mappings/round-01/builder.md}
+\end{conjecture}
+
+\section{Tampering with the weight law}
+
+\begin{lemma}[The sparse-PCA backdoor is detected or the key buys almost nothing]\blabel{lem-sparse-pca-backdoor-width-price}\status{accepted}
+In the construction of GKVZ22 Appendix A, honest weights are i.i.d.\ Gaussian and
+backdoored weights i.i.d.\ $\mathcal N(0,I_d+\theta ss^\top)$ with $s$ a $k$-sparse unit
+vector and $0<\theta\le k$, the classifier thresholds the mean ReLU response $A_m(x)$
+of $m$ features at $\tau\in(0,1]$ on unit-norm data, and the trigger is
+$x\mapsto x+\lambda s$. (a) The coordinate-variance test, in time $O(md)$, has
+advantage at least $\frac34$ once $m\ge64k^2\ln(4(d+1))/\theta^2$. (b) If that test has
+advantage below $\frac34$, then $\theta<\theta_*=8k\sqrt{\ln(4(d+1))/m}$, and Claim
+A.5's $\lambda>1/\theta$ forces $\lambda k>\sqrt{m/(64\ln(4(d+1)))}$. (c) For an input
+fixed independently of the weights, the mean response is $\sigma'/\sqrt{2\pi}$ with
+$\sigma'$ the preactivation standard deviation, and
+$\Pr[\lvert A_m-\mathbb EA_m\rvert\ge t\,\mathbb EA_m]\le2e^{-mt^2/(4\pi)}$. For a unit
+$x\perp s$ the trigger in the backdoored network and the key-free radial input
+$(1+\lambda')x$ with $\lambda'\le\lambda\sqrt{1+\theta}$ have the same mean response in
+either network, and in the undetected regime $\sqrt{1+\theta}<1+\theta_*/2$. (d) Claim
+A.5's activation condition is insufficient. At $\theta=1$, $\lambda=1.1$, $\tau=1$ and a
+unit $x\perp s$ its hypotheses hold, yet the triggered mean response is
+$\sqrt{3.42/(2\pi)}\approx0.738<\tau$, so the trigger fails with probability tending to
+one as $m$ grows.
+\usesstatement{fact-gkvz22-backdoor-scope}
+\source{Laurent and Massart's tail bounds for $\chi^2_m$ and Gaussian concentration of
+the averaged ReLU response, a $(\sigma'/\sqrt m)$-Lipschitz function of the
+preactivations. The integrator re-derived (a) to (d) on 2026-10-26. The rounded mean
+enters (d) as an inequality, since the exact mean is slightly below (sol, round 02).
+Appendix A's claimed guarantees give no backdoor content, while Theorem 6.4 of GKVZ22,
+the random Fourier features under CLWE, stands. The trainer's width prices the trade-off,
+since widening the layer for accuracy shrinks $\theta_*$.}
+\fullproof{lem-sparse-pca-backdoor-width-price}{lab/theory/spaces/hard-problem-mappings/round-02/builder.md}
+\end{lemma}
+
+\begin{proposition}[White-box detection of a planted weight law is testing the rows]\blabel{prop-weight-testing-equals-white-box-detection}\status{accepted}
+A random-feature release holds $G\in\mathbb R^{m\times d}$, offsets $b$ independent
+of $G$ and a head $w=H(G,b,S;\omega)$ trained on data $S$ with coins $\omega$
+independent of $G$. Under $H_0$ the rows of $G$ are i.i.d.\ Gaussian, under $H_1$
+i.i.d.\ from $P^A_s$ with $s$ drawn from a prior on the sphere. In every class of
+algorithms that can sample the offsets, the data and the coins and run $H$, the best
+advantage of telling $H_0$ from $H_1$ given the release equals the best advantage of
+telling $\gamma_d^{\otimes m}$ from the mixture over $s$ of $(P^A_s)^{\otimes m}$ given
+$m$ samples.
+\usesstatement{fact-gkvz22-backdoor-scope}
+\source{Simulation in one direction, GKVZ22's argument of Theorem 6.4 for any $A$, and
+projection onto $G$ in the other. The auditor's sample count is the trainer's width, so
+the detection price of every planted weight law is its NGCA testing price at $m$
+samples. A backdoor also needs a trigger with a proved effect, and in this catalogue
+only GKVZ22's pancake law has one. SQ lower bounds for NGCA transfer to this auditor
+only under the heuristic that VSTAT$(m)$ models $m$ samples.}
+\fullproof{prop-weight-testing-equals-white-box-detection}{lab/theory/spaces/hard-problem-mappings/round-01/builder.md}
+\end{proposition}
+
+\begin{proposition}[For a uniform key the Gram matrix is all the auditor needs]\blabel{prop-gram-sufficiency-rotation-invariant}\status{accepted}
+In the setting of \cref{prop-weight-testing-equals-white-box-detection} with the key
+uniform on the sphere. (i) For every test $T(G,b)$, the randomized test that factors
+$GG^\top=FF^\top$, draws a Haar $R\in O(d)$ and returns $T(FR,b)$ has the same
+advantage, at the cost of $T$ plus $O(m^2d+d^3)$ operations. (ii) For ReLU features
+without offsets the second moment of the features on Gaussian probes determines
+$GG^\top$ through the arc-cosine kernel $\kappa$ of
+\cref{prop-relu-client-second-moment-identifies-weights}, so an auditor that sees only
+the law of the features on unknown Gaussian inputs detects exactly as well as the
+white-box auditor. (iii) Rotation invariance of the prior is needed, since the
+coordinate test of \cref{lem-sparse-pca-backdoor-width-price} uses the frame, which
+$GG^\top$ does not carry.
+\usesstatement{prop-weight-testing-equals-white-box-detection}
+\source{Equal Gram matrices give $F=GQ_0$ with $Q_0\in O(d)$, and $Q_0R$ is Haar given
+$G$. Exact feature-law access supplies no finite-probe price, so the statement is not
+yet an experimentally priced mapping. The number of probes, or the SQ tolerance, at
+which $GG^\top$ returns to a precision a given test survives is open. The round-02
+summary proposed keeping this statement and \cref{lem-feature-matrix-transpose} as
+remarks under \cref{prop-weight-testing-equals-white-box-detection}. They enter as
+objects because the space accepted them.}
+\fullproof{prop-gram-sufficiency-rotation-invariant}{lab/theory/spaces/hard-problem-mappings/round-01/builder.md,lab/theory/spaces/hard-problem-mappings/round-02/builder.md}
+\end{proposition}
+
+\begin{lemma}[An auditor of a planted layer is a split server, transposed]\blabel{lem-feature-matrix-transpose}\status{accepted}
+For any activation $\sigma$ applied entrywise, $\sigma(GX^\top)^\top=\sigma(XG^\top)$.
+If $G$ has i.i.d.\ rows from $P^A_s$ and $X$ i.i.d.\ Gaussian rows, the auditor's
+feature matrix on the probes $X$ is the transpose of the representation matrix of a
+split server whose Gaussian client of width $N$, without offsets, received $m$ records
+from $P^A_s$. The probes are the client's weights and the weight rows are the records.
+An auditor who knows its probes is a seed-known server, and one who sees features on
+unknown inputs is a seed-blind server. For ReLU and $N\ge2.1d$ an auditor who knows its
+Gaussian probes recovers every row of $G$ exactly by layer-wise linear equations with
+probability at least $1-me^{-\Omega(d)}$.
+\usesstatement{def-seed-blind-reconstruction-game}
+\usesproof{fact-lei-random-expansive-layers-invertible}
+\source{LJDD19 Theorem 3 per row with a union bound. The lemma transfers no detection
+or key-recovery statement. Recovering the rows leaves the planted direction as hidden
+as the white-box auditor finds it (sol, round 00).}
+\fullproof{lem-feature-matrix-transpose}{lab/theory/spaces/hard-problem-mappings/round-01/builder.md}
+\end{lemma}
+
+\begin{conjecture}[Detection of a weight-law backdoor is NGCA at the trainer's width]\blabel{conj-backdoor-detection-is-ngca}\status{refuted}
+Round 00 conjectured four claims about a random-feature layer whose weight law is
+planted. (a) White-box detection is two-sided equivalent to NGCA testing of the planted
+law at the trainer's width. (b) An auditor with Gram access is as strong as the
+white-box auditor. (c) The auditor's feature matrix is the transpose of a split
+server's representation matrix and the seed separation transfers to the key's
+projections. (d) The known thresholds price it. Part (b) is false for activations that
+erase the weights, sol's constant activation, and holds for ReLU without offsets and
+uniform keys as \cref{prop-gram-sufficiency-rotation-invariant}. The transfer of (c) is
+false as stated, since recovering the rows leaves the planted direction hidden, and
+only the identity and the inversion survive as \cref{lem-feature-matrix-transpose}.
+Part (a) became \cref{prop-weight-testing-equals-white-box-detection}, and the SQ
+clause of (d) was dropped. Round 01 withdrew the conjecture and the space accepted the
+withdrawal.
+\usesstatement{prop-weight-testing-equals-white-box-detection}
+\fullproof{conj-backdoor-detection-is-ngca}{lab/theory/spaces/hard-problem-mappings/round-00/builder.md,lab/theory/spaces/hard-problem-mappings/round-01/builder.md}
+\end{conjecture}
+
+\paragraph{Decisions proposed for Halil.} The headline separation lives in
+learning-based extraction, where the extractor sees the released model only on random
+inputs, and it disappears with chosen inputs. Whether that game is one he wants priced
+is his call. The carrier rule of \cref{def-hard-problem-mapping} is the space's reading
+of the rule on cryptographic plug-ins, and the council's reading of the same rule asks
+whether a pseudorandom seed generator, needed by \cref{thm-blind-split-seed-separation}
+on real implementations, counts as the excluded plug-in.

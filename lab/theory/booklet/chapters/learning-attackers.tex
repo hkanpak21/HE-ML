@@ -1,0 +1,407 @@
+\chapter{Learning attackers}\label{ch:learning-attackers}
+Filled from the thinking space \texttt{learning-attacker-prices}. Halil asked on
+2026-10-28 for a Claude Opus builder against a Claude Opus challenger, to rebuild the
+theory on what survived the council of 2026-10-27. Every critic of that council had
+named one gap. No result prices a learning attacker, a shadow model or a VAE, in
+learning units, with a measured side and a proven side in one access model. Four rounds
+on 28 and 29 October 2026 ended with the challenger satisfied, ten objects standing and
+no blocking challenge. The setting is one federated round at the square-loss optimum of
+a linear model on Gaussian inputs, with labels of conditional mean zero, so the trained
+model is the same for every secret direction and the server sees $T$ client updates.
+The space prices every observer of the updates by Fano's inequality, prices the class
+that reads only the empirical covariance through an outlier equation, and brackets, for
+the first time in this theory, one price between a proven lower side and a measured
+upper side at a dimension an experiment reaches. It also prices an attacker that
+re-learns a trained linear release. No result of this chapter uses the learning
+oracle.
+
+fable and sol criticized the closed space on 29 October. fable found the update stream
+at batch one to be the Gaussian single-index model of DPLB24 with the secret as hidden
+direction, so that the full observer's price is the degree-two price of that paper
+(Theorems 3.2, 4.1 and 6.1) and the gap between plain PCA and the weighted estimator is
+its Proposition 2.6. fable placed the outlier equation and the optimal weight in the
+theory of spectral initialization (Lu and Li 2020, Mondelli and Montanari 2019, Luo,
+Alghamdi and Lu 2019), from memory, unverified, none in the library, search pending.
+sol asked six local repairs, listed under the objects they concern and not yet applied.
+Every lower bound below binds every estimator, and no object binds a learner because it
+learns by gradient steps.
+
+\section{The setting and the attacker class}
+
+\begin{definition}[The update stream at the square-loss optimum]\blabel{def-optimum-update-stream}\status{accepted}
+Inputs are $X\sim\gamma_d$, the secret is $u$ uniform on $S^{d-1}$ and
+$Z=\langle u,X\rangle$. Labels are $Y=\xi W$ with $\xi$ a uniform sign independent of
+$(X,W)$, $W\in[0,A]$, and the law of $W$ given $X$ a function of $Z$. Put
+$\mu_2=\mathbb EY^2$, $c_2=\mathbb E[Y^2(Z^2-1)]$ and
+$T(w)=\mathbb E[Z^2-1\mid W=w]$. The linear model sits at its population square-loss
+optimum $\theta^*=0$, which holds for every $u$ since $\mathbb E[Y\mid X]=0$. In one
+FedSGD round at $\theta^*$, $T$ clients send
+$v_t=b^{-1}\sum_{i\in B_t}Y_iX_i+\zeta_t$ with $\zeta_t\sim\mathcal N(0,\varsigma^2I_d)$
+and independent batches, and the unit of observation is one client's update. The null
+$P^\circ$ makes $Y$ independent of $X$ with its marginal. (i) $\mathbb Ev_t=0$,
+$\mathrm{Cov}_{P_u}(v_t)=b^{-1}((\mu_2+b\varsigma^2)I_d+c_2uu^\top)$ and
+$\mathrm{Cov}_{P^\circ}(v_t)=b^{-1}(\mu_2+b\varsigma^2)I_d$. (ii) At $b=1$,
+$\mathbb E[vv^\top\mid W]=(W^2+\varsigma^2)I_d+W^2T(W)uu^\top$. (iii) At $b=1$ the
+entry of the empirical covariance along $u$ and a perpendicular direction has variance
+$1+s$ times that of two perpendicular directions, with
+$s=(\mathbb E[W^4(Z^2-1)]+\varsigma^2c_2)/(\mathbb E[W^4]+2\varsigma^2\mu_2+\varsigma^4)$.
+\notation{$c_2$}{covariance spike of the update stream, $\mathbb E[Y^2(Z^2-1)]$}
+\notation{$T(w)$}{$\mathbb E[Z^2-1\mid W=w]$, the second Hermite moment of the secret coordinate given the label magnitude}
+\source{Accepted by the challenger in round 01. The identification the definition
+omits (fable, \slug{ch-stream-is-single-index-sample}, not blocking). At $b=1$ and
+$\varsigma=0$ the observer sees $v_t=\xi_tW_tX_t$, hence the direction
+$\pm X_t/\lVert X_t\rVert$ and the norm $W_t\lVert X_t\rVert$ with
+$\lVert X_t\rVert^2/d=1+O(d^{-1/2})$, so the stream is $T$ labelled samples $(\xi X,W)$
+of a Gaussian single-index model whose hidden direction is the secret, and noise adds
+an isotropic Gaussian. Every price below is then a single-index price. The council had
+ruled the degree of a channel to be the generative exponent of DPLB24 with the secret
+as the label, and the space did not apply the ruling to its own setting. sol asks that
+property (iii) exclude the degenerate stream with zero labels and zero noise, where its
+ratio is zero over zero (\slug{ch-zero-update-profile}, REVISE), a local repair not yet
+applied. The setting removes the trainer's learning dynamics and gives it no task
+involving the secret (sol).}
+\fullproof{def-optimum-update-stream}{lab/theory/spaces/learning-attacker-prices/round-01/builder.md}
+\end{definition}
+
+\begin{definition}[A learning attacker, the statistic it reads, and the price of its class]\blabel{def-statistic-learner-class}\status{accepted}
+An access model names one type of observation, the budget is the pair of observations
+received and steps of the attacker's own method, and success is averaged over a named
+prior on the secret, the uniform law on the sphere here. A \emph{learning attacker} is
+a parametric family, a loss on one observation, a declared gradient method run for a
+stated number of steps, and a readout fixed in advance as a map of the parameters
+alone, or of the model at the target's view for shadow pairs. When the summed loss
+depends on the observations only through a statistic $S$, and the attacker returns a
+minimizer of it or runs full-batch descent from a fixed start, its output is a function
+of $S$ and of independent coins. The class $\mathcal A_S$ holds every estimator of that
+form, and its price $p_S(s_0)$ is the least number of observations at which some member
+reaches success $s_0$, so that $p_{\mathrm{stat}}\le p_S\le p_A$ for each declared
+learner $A$ in the class. A lower bound on $p_S$ is a statement about the law of $S$
+alone. It binds every learner whose output is an exact function of $S$ and of
+independent coins, whatever arithmetic follows, and a learner that sums per-observation
+terms in floating point lies outside the class. The closure $\mathcal A_S^\downarrow$
+under subsampling by independent coins has a price that is the left end of an interval,
+while $p_S$ need not be. A price is known within $c$ at dimension $d$ when a proven
+lower bound with explicit constants at that $d$ and a certified upper band from
+independent runs differ by at most the factor $c$ in the same observations.
+\notation{$\mathcal A_S$}{the attackers that read the observations through the statistic $S$ alone}
+\usesstatement{def-uniform-security-profile,prop-profile-run-coordinate,def-optimum-update-stream}
+\source{Accepted by the challenger in rounds 01 to 03. A linear-Gaussian latent model,
+the linear VAE at its optimum, reads the empirical mean and covariance and, with the
+mean fixed at zero, the empirical covariance $\hat M$ alone. The statistical price of
+shadow pairs is zero for a public learning function
+(\cref{prop-profile-run-coordinate}), while a linear decoder fitted by gradient descent
+from zero on $N$ shadow pairs has mean square error at least $k-N$, so a shadow model
+has a price only as a learner class. Critiques. fable, not blocking: the learning clause
+is decoration, since a maximum-likelihood mixture reads the empirical measure, so the
+object priced is a sufficiency class (\slug{ch-learner-clause-empty}), and a price
+known within $c$ should fix the $c$ at which a price counts as met
+(\slug{ch-known-within-unbounded}). sol REVISE: the implication from loss dependence to
+output dependence needs a statistic-measurable selector of the minimizer
+(\slug{ch-minimizer-selection}), a repair not yet applied, and the class prices no
+optimizer work (\slug{ch-statistic-is-not-compute}).}
+\fullproof{def-statistic-learner-class}{lab/theory/spaces/learning-attacker-prices/round-01/builder.md,lab/theory/spaces/learning-attacker-prices/round-02/builder.md,lab/theory/spaces/learning-attacker-prices/round-03/builder.md}
+\end{definition}
+
+\section{The price of every observer}
+
+\begin{theorem}[An observer needs updates of the order of the dimension over the directional chi-square]\blabel{thm-update-direction-chi-square-bound}\status{accepted}
+(a) Let $a_1,\dots,a_T$ be i.i.d.\ auxiliary variables whose law does not depend on
+$u$, and given $a$ let $w_1,\dots,w_T\in\mathbb R^d$ be independent with density
+$\gamma_d(w)q_{a_t}(\langle u,w\rangle)$ under $P_u$, where $q_a$ is the density of a
+symmetric law $\nu_a$ against $\gamma_1$, and law $\gamma_d$ under $P_\circ$. Put
+$\kappa=\mathbb E_a\chi^2(\nu_a\|\gamma_1)$. If $u$ is uniform on the sphere and
+$T\kappa\le d/4$, the mixture over $u$ is within total variation $\sqrt{T\kappa/(2d)}$
+of $P_\circ$. (b) In \cref{def-optimum-update-stream} with $\varsigma>0$, the updates
+normalized by $\sigma(a_t)^2=b^{-2}\sum_ia_{t,i}^2+\varsigma^2$, with $a_t$ the label
+magnitudes of the batch, satisfy the hypotheses of (a), so every observer of $T$
+updates has advantage at most $\sqrt{T\kappa/(2d)}$, and labels truncated at $A$ add
+$Tb\Pr[\lvert Y\rvert>A]$. (c) With $\lvert Y\rvert\le A$ and $c_2\ne0$, an estimator
+with $\Pr[\lvert\langle\hat u,u\rangle\rvert\ge\epsilon]\ge\frac23$ needs
+$T>d/(4\kappa)-2304(A^2+b\varsigma^2)^2/(c_2^2\epsilon^4)$. (d) For $b=1$ and
+$Y=\langle u,X\rangle\xi$ the chi-square of one update has a closed form, equal to
+$a^4(a^2-1)^2/(2\varsigma^4)+O(\varsigma^{-6})$ at fixed label magnitude $a$, the
+untruncated $\kappa$ is infinite, and the truncated $\varsigma^4\kappa_A$ tends to
+$\frac12\mathbb E[a^4(a^2-1)^2]=39$ as $A\to\infty$, which against
+$\beta^2/2=2/(1+\varsigma^2)^2$ is the ratio $19.5=1+\mathrm{Var}(Z^4-Z^2)/c_2^2$.
+\usesstatement{def-optimum-update-stream}
+\source{The second-moment method with Mehler's identity for one update, the Beta law of
+the squared overlap of two uniform directions compared term by term with $G_1^2/d$, and
+$(1-x)^{-1/2}-1\le x$ on $[0,\frac12]$. The integrator re-derived (a) to (d) on
+2026-10-30, with $\mathbb E[Z^4(Z^2-1)^2]=78$, $\mathrm{Var}(Z^4-Z^2)=74$ and $c_2=2$,
+and recomputed the closed form of (d) by quadrature. Accepted by the challenger in
+round 00 and by both critics. fable, not blocking: Step 2 is the form of DPLB24 Lemma
+3.1, so the booklet does not present the method as new
+(\slug{ch-chi-square-is-planted-second-moment}). The constant 2304 uses the loose
+fourth moment $6b^2A^4$. The bound sees only the total chi-square of an update and
+never its degree.}
+\fullproof{thm-update-direction-chi-square-bound}{lab/theory/spaces/learning-attacker-prices/round-00/builder.md}
+\end{theorem}
+
+\begin{proposition}[Recovering a direction costs the dimension over the Kullback divergence]\blabel{prop-update-direction-fano-recovery}\status{accepted}
+In the setting of part (a) of \cref{thm-update-direction-chi-square-bound}, without
+the symmetry of $\nu_a$, put $\kappa_{\mathrm{KL}}=\mathbb E_a\mathrm{KL}(\nu_a\|\gamma_1)$.
+If an estimator from $(a,w_{1:T})$ with independent coins has
+$\Pr[\lvert\langle\hat u,u\rangle\rvert\ge\epsilon]\ge p$ for uniform $u$, then
+$T\kappa_{\mathrm{KL}}\ge p(d\epsilon^2/4-\frac12\log2)-\log2$. At $p=\frac23$ and
+$\epsilon=\frac12$ this reads $T\ge(d/24-0.93)/\kappa_{\mathrm{KL}}$, and it binds every
+observer of the updates. For the update stream,
+$\kappa_{\mathrm{KL}}\le\mathbb E_a\min\{\chi^2(\nu_a\|\gamma_1),K(a)\}$ with
+$K(a)=\frac12(b^{-2}\sum_ia_i^2T(a_i)/\sigma(a)^2+\log(\sigma(a)^2/\varsigma^2))$,
+finite whenever $\varsigma>0$ and the labels are bounded. For $Y=\langle u,X\rangle\xi$
+at $b=1$ it is finite for every $\varsigma>0$, with
+$\limsup_{\varsigma\to\infty}\varsigma^4\kappa_{\mathrm{KL}}\le39$.
+\notation{$\kappa_{\mathrm{KL}}$}{mean Kullback divergence of one normalized update along the secret}
+\usesstatement{thm-update-direction-chi-square-bound,def-optimum-update-stream}
+\source{Markov's inequality on $e^{d\rho^2/4}$ for the spherical cap,
+$\sqrt2e^{-d\epsilon^2/4}$, data processing for the indicator of the success event with
+$\mathrm{kl}(p'\|q')\ge p'\log(1/q')-\log2$, and the golden formula with the null as
+reference. The exact constant at $p=\frac23$ is $\frac43\log2=0.9242$. The integrator
+re-derived the four steps on 2026-10-30. The genie observer that sees the label
+magnitudes, which $\kappa_{\mathrm{KL}}$ prices, overstates what the real observer
+learns. Accepted by the challenger in round 01 and by both critics. sol: a generalized
+Fano argument with a spherical success set, related to the distance-based Fano
+inequalities of Duchi and Wainwright (arXiv 1311.2669, Proposition 2, as sol cites it,
+not read).}
+\fullproof{prop-update-direction-fano-recovery}{lab/theory/spaces/learning-attacker-prices/round-01/builder.md}
+\end{proposition}
+
+\section{Spectral estimators and the linear class}
+
+\begin{theorem}[A spectral estimator weighted by the update's norm]\blabel{thm-norm-weighted-update-pca}\status{accepted}
+In \cref{def-optimum-update-stream} at $b=1$ fix a measurable weight
+$g:[0,\infty)\to[0,1]$ of the normalized squared norm $r=\lVert v\rVert^2/d$, and let
+$M_g=\mathbb E[g(r)vv^\top]$ and $\hat M_g$ its empirical version over $T$ updates. (a)
+$M_g=\alpha_gI_d+\gamma_guu^\top$. (b) If $\gamma_g\ne0$,
+$\lambda_-=\alpha_g+\min(\gamma_g,0)>0$ and $\lambda_+=\alpha_g+\max(\gamma_g,0)$, the
+extreme unit eigenvector $\hat u$ of $\hat M_g$ on the side of the sign of $\gamma_g$
+has $\lvert\langle\hat u,u\rangle\rvert\ge\frac12$ with probability $1-\vartheta$
+whenever
+$T\ge C_1(d+\log(2/\vartheta))(A+\varsigma)^4\lambda_+^2/(\lambda_-^2\gamma_g^2)$, for
+an absolute constant $C_1$. (c) If $g$ is $L$-Lipschitz, $\gamma_g$ is within
+$24L(A^2+\varsigma^2)^2/\sqrt d$ of $\mathbb E[g(W^2+\varsigma^2)W^2T(W)]$ and
+$\alpha_g$ within $12L(A^2+\varsigma^2)^2/\sqrt d$ of
+$\mathbb E[g(W^2+\varsigma^2)(W^2+\varsigma^2)]$. (d) For $g\equiv1$, $\gamma_g=c_2$ and
+$\alpha_g=\mu_2+\varsigma^2$, so plain PCA is the constant weight. On the challenger's
+law $Q_\delta$ at $\varsigma^2=0.1$, the triangular weight of half-width $0.05$ centred
+at $w_0^2+\varsigma^2$ has population spike $0.0801$ at $\delta=0$ and $0.0756$ at
+$\delta=0.02$, against $c_2=0.0865\,\delta$ for plain PCA (numerical).
+\usesstatement{def-optimum-update-stream}
+\usesproof{fact-subgaussian-sample-covariance-concentration}
+\source{The $O(d-1)$ symmetry for (a), whitening and
+\cref{fact-subgaussian-sample-covariance-concentration} for (b) with
+$C_1=128C^2c_0^4/9$, so that $\lVert\hat M_g-M_g\rVert\le\frac38\lvert\gamma_g\rvert$
+and a two-sided Rayleigh argument gives the overlap, and Cauchy and Schwarz with
+$\sqrt6\sqrt{96}=24$ and $\sqrt6\sqrt{24}=12$ for (c). The integrator re-derived (a)
+to (c) and recomputed the two spikes of (d) on 2026-10-30. The law $Q_\delta$ puts
+$W=\lvert Z\rvert$ on $\lvert Z\rvert\le1$ and $W=w_\delta$ with
+$w_\delta^2=(1+\delta)w_0^2$ on $\lvert Z\rvert>1$, with $w_0^2=0.17863$ chosen so
+that $c_2=0$ at $\delta=0$. The estimator runs in $O(Td^2+d^3)$ operations and its
+weight depends on the label law and never on $u$. Accepted by the challenger in round
+01 and by both critics. fable: the estimator is the spectral method with a
+preprocessing function for single-index models, and the signed weight of
+\cref{prop-signed-weight-update-pca} is the denoiser $\zeta_2(w)=T(w)/\sqrt2$ of DPLB24
+Theorem 4.1 at $k=2$ up to normalization (record, the DPLB24 note). The exact symmetry
+of (a) and the Lipschitz perturbation of (c), which handle the fact that the observer
+reads $W\lVert X\rVert$ and not $W$, are the part specific to this stream.}
+\fullproof{thm-norm-weighted-update-pca}{lab/theory/spaces/learning-attacker-prices/round-01/builder.md}
+\end{theorem}
+
+\begin{proposition}[Signed weights, at the cost of two condition numbers]\blabel{prop-signed-weight-update-pca}\status{accepted}
+In the setting of \cref{thm-norm-weighted-update-pca} let $g$ take values in $[-1,1]$
+with parts $g_\pm=\max(\pm g,0)$. (a) $M_g=\alpha_gI_d+\gamma_guu^\top$ with $\alpha_g$
+of either sign. (b) If $\gamma_g\ne0$ and each nonzero part has
+$\lambda_{\min}(M_{g_\pm})>0$ with condition number $\rho_\pm$, the extreme eigenvector
+on the side of the sign of $\gamma_g$ has
+$\lvert\langle\hat u,u\rangle\rvert\ge\frac12$ with probability $1-\vartheta$ whenever
+$T\ge C_1(d+\log(4/\vartheta))(A+\varsigma)^4(\rho_++\rho_-)^2/\gamma_g^2$.
+\usesstatement{thm-norm-weighted-update-pca}
+\usesproof{fact-subgaussian-sample-covariance-concentration}
+\source{Each part satisfies the theorem, the errors add, and
+$\lVert\hat M_g-M_g\rVert\le\frac38\lvert\gamma_g\rvert$ follows from
+$\lvert\gamma_g\rvert\le2(A+\varsigma)^2$ and $\rho_++\rho_-\ge1$. The integrator
+re-derived it on 2026-10-30. The weight $\psi=W^2T(W)/\sigma^4$ gives
+$\gamma_g\approx2\kappa_2/\lVert\psi\rVert_\infty$ at large noise (heuristic). Accepted
+by the challenger in round 02 and by both critics. fable places the optimal weight in
+Mondelli and Montanari (2019) and Luo, Alghamdi and Lu (2019), from memory, unverified,
+search pending. sol cites Luo, Alghamdi and Lu, IEEE Transactions on Signal Processing
+2019, Theorems 1 and 2, not in the library, and notes that the remark on the optimal
+weight needs boundedness (\slug{ch-optimal-weight-regularity}, not blocking).}
+\fullproof{prop-signed-weight-update-pca}{lab/theory/spaces/learning-attacker-prices/round-02/builder.md}
+\end{proposition}
+
+\begin{conjecture}[The linear class reads a Cauchy transform of the label law]\blabel{conj-linear-class-reads-cauchy-transform}\status{open}
+In \cref{def-optimum-update-stream} at $b=1$ with $\lvert Y\rvert\le A$, let
+$\sigma^2=W^2+\varsigma^2$, let $\phi(x)$ be the value of $W^2T(W)$ at $\sigma^2=x$,
+and let $\mu(dx)=\phi(x)P_\sigma(dx)$ be a signed measure of total mass $c_2$ on the law
+$P_\sigma$ of $\sigma^2$. Put $\Psi(g)=\int\mu(dx)/(1-xg)$,
+$\kappa_2=\frac12\int\phi(x)^2x^{-2}P_\sigma(dx)$ and $\gamma=d/T$. Exact part. An
+eigenvalue $\lambda$ of the empirical covariance $\hat M$ outside the spectrum of its
+block perpendicular to $u$ solves a Schur equation whose eigenvector has an explicit
+squared overlap with $u$, and given two deterministic equivalents the outlier equation
+is $\gamma=g\Psi(g)$, with at most one root on each side of the bulk and a closed test
+at the edges. For uniform $u$, no function of $\hat M$ and independent coins beats, in
+mean-square overlap, the eigenvector of largest conditional overlap, and
+$\mathbb E\langle F,u\rangle^2\le\mathbb E[\max_k\langle e_k,u\rangle^2]$ over the
+eigenbasis. Conjecture, as $d,T\to\infty$ with $d/T\to\gamma\in(0,1)$. (a) Each root of
+the outlier equation gives an eigenvalue of $\hat M$ whose eigenvector has a limiting
+overlap set by $\Psi$, and without a root every extreme eigenvector has overlap
+tending to zero. (b) Bulk eigenvectors delocalize, so the class's mean-square price is
+the least $T/d$ at which (a) gives the required overlap. (c) The price of linearity
+$p_{\hat M}/p_*$ has both ends scaling with $1/\kappa_2$ at large noise.
+\usesstatement{def-optimum-update-stream,def-statistic-learner-class,prop-signed-weight-update-pca,prop-update-direction-fano-recovery}
+\source{Accepted as well posed by the challenger in rounds 02 and 03, its content open.
+The finite identities, the derivative identity behind the single root, since
+$\sigma^2+W^2T(W)=\mathbb E[a^2\mid W]\ge0$, and the mean-square reduction are proven.
+The two deterministic equivalents, a generalized Marchenko and Pastur equation and an
+anisotropic law for weighted sample covariances, are heuristic and cited from memory.
+The outlier equation matches simulation within 0.02 on the challenger's band law, where
+the class succeeds on a window of $T$ and loses again as $T$ grows (empirical). The
+first two Taylor coefficients of $\Psi$ are $c_2$ and $s\,\mathbb E[\sigma^4]$, and at
+large noise the price of linearity tends to the Jensen ratio
+$1+\mathrm{Var}(W^2T(W))/c_2^2$, which is $19.5$ for $Y=\langle u,X\rangle\xi$
+(heuristic). The integrator re-derived the exact part on 2026-10-30. Critiques. fable
+REVISE, for status and attribution and with no false statement. At $\varsigma=0$ the
+matrix $\hat M$ is the spectral initialization matrix of a generalized linear model
+with preprocessing $y\mapsto y^2$, whose phase transition and limiting overlap Lu and
+Li (2020) give through two Cauchy-type transforms, with the optimal preprocessing of
+Mondelli and Montanari (2019) and Luo, Alghamdi and Lu (2019), all from memory,
+unverified, none in the library, search pending, so part (a) is a theorem to borrow at
+$\varsigma=0$ after the search. The full observer's side is DPLB24 at degree two, with
+$\kappa_2=\lambda_2^2$ and Theorems 3.2, 4.1 and 6.1, and the gap between plain PCA and
+the full observer is its Proposition 2.6 at the level of constants. The showcase laws
+satisfy $c_2=0$ by construction, a balanced moment, and on a generic law the linear
+class is within a constant factor of optimal. sol REVISE: the bulk edges need not
+exist, since a Beta$(1,5)$ law of the squared label magnitude at $\gamma=\frac12$ has
+no positive edge (\slug{ch-spectral-edge-existence}), and the full observer also uses
+higher Hermite contributions. sol cites Lu and Li, Information and Inference 2020,
+Theorem 2.1 and Section 4.3, not in the library.}
+\fullproof{conj-linear-class-reads-cauchy-transform}{lab/theory/spaces/learning-attacker-prices/round-02/builder.md,lab/theory/spaces/learning-attacker-prices/round-03/builder.md}
+\end{conjecture}
+
+\section{A measured price and a defence}
+
+\begin{proposition}[On $Q_0$ the price of the full observer is known within 87 at $d=200$]\blabel{prop-measured-meets-proven-full-observer}\status{accepted}
+Take the challenger's law $Q_0$ at $b=1$ and $\varsigma^2=0.1$, success
+$\Pr[\lvert\langle\hat u,u\rangle\rvert\ge\frac12]\ge\frac23$ for uniform $u$, and the
+class of all estimators. (a) $\kappa_{\mathrm{KL}}\le0.1602$, from the value $0.160111$
+computed by adaptive quadrature of closed-form integrands with estimated error below
+$10^{-12}$ (numerical), so every estimator needs
+$T\ge(d/24-\frac43\log2)/0.1602$, that is $T\ge46.25$ at $d=200$ and $T\ge98.27$ at
+$d=400$. (b) The triangular weight of \cref{thm-norm-weighted-update-pca} (d), declared
+with the point $T=20d$ before the runs, succeeded in 40 of 40 independent runs at each
+of $d=200$ and $d=400$, and the one-sided Clopper and Pearson band at level $0.05$ is
+$0.928\ge\frac23$ (empirical). (c) So the price of the full observer is known within
+$4000/46.25=86.5$ at $d=200$ and $8000/98.27=81.4$ at $d=400$, in the sense of
+\cref{def-statistic-learner-class}.
+\usesstatement{def-statistic-learner-class,def-optimum-update-stream}
+\usesproof{prop-update-direction-fano-recovery,thm-norm-weighted-update-pca}
+\source{The estimator commutes with every rotation, since its weights are functions of
+norms, so runs at $u=e_1$ give the Bayes success. The integrator recomputed
+$\kappa_{\mathrm{KL}}=0.160111$ on $Q_0$ by quadrature on 2026-10-30, with $0.248296$ on
+the atom and $0.081324$ off it, the two budgets, the two ratios and the band $0.9278$,
+and ran the estimator at $d=200$ and $T=20d$ for four seeds, with overlaps between
+$0.70$ and $0.73$ and plain PCA below $0.11$. The lower side rests on a numerical value
+with an error estimate and not on a certified integral, so it is proven given that
+value, as the object says. Accepted by the challenger in rounds 02 and 03 and by fable.
+fable, not blocking: a ratio of 86 is a bracket and not a meeting, the honest sentence
+being that the price lies in $[47,4000]$ at $d=200$, and the lower side binds every
+estimator, so the object prices no learner (\slug{ch-bracket-is-not-a-meeting}). sol
+REVISE: the conclusion exceeds the conditional status of the quadrature
+(\slug{ch-numerical-witness}), the two bands give no simultaneous coverage, and the
+spectral trials have no executable record in the space.}
+\fullproof{prop-measured-meets-proven-full-observer}{lab/theory/spaces/learning-attacker-prices/round-02/builder.md,lab/theory/spaces/learning-attacker-prices/round-03/builder.md}
+\end{proposition}
+
+\begin{proposition}[Per-example normalization at a median-fitting optimum closes the channel]\blabel{prop-full-clipping-optimum-filter}\status{accepted}
+Let $f_\theta$ be differentiable in $\theta$, $\psi_\theta(x,y)=(f_\theta(x)-y)\nabla_\theta f_\theta(x)$
+the per-example gradient and $n_\theta=C\psi_\theta/\lVert\psi_\theta\rVert$ the
+normalized update, zero when $\psi_\theta=0$. (a)
+$n_\theta=C\,\mathrm{sgn}(f_\theta(x)-y)\nabla_\theta f_\theta(x)/\lVert\nabla_\theta f_\theta(x)\rVert$,
+so the law of any stream of batch means of $n_\theta$ plus independent noise depends on
+the data law only through the law of $(X,\mathrm{sgn}(f_\theta(X)-Y))$. (b) In
+\cref{def-optimum-update-stream} with $\Pr[W=0]=0$, at $\theta^*=0$ the normalized
+stream has one law under every $P_u$ and under $P^\circ$, so every observer has
+advantage zero. (c) If $f_{\theta^*}(X)$ is a conditional median of $Y$ given $X$ with
+no atom at the prediction, the normalized stream's law is a function of the law of $X$
+and of $\theta^*$. (d) At any $\theta$ the stream reads the conditional distribution
+function of the label at the current prediction, one bit per record. (e) In the update
+stream with $W\ge w_{\min}>0$, per-example clipping at any $C<w_{\min}\sqrt d/2$ equals
+normalization on all $T$ records except with probability $Te^{-9d/64}$, so every
+observer of $T$ clipped updates has advantage at most $2Te^{-9d/64}$.
+\usesstatement{def-optimum-update-stream}
+\source{At a conditional median with no atom the residual's sign is a fair coin
+independent of the input. Part (e) uses the lower tail
+$\Pr[\chi^2_d\le d-2\sqrt{dx}]\le e^{-x}$ at $x=9d/64$, where $d-2\sqrt{dx}=d/4$
+(Laurent and Massart, Annals of Statistics 2000, Lemma 1, as sol cites it, from memory
+in the round). The integrator re-derived (a) to (e) on 2026-10-30. A median fit is a
+stationary point of fully normalized SGD. Accepted by the challenger in rounds 01 and
+02 and by fable, who calls the filter exact and trivial, since normalization at the
+optimum removes the label from the update altogether, the learning signal included.
+sol REVISE, two local repairs not yet applied: the drift formula must account for an
+atom at the prediction (\slug{ch-atomic-residual-drift}), and a continuous conditional
+label law does not always leave a positive unclipped fraction
+(\slug{ch-clipping-residual-support}). Normalization is part of the procedure as given,
+so no reading of Halil's programming rule is used.}
+\fullproof{prop-full-clipping-optimum-filter}{lab/theory/spaces/learning-attacker-prices/round-01/builder.md,lab/theory/spaces/learning-attacker-prices/round-02/builder.md}
+\end{proposition}
+
+\section{Re-learning from a trained release}
+
+\begin{theorem}[Re-learning a trained linear release, priced from both sides]\blabel{thm-release-relearning-price-bracket}\status{accepted}
+Records $(X_i,Y_i)$, $i\le n$, $n\ge d+2$, with $X_i\sim\gamma_d$,
+$Y_i=\langle u,X_i\rangle+sN_i$ and prior $u\sim\mathcal N(0,\tau^2I_d)$. The trainer
+releases the posterior mean $\hat u$, with Bayes risk $R_n$, and answers a query $x$
+with $\langle\hat u,x\rangle+s_rN'$ with fresh noise. An attacker makes $N$ adaptive
+queries and outputs $\tilde u$. Let $\iota_m=\mathbb E\,\mathrm{tr}((G^\top G)^{-1})=d/(m-d-1)$
+for an $m\times d$ standard Gaussian matrix $G$. (a) Every attacker has
+$\mathbb E\lVert\tilde u-u\rVert^2\ge R_n$, and
+$ds^2\tau^2/(n\tau^2+s^2)\le R_n\le s^2\iota_n$. (b) With $s_r=0$, $d$ queries in
+general position attain $R_n$. With $s_r>0$ and unbounded queries, $d$ queries of norm
+$t$ reach $(1+\kappa)R_n$ once $t^2\ge ds_r^2/(\kappa R_n)$. (c) Under the average power
+constraint $\mathbb E\sum_j\lVert x_j\rVert^2\le Nd$ and $s_r>0$,
+$\mathbb E\lVert\tilde u-u\rVert^2=R_n+\mathbb E\lVert\tilde u-\hat u\rVert^2$ and
+$\mathbb E\lVert\tilde u-\hat u\rVert^2\ge d/(1/\tau^2+s^2\iota_n/(d\tau^4)+N/s_r^2)$,
+so reaching $(1+\kappa)R_n$ needs
+$N\ge s_r^2(d/(\kappa s^2\iota_n)-1/\tau^2-s^2\iota_n/(d\tau^4))$. (d) Least squares on
+$N\ge d+2$ Gaussian queries has risk $R_n+s_r^2\iota_N$. (e) With $s_r=s$ the least $N$
+reaching $(1+\kappa)R_n$ lies between $(n-d-1)/\kappa-s^2/\tau^2-s^4/(\tau^4(n-d-1))$
+and $d+1+(n+s^2/\tau^2)/\kappa$, so the re-learning price is $n/\kappa$ within a factor
+$1+O(d/n+s^2/(n\tau^2))$ for $\kappa=O(1)$.
+\usesstatement{def-statistic-learner-class,thm-reconstruction-from-conditional-mean}
+\source{Data processing with Jensen's inequality on the convex map
+$S\mapsto\mathrm{tr}(S^{-1})$ for (a), the scaling attack for (b), the law of total
+covariance $S_X=\tau^2I_d-\Sigma_{\mathrm{post}}$ with
+$S_X^{-1}=I_d/\tau^2+s^2(X^\top X)^{-1}/\tau^4$, the Gaussian posterior of $\hat u$
+given an adaptive design, and the AM and HM inequality with Jensen's inequality for
+$y\mapsto d^2/y$ for (c). The inverse-Wishart moment is proven in the challenger's
+round-03 turn by a Schur complement, since $(W^{-1})_{11}$ is the reciprocal of a
+$\chi^2_{m-d+1}$ variable, which replaces the builder's recall from memory. The
+integrator re-derived (a) to (e) and the moment on 2026-10-30 and checked (c) and (d)
+by simulation at $d=10$, $n=60$, $N=200$, where the bound of (c) is $0.0497$ against a
+measured least-squares excess of $0.052$. Halil's sentence on the performance of the
+initial model has three readings here. The trainer's performance caps the attacker's
+accuracy by (a), floors its success by (b) and, for his reconstruction example, by
+\cref{thm-reconstruction-from-conditional-mean}, and floors its cost only under the
+noise and the power bound of (c). The theorem prices a given release and recommends
+nothing, and it assumes fresh noise per answer. Accepted by the challenger in round 03,
+SATISFIED yes, and by fable. fable, not blocking: the lower side of (c) and (e) binds
+every attacker and least squares enters as the witness alone, the form the challenger
+refused in round 00 (\slug{ch-learner-absent-from-floor}), and the floor is a change of
+units, since an answer at nature's noise and nature's power is a record
+(\slug{ch-floor-is-a-change-of-units}). The parts are Gaussian conjugate regression with
+an A-optimal-design trace bound (both critics, from memory, unverified). sol REVISE:
+the multiplicative conclusion of (e) fails for a slack $\kappa$ of order $n^2$, where
+zero queries already meet the target (\slug{ch-uniform-risk-slack}), the upper end
+needs upward rounding, and the round file's title overstates, since the price scales as
+$s_r^2/s^2$ for every $s_r>0$.}
+\fullproof{thm-release-relearning-price-bracket}{lab/theory/spaces/learning-attacker-prices/round-03/builder.md}
+\end{theorem}
+
+\paragraph{What the space leaves open.} The content of
+\cref{conj-linear-class-reads-cauchy-transform}, the recovery threshold of the update
+observer at batch $b$ and noise $\varsigma$, and a lower bound that sees a gradient
+learner of a fixed architecture, which no object of this chapter and no tool in the
+library reaches. fable proposes to prove next that batching makes the linear class
+optimal, with first correction $\mathrm{Var}(W^2T(W))/(b\,c_2^2)$, and sol proposes to
+price one-pass linear SGD while charging the attacker's optimizer work. Which to follow,
+or whether to stop the line, is Halil's decision.
