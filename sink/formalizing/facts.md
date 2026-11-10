@@ -602,14 +602,33 @@ status: recorded
 record: FS:CLAUDE.md, FS:wiki/sources/separating-cdp-client-server.md
 corrections: none
 
+## fact-two-party-dp-sqrt-n-error
+claim: Every two-party protocol for the Hamming distance of two n-bit vectors that is differentially private for both sides has additive error of order the square root of n up to a logarithmic factor, for pure DP and for (ε, δ)-DP with δ = o(1/n), and the bound is tight, while secure function evaluation of the Laplace mechanism gives constant error under computational DP, which separates statistical from computational DP in the two-party setting (proven).
+paper: McGregor, Mironov, Pitassi, Reingold, Talwar and Vadhan, The Limits of Two-Party Differential Privacy, FOCS 2010 (IEEE FOCS 2010, pp. 81-90, DOI 10.1109/FOCS.2010.14, confirmed on Crossref 2026-10-27), ECCC TR11-106. Not placed in the library.
+pointer: Abstract and Section 1, the answer to Question 1 and the paragraph that follows it.
+read: full for the abstract and Section 1 up to Question 2, ECCC version, this session, 2026-10-27.
+status: verified
+record: HE-ML:lib/profs/2026-10-27-meeting/slides.tex
+corrections: none
+
+## fact-gky11-low-dimension-cdp-collapse
+claim: In the client-server setting, for queries with output in R^n with n constant and a large class of utilities, every computationally differentially private mechanism converts into a statistically private one of about the same efficiency and utility, and every CDP mechanism built black-box from trapdoor permutations, collision-resistant hash functions or random oracles has an equally good statistical counterpart (proven).
+paper: Groce, Katz and Yerukhimovich, Limits of Computational Differential Privacy in the Client/Server Setting, TCC 2011, LNCS 6597 pp. 417-431, DOI 10.1007/978-3-642-19571-6_25 (Crossref, 2026-10-27), library key GKY11.
+pointer: Abstract and Section 1.1, results 1 and 2.
+read: full for the abstract and Section 1.1, this session, 2026-10-27.
+status: verified
+record: HE-ML:lib/profs/2026-10-27-meeting/slides.tex
+corrections: none
+
 ## fact-gikkm23-cdp-separation-unbounded
 claim: A task with an efficient CDP mechanism admits no statistical DP mechanism of constant utility, even an inefficient one, under NIWI, laconic keyless CRHF and diO, on a task the root calls contrived (proven under these assumptions).
 paper: Ghazi, Ilango, Kamath, Kumar and Manurangsi, FOCS 2023, arXiv 2301.00104 (GIKKM23).
 pointer: The SDP lower bound at constant ε and δ = 1/n^{27}, Assumptions 18, 22 and 26.
 read: recorded, wiki page ingested from the raw PDF on 2026-08-20, no stamp.
-status: recorded
+status: verified
 record: FS:CLAUDE.md, FS:wiki/sources/towards-separating-cdp.md
-corrections: none
+corrections:
+  - 2026-10-27 Verified against the abstract and Section II of arXiv 2301.00104 v2 in this session, status recorded to verified. The record of "contrived" stays the root's word, the authors say the task is constructed for the separation.
 
 ## fact-gikkm23-breaks-quasipoly-adversaries
 claim: The Ghazi et al. mechanism is not CDP against quasi-polynomial adversaries, so a separation of computational from statistical DP on a natural task remains open.
@@ -1448,6 +1467,15 @@ record: FS:wiki/sources/multi-party-poisoning.md, FS:wiki/concepts/k-p-poisoning
 corrections:
   - 2026-04-23 The bound was corrected. The old wording gave the additive Ω(kp/m).
 
+## fact-cgz24-unbounded-attacker-detects-watermarks
+claim: Undetectable watermarks for language models exist from one-way functions against polynomial-time distinguishers, and no sound watermark is undetectable against an unbounded one, since polynomially many queries and time exponential in the key length tell the watermarked model from the original (proven).
+paper: Christ, Gunn and Zamir, Undetectable Watermarks for Language Models, COLT 2024, arXiv 2306.09194, library key CGZ24.
+pointer: Abstract, Section 5 (Lemma 4).
+read: full for the abstract, Section 1 to the property list, and Section 5 to the proof of Lemma 4, this session, 2026-10-27.
+status: verified
+record: HE-ML:lib/profs/2026-10-27-meeting/slides.tex
+corrections: none
+
 # Robustness and concentration
 
 ## fact-bpr-sq-separation-defender-fails
@@ -1696,10 +1724,11 @@ claim: Carlini, Jagielski and Mironov recover ReLU parameters with polynomially 
 paper: Carlini, Jagielski and Mironov, CRYPTO 2020.
 pointer: Abstract, p. 1.
 read: recorded, wiki page ingested on 2026-08-21, no stamp.
-status: recorded
+status: verified
 record: FS:exp/survey/paper/parked/formalization/games.tex, FS:wiki/sources/cryptanalytic-extraction-nn.md
 corrections:
   - 2026-09-03 The venue was resolved as CRYPTO 2020, in FS:exp/survey/lib/reports/archive/2026-09-03-halil-venues-batch-a.md.
+  - 2026-10-27 The abstract figures (2^{21.5} queries, worst-case error 2^{-25}, 100,000 parameters) verified against arXiv 2003.04884 v2 in this session, status recorded to verified. CCHRSS24 Section 1 confirms polynomially many queries and exponential time.
 
 ## fact-polytime-cryptanalytic-extraction
 claim: Canales-Martínez et al. make cryptanalytic extraction polynomial time, polynomial in depth, assuming infinite-precision arithmetic, and the paper never reports the attacked model's training cost, so the ratio of attack to training cannot be computed from it.

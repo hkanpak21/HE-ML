@@ -1775,6 +1775,23 @@ where: HE-ML:lab/theory/spaces/computational-limits/round-05/builder.md#thm-zlip
 history:
   - 2026-10-26 entered from the round-05 summary of computational-limits.
 
+## prob-natural-data-oracle
+statement: Is there an oracle that returns natural data points, so that a structure could be embedded in the data it returns
+  while the data stay natural? Halil's example is a random oracle that returns five dog photographs carrying a planted
+  clique. Two things are missing. No definition says when data stop being natural, and nothing proves that a structured
+  set of data exists among the natural ones once conditioned on naturalness. Parked by Halil, not to be developed until
+  he reopens it.
+posed: Halil, 2026-10-27, in the discussion of the random oracle model for data and models
+weight: side
+status: open
+literature: unchecked
+tried: none
+depends-on: none
+claimed-by: none
+where: HE-ML:lab/theory/CONTEXT.md#Halil's instructions of 2026-10-27
+history:
+  - 2026-10-27 posed and parked by Halil: "SO let this idea sit aside for a while just for you to note it down".
+
 # Archive
 
 ## prob-poisson-subsampling-bank-soundness

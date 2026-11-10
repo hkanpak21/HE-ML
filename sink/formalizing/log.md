@@ -68,3 +68,24 @@ call breaks it), `conj-reconstruction-at-training-cost` part (b) (refuted),
 `conj-paired-advantage-price` (common random numbers). Loose ends: the papers to
 place listed in `STATE.md`, the factor ln|U| of the label-only price, the upper
 inclusion of `conj-seed-price-is-ngca-price`, and Halil's four decisions.
+
+## [2026-10-27] HE-ML | research | works separating unbounded and polynomial-time attackers, for the meeting
+
+Read, for the deck `HE-ML:lib/profs/2026-10-27-meeting/slides.tex`: the opening
+sections of MPRV09, GKY11, BCV16, GIKKM23, GJMM20, GKVZ22, CGZ24 (with Section 5),
+CHLX25 (Theorem 4.1, Definition 5.1), DNV19, CJM20 and CCHRSS24 from the library
+PDFs, and McGregor et al., FOCS 2010, from ECCC TR11-106, not placed. The notes of
+MPRV09, GKY11, GIKKM23, GJMM20, CGZ24, CJM20 and CCHRSS24 are filled, prov sweep,
+each naming the sections read. Venues and DOIs from Crossref, dblp refused the tools.
+
+Status changes: `fact-gikkm23-cdp-separation-unbounded` and
+`fact-cjm20-cryptanalytic-extraction-cost` recorded to verified. New facts:
+`fact-two-party-dp-sqrt-n-error`, `fact-gky11-low-dimension-cdp-collapse`,
+`fact-cgz24-unbounded-attacker-detects-watermarks`. Search rows added:
+`search-unbounded-versus-polynomial-attacker-works`, `search-two-party-dp-limits-record`,
+`search-venue-records-crossref`, `search-brv26-published-record`.
+
+Dead ends: none. Loose ends: McGregor et al. is not placed in the library. In
+DNV19, BPR, CHLX25, HU14 and GSVV25 the bound sits on the defender or the mechanism,
+and the deck keeps only CHLX25 of these. The polynomial-time claim of CCHRSS24 is
+heuristic by the authors' own caveat.

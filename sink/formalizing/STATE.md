@@ -1,7 +1,7 @@
 # State of the line on formalizing AI security
 
-updated: 2026-10-25
-by: HE-ML integrator session of 2026-10-25, after merging the first theory rounds
+updated: 2026-10-27
+by: the meeting-deck session of 2026-10-27, on top of the integrator state of 2026-10-25
 
 ## The question
 
@@ -26,7 +26,7 @@ experiments (Halil, 2026-10-25). Central problem:
   `thm-coupling-free-soundness`, `thm-reconstruction-from-conditional-mean`.
 - `thm-sq-hardness-black-box-attacks`, the FORMAL_SECURITY proof note, is refuted
   by counterexample (alias `thm-fs-sq-black-box-reduction`).
-- Registers: 288 facts, 226 results, 99 problems, 72 searches. Library: 590 papers.
+- Registers: 298 facts, 248 results, 105 problems, 84 searches (counted 2026-10-27). Library: 590 papers.
 
 ## Decisions waiting for Halil
 
