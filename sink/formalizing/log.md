@@ -89,3 +89,7 @@ Dead ends: none. Loose ends: McGregor et al. is not placed in the library. In
 DNV19, BPR, CHLX25, HU14 and GSVV25 the bound sits on the defender or the mechanism,
 and the deck keeps only CHLX25 of these. The polynomial-time claim of CCHRSS24 is
 heuristic by the authors' own caveat.
+
+## [2026-11-11] HE-ML | migration | the line leaves HE-ML for FORMAL_SECURITY
+
+Halil, 2026-11-11: "transfer what we have for formalizing deep learning parts to formalizing folder and keep only parts relevant to this repository". These registers, `lab/theory/`, `lib/theory/`, the formal-tuning rounds, the survey and the whole library of notes move to `FORMAL_SECURITY/HE-ML-migrated/` with their HE-ML paths kept, so `HE-ML:<path>` now reads `FORMAL_SECURITY/HE-ML-migrated/<path>`. The entries on HE, HE-OFT and threshold CKKS are copied to `HE-ML:lib/he-problems-and-facts.md`, which carries them on from here. Read for HE-ML's attack-standardization question on this day: AZT24 and SE22, notes filled, prov sweep. No status changed. The search rows of the day are in `HE-ML:lib/he-problems-and-facts.md`.

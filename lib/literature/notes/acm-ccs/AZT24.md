@@ -9,62 +9,44 @@ type: conference
 placed_on: 2026-10-25
 placed_by: agent
 triage: cite
-relation: FILL
-epistemic: FILL
+relation: prior-art
+epistemic: "proven for the name-and-shame bound, empirical for the CIFAR-10 measurements and the five case studies"
 prov: sweep
 ---
 
 # AZT24, Evaluations of Machine Learning Privacy Defenses are Misleading
 
-The key is the IACR key derived from the author list printed on the paper. It
-never changes once used. Author names are read from the first page, never from
-a file name.
-
-Write this in your own words. A note that is the abstract rearranged is a note
-that proves nothing was read, and it is worth nothing to you in three months.
-
-`prov: sweep` means this page was built from an extraction and not from a full
-read. A page marked `sweep` cannot be cited in paper prose. Change it to
-`full-read` only after reading the paper.
-
 ## Claim
 
-One sentence, in your words. What the paper says is true that was not known
-before it.
+Membership inference success aggregated over a data population can certify a defense that leaks one record completely, so an empirical privacy evaluation has to measure the most vulnerable records, with an attack adapted to the defense, against a DP-SGD baseline tuned to the same utility.
 
 ## Method
 
-Three sentences. What they built or proved, and how. Name the adversary and
-what it is assumed to know if the paper has one.
+The name-and-shame mechanism outputs whether one fixed record is in the training set. Over an evaluation set D, every attack then has population TPR at most FPR plus 1/|D|, so the defense looks more private as D grows while that record has no privacy at all. The proposed protocol (Section 4) has three points: report TPR at low FPR for the most vulnerable sample, approximated by auditing canaries that mimic it, use LiRA adapted to the defense, and compare with a state-of-the-art DP-SGD at similar utility.
 
 ## What they measured, and on what
 
-The datasets, the models, the metrics, the baselines. If the evaluation is a
-proof rather than an experiment, say what is assumed and what is concluded.
+CIFAR-10, a victim trained on 25,000 points, LiRA with 64 shadow models. Sample-level rates come from 20,000 retrainings on random halves. The most vulnerable sample has TPR 99.9% at 0.1% FPR where the population metric reports 4% (Section 4.1). Across five empirical defenses at accuracy of at least 88%, prior evaluations underestimate leakage by an order of magnitude, and a tuned DP-SGD with vacuous provable guarantees beats all five empirically (abstract and Figure 1, case studies not read).
 
 ## Epistemic status
 
-Which parts are proven, which are heuristic, which are empirical, and on what.
-If the paper blurs two of these, say where.
+The name-and-shame bound is proven by counting. The CIFAR-10 numbers and the defense ranking are empirical. The canary set approximates the most vulnerable sample, which the authors state as an approximation.
 
 ## The limitation that matters to us
 
-The one that bites this project. Say whether the paper states it or whether you
-found it. A limitation the authors state is a different fact from one they do
-not.
+Centralized training and membership only. In federated learning the unit of the most vulnerable case is undefined: a record, a client, or a round. Found by us.
 
 ## Relationship to this project
 
-Prior art, baseline, orthogonal, or competitor. Pick one and say why in a
-sentence. This field is what makes `related-work.md` writable later. A note
-without it is a summary, and summaries do not compose into an argument.
+Prior art. It is the evaluation protocol the measured side of a distinguish objective adopts.
 
 ## What we need to consider for our work
 
-What this changes about what we do next. If the answer is nothing, write that.
+Every distinguish objective reports the worst record next to the population rate, and every empirical defense is compared with a tuned DP-SGD at matched utility. The federated analogue of the most vulnerable sample needs a definition before any measurement.
 
 ## Provenance
 
 Copied on 2026-10-25 from FORMAL_SECURITY raw/AZT24_PrivacyDefensesMisleading.pdf for the formalizing line, see `sink/formalizing/README.md`. Title and authors were read from the first page.
 Reading notes: FORMAL_SECURITY `/Users/a90/Documents/RESEARCH/FORMAL_SECURITY/wiki/sources/privacy-defense-evaluations-misleading.md`.
 Mapping note: First page ACM reference: CCS '24, DOI 10.1145/3658644.3690194.
+Read on 2026-11-11 for the discussion of metrics: abstract, Figure 1, Sections 1, 2.1, 2.2, 4 and 4.1. Section 5, the case studies, was not read. prov stays sweep.
