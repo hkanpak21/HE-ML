@@ -13,7 +13,7 @@ and the skill loads that venue profile and no other.
 | --- | --- |
 | `CONTEXT.md` | The claim, the terminology ledger, the symbol table, the current state |
 | `sink/` | The drop zone. Nothing reads from it. `ingest.py` empties it |
-| `lib/literature/` | Sources, positioning, related work, one note per paper read, gitignored PDFs, notes and PDFs in one folder per venue |
+| `lib/literature/` | Sources, positioning with the search log, related work, one note per paper read, gitignored PDFs, notes and PDFs in one folder per venue, and `screening.csv`, the metadata of every paper or standard found and not yet read, with where the formalizing line holds it |
 | `lab/src/` | Importable code, with `tests/` and `baselines/<name>/` under it |
 | `lab/jobs/` | `<topic>.yaml`, `<topic>.py` and `<topic>.sh`, one experiment per stem |
 | `lab/results/<topic>/` | Everything the sweep produced, stem matching the job |
