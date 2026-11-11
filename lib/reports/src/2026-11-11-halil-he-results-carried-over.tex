@@ -1,0 +1,103 @@
+%%============================================================================
+%% A report. Created by report-new.sh. Do not copy this file by hand.
+%% Compile from the repository root:  report-build.sh lib/reports/src/<this file>
+%%
+%% Two rules the build enforces and you cannot argue with.
+%%   Section 0, when this repository asks for one, lives in
+%%   lib/reports/reflections/<same stem>.tex and the author writes it.
+%%   The PDF is five pages, references and appendix included.
+%%============================================================================
+\documentclass{labreport}
+\lrnoreflection   % lib/reports/src/config.yml says reflection: false
+
+\lrdate{2026-11-11}
+\lrslug{halil-he-results-carried-over}
+\lrtitle{What HE-ML carries over on homomorphic encryption}
+\lrauthor{Halil İbrahim Kanpak}
+% \lrissue{FILL}   % the issue this report answers, by its name
+\lrstatus{draft}          % draft | reviewed | final
+% \lrperiod{2026-09-09 to 2026-09-23}
+
+%% What this report is evidence for, and where its numbers came from. The
+%% claims are slugs from lib/claims.yml. The results path is a directory under
+%% lab/results and it has to exist.
+% \lrclaims{<claim-slug>,<claim-slug>}
+% \lrresults{lab/results/<topic>}
+
+%% Every number that appears in prose is defined once, here, with the file it
+%% came from. Write \lrv{Recall} in a sentence, never the literal 0.63.
+\lrdefine{Problems}{5}{lib/reports/src/data/2026-11-11-halil-he-results-carried-over-facts.csv}
+\lrdefine{Results}{7}{lib/reports/src/data/2026-11-11-halil-he-results-carried-over-facts.csv}
+\lrdefine{Facts}{6}{lib/reports/src/data/2026-11-11-halil-he-results-carried-over-facts.csv}
+\lrdefine{Screened}{651}{lib/reports/src/data/2026-11-11-halil-he-results-carried-over-facts.csv}
+\lrdefine{Kept}{18}{lib/reports/src/data/2026-11-11-halil-he-results-carried-over-facts.csv}
+
+\begin{document}
+\lrmaketitle
+
+%%----------------------------------------------------------------------------
+\lrscope
+%% Two or three sentences. The question, and the method that answers it.
+%% No background. No restatement of the issue the reader already has.
+
+Which entries of the formalizing registers concern homomorphic encryption, HE-OFT or the realization of releases by threshold CKKS, and where does each stand? The registers moved to FORMAL\_SECURITY on 2026-11-11. Every entry of their problem, result and fact registers at HE-ML commit bba2cf1 was read, and an entry was kept when it named one of the three.
+
+%%----------------------------------------------------------------------------
+\lrresult
+%% The first sentence is the verdict, including any narrowing. A reader who
+%% stops after it has the answer. Plain sentence, no emphasis.
+%% Then what the numbers are. Then the evidence. Then the boundary.
+
+HE-ML carries \lrv{Problems} open problems, \lrv{Results} results and \lrv{Facts} facts on encryption, and none settles that threshold CKKS realizes an ideal release, which keeps reduction to CKKS heuristic.
+Against a semi-honest coalition, reduction to CKKS rests on thm-dataflow-composition, proven given the realization error, and on HE-OFT's simulation of a server with fewer than t clients.
+The simulation assumes a smudging that HE-OFT's measured configuration does not meet, and HHKLS26 is recorded, unread, as refuting per-party smudging, which HE-OFT and HLSS25 both use.
+Against a deviating coalition reduction to CKKS lacks support, because active security was found only for BFV, BGV and FHEW decryption and HE-OFT admits no deviating server.
+Steering lies outside reduction to CKKS, because a client of HE-OFT that inflates its encrypted per-class counts moves a row of the shared head at will (prop-he-oft-count-steering, proven).
+In the scenario space, reduction to CKKS thus covers semi-honest servers and clients heuristically, and the cells of deviating servers and of steering need another route or are gaps.
+
+%% A table is generated, never typed:
+%%   mktable.py lib/reports/src/data/2026-11-11-halil-he-results-carried-over-<name>.csv --caption "..." \
+%%       --label <name>
+%% A figure is produced by a committed script:
+%%   lib/reports/src/figures/2026-11-11-halil-he-results-carried-over-<name>.py  ->  lib/reports/src/figures/2026-11-11-halil-he-results-carried-over-<name>.pdf
+
+\lrboundary{Every HE-OFT result is as KSK26 states it, unchecked here. The two facts on per-party smudging rest on a sweep coder's extraction, and the search on active security read search summaries only. The entries are a snapshot of 2026-11-11.}
+
+%%----------------------------------------------------------------------------
+\lrproduced
+%% A table, not prose. Drop any row that does not apply.
+%% A literature sweep fills the same table with what it has: the databases and
+%% venues searched, the date range, the queries, how many hits were triaged and
+%% how many were kept, and where the result landed.
+\begin{lrfacts}
+  \lrfact{Sources}{the problem, result and fact registers in \lrpath{FORMAL_SECURITY/HE-ML-migrated/sink/formalizing/}, copied from HE-ML commit bba2cf1}
+  \lrfact{Range}{entries written from 2026-10-16 to 2026-10-25}
+  \lrfact{Screened}{\lrv{Screened} entries read, \lrv{Kept} kept}
+  \lrfact{Artifacts}{one CSV per table and a facts CSV in \lrpath{lib/reports/src/data/}, under this report's stem}
+  \lrfact{Reproduce}{\lrpath{mktable.py} on each table CSV, written to \lrpath{lib/reports/src/figures/}}
+\end{lrfacts}
+
+%% The three tables are floats and land after the Result whatever their place here.
+\input{lib/reports/src/figures/2026-11-11-halil-he-results-carried-over-problems.tex}
+\input{lib/reports/src/figures/2026-11-11-halil-he-results-carried-over-results.tex}
+\input{lib/reports/src/figures/2026-11-11-halil-he-results-carried-over-facts-recorded.tex}
+
+%%----------------------------------------------------------------------------
+\lrchanges
+%% Two to four sentences. What is now known that was not known before, and what
+%% it costs or makes possible. If a claim made elsewhere is now too strong, say
+%% so here, in those words. If the answer is nothing, write that: a result that
+%% changes nothing is a real outcome and it stops the question being asked again.
+
+HE-ML keeps its record on encryption in reports from now on. A new result goes into a report of its own under its slug, and the search log of the study is the searches section of \lrpath{lib/literature/positioning.md}. The report narrows reduction to CKKS to semi-honest coalitions until prob-threshold-ckks-realizes-releases is closed, and leaves every other claim as it stood.
+
+%%----------------------------------------------------------------------------
+%% Optional blocks. Keep the ones the work calls for and delete the rest.
+%% \lrmethod    what was built or derived, when the how is the contribution
+%% \lrfailures  what was tried and did not work, and why
+%% \lrcost      GPU hours, wall clock, money, days of your time
+%% \lrnext      the next question, and what would answer it
+%% \lrprovenance  the table of every number defined above, with sources
+%% \lrreferences  the shared bibliography at lib/reports/src/style/labreport.bib
+
+\end{document}

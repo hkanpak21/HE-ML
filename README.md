@@ -1,10 +1,11 @@
 # HE-ML
 
-A literature study of threat models in multi-party learning, federated learning
-first, as the group moves from semi-honest to malicious adversaries. No paper and
-no code yet.
+A deep-learning-first study of attacks and defenses in multi-party learning:
+the scenarios, the defense objectives against each, and how each objective is
+realized, with homomorphic encryption placed only where a result cannot be
+realized otherwise. No paper and no code yet.
 
-Context: `CONTEXT.md`, which holds the scope and the terminology ledger.
-Literature: `lib/literature/`. The PDFs live in Google Drive (KU account), under
-`My Drive/HE-ML/pdfs/`, and `lib/literature/pdfs` is a symlink to that folder.
-Layout: the standard research layout, described in `CLAUDE.md`.
+Context: `CONTEXT.md`. The HE problems and results carried from earlier work:
+`lib/reports/2026-11-11-halil-he-results-carried-over.pdf`. Layout: the standard research layout, described
+in `CLAUDE.md`. The formalizing theory, the survey of 16 October and the earlier
+library are in `FORMAL_SECURITY/HE-ML-migrated/`.

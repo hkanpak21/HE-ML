@@ -1,0 +1,6 @@
+name,value,source
+Problems,5,lib/reports/src/data/2026-11-11-halil-he-results-carried-over-problems.csv
+Results,7,lib/reports/src/data/2026-11-11-halil-he-results-carried-over-results.csv
+Facts,6,lib/reports/src/data/2026-11-11-halil-he-results-carried-over-facts-recorded.csv
+Screened,651,"FORMAL_SECURITY/HE-ML-migrated/sink/formalizing/{problems,results,facts}.md, entries headed ## at bba2cf1"
+Kept,18,the three table CSVs of this report

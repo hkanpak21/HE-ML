@@ -1,27 +1,45 @@
 # HE-ML
 
-Started 2026-10-16. Literature study only. The venue in `paper/.paper-meta.yml`
-(acm-ccs) is a placeholder, because the scaffold requires one. No venue is chosen.
+Started 2026-10-16 as a survey of threat models in multi-party learning.
+Restarted 2026-11-11 as a deep-learning-first study. The venue in
+`paper/.paper-meta.yml` (acm-ccs) is a placeholder, because the scaffold
+requires one. No venue is chosen.
 
 ## What this is
 
-A survey of how multi-party learning states its threat models, and of the
-recent work at top venues under each one. Federated learning dominates the
-field, but the study keeps the setting abstract: a set of data owners, possibly
-an aggregator, and a training protocol among them. The group's prior work
-assumes semi-honest parties (multiparty and threshold CKKS for federated and
-split learning). The question is where the field stands once some parties are
-malicious.
+The study first defines the scenarios of multi-party learning, then the defense
+objectives against each, then how each objective is realized. Decided at a
+meeting with the PIs and recorded as `2026-11-10-theory-first-then-realize` in
+`lib/profs/rulings.md`: "create the theoritcal grounds on what we can proof and
+then try realizing these with HE and or complexity of models capacities (such as
+model being a small big model model queried |N|/k times where N is the training
+set of model so on and so forth)".
 
-Venue rule, from Halil on 2026-10-16: top venues only. The working list, open to
-his correction, is IEEE S&P, USENIX Security, ACM CCS, NDSS and PoPETs on the security
-and privacy side, CRYPTO, EUROCRYPT and ASIACRYPT for protocols, and NeurIPS,
-ICML and ICLR on the learning side. A notable paper at another venue is recorded
-in `lib/literature/sources.yml` under `excluded` and gets no PDF.
+The order reverses the one HE-OFT followed, where the protocol was designed
+first and the proofs came after. Halil, 2026-11-10: "in case we cannot realize a
+result we will use Homomorphci encryption at that specific point and try
+optimizing on where to put the homomorphic encryption". A result that cannot be
+realized is a finding: "in case theory is failed to realize this opens a research
+gap not a failure. In such a case we can discuss what are the metrics".
+
+The scope is wider than HE-OFT and HE-IFD. Halil, 2026-11-10: "build a more
+comprehensive theory defining first what are the possible scenarios for example
+clients may attack server may put a backdoor I mean anything -but of course we
+need to start somewhere with some constraints we put- then we define what can be
+the defense objectives and how they will be realized (either a reduction to CKKS
+or with a attack success metric we define)". On 2026-11-11 he asked that the
+scenarios be complete and "unique and mutually exclusive as much as possible",
+that every objective use well-adopted attacks and state-of-the-art defense
+mechanisms, and that one figure style depict every scenario.
+
+On 2026-11-11 the formalizing theory, the survey and the library moved to
+`FORMAL_SECURITY/HE-ML-migrated/`, whose `INDEX.md` says what each part is: "I
+will continue 'formalizing' on formalizing and I will proceed a simpler more
+deep learning first study here from there on".
 
 ## The claim
 
-None yet. The study comes first.
+None yet.
 
 ## People
 
@@ -38,10 +56,12 @@ issue and report file names, `<opened>-<assignee>-<headline>.md` and
 One name for one thing. Every term fixed here is used nowhere else by another
 name, in the paper, the code, the figures, or a report.
 
-HE-ML speaks the language of HE-OFT (KSK26), because the team is the same. The
-first block is taken from the HE-OFT ledger (`HE-IFD/docs/CONTEXT.md`) and the
-paper, unchanged. The second block is the adversary interface of
-`lib/reports/2026-10-16-halil-adversary-interface.pdf`, fixed 2026-10-16.
+The first block is HE-OFT's (KSK26), unchanged, because the team is the same.
+The second block holds the threat terms of the adversary interface of
+2026-10-16 that this study keeps. The interface's abstract primitives (data
+space, model space, learning function, hypothesis class, evaluation map) left
+with the formalizing work, and their full ledger is in
+`FORMAL_SECURITY/HE-ML-migrated/CONTEXT.md`.
 
 | Term | Means | Never called |
 | --- | --- | --- |
@@ -62,81 +82,43 @@ paper, unchanged. The second block is the adversary interface of
 | privacy | the training data, and what an adversary learns about it | the protocol's secrecy guarantee |
 | local | never transmitted | private, as a synonym |
 | plaintext, ciphertext | always | in the clear, public for unencrypted |
-| data space | the set Z examples come from, with no structure assumed: a labeled pair, an unlabeled input, a token sequence, or one party's block of features. Ruling, Halil 2026-10-16: never X × Y, because that assumes supervision | the input space, when Z is meant |
-| dataset | a finite multiset of examples, labeled or not, D_j for client j and D_pre for pretraining. Two datasets of one protocol may live in different data spaces | the data, the corpus |
-| loss | a map from a model and one example to a real number, labels not required (the general setting of learning, Vapnik; Shalev-Shwartz et al. JMLR 2010) | the objective, the criterion, as synonyms |
+| dataset | a finite multiset of examples, labeled or not, D_j for client j | the data, the corpus |
 | horizontal, vertical | how datasets are split among parties: whole examples per party, or one block of every example per party (vertical and split learning) | sample-partitioned, feature-partitioned, as names |
-| model space | the set M of models, with no structure assumed. Ruling, Halil 2026-10-16: the interface has three primitives, data, model space and learning function, at the highest generality | the parameter space, when M is meant |
-| learning function | a randomized map L(m, D, H) from a starting model m, a dataset D and a hypothesis class H ⊆ M to a model. Loss, optimizer and step count are internal to it. Aggregation is a learning function whose data are the client models | the training algorithm, the optimizer, the merge as a separate object |
-| evaluation map | ev(m, u), the output of model m on query u: a score vector, a label, a loss, a generated sequence or an embedding | the query map, the API |
-| hypothesis class | the subset H of the model space a learning function searches. Frozen and trained parts are expressed by it, so LoRA and head training are full training on a smaller H | the model family, the architecture, as synonyms |
-| model | one element m of the model space: a classifier, a density, a generator or an encoder. A parameterization is an instance, not an assumption | the network, the weights, as synonyms |
 | view | everything an adversary sees, each value through its channel, plus its query answers | observations, access |
-| choices | the node arguments (data, model, class, learning function) and node outputs an adversary sets, and its queries | capabilities |
-| distinguish | the goal of telling two hypotheses about the datasets apart, played by a discriminator | membership inference, property inference, as names |
-| invert | the goal of recovering a target from the view within a tolerance, function inversion | reconstruction, extraction, as names |
+| choices | the inputs and outputs an adversary sets, and its queries | capabilities |
+| distinguish | the goal of telling two hypotheses about the datasets apart | membership inference, property inference, as names |
+| invert | the goal of recovering a target from the view within a tolerance | reconstruction, extraction, as names |
 | steer | the goal of choosing inputs so the trained model lands in a target set | poisoning, backdoor, as names |
 | collapse | a weaker adversary attains the stronger one's best value at a fixed goal | equivalence |
 | separation | a construction where the stronger adversary does much better at a fixed goal | gap, as a name |
 
 ## Symbols
 
-Every symbol and every invented label the paper uses, defined once.
-
-HE-OFT's symbols are kept with their meaning. The interface adds the rest.
+Every symbol and every invented label the paper uses, defined once. HE-OFT's
+symbols are kept with their meaning.
 
 | Symbol | Means | Defined in |
 | --- | --- | --- |
 | N, C, d | numbers of clients and classes, feature dimension | KSK26 |
 | j | client index | KSK26 |
 | D_j, n_j, n_{j,c} | client j's dataset, its size, its count of class c | KSK26 |
-| D_0, D_1 | the two challenge datasets of the content game, never the pretraining set | KSK26 |
-| D_pre | the pretraining dataset | interface report |
+| D_0, D_1 | the two challenge datasets of the content game | KSK26 |
 | φ, φ_j | the backbone, and the backbone with client j's adapter A_j | KSK26 |
 | θ_0, h_j, Δ_j | public head initializer, client j's head, Δ_j = h_j − θ_0 | KSK26 |
 | g_j | client j's per-class counts | KSK26 |
 | θ* | the shared head | KSK26 |
 | Enc | encryption under the collective public key | KSK26 |
 | t, Q | decryption threshold, per-client allowance | KSK26 |
-| Z, D | data space (an arbitrary set), dataset (a finite multiset over Z) | interface report |
-| M, H, m | model space, hypothesis class H ⊆ M, a model | interface report |
-| L(m, D, H) | learning function | interface report |
-| ev(m, u) | evaluation map, model m on query u | interface report |
-| U(m, D, H) | update L(m, D, H) − m, when M is a vector space | interface report |
-| m* | the served model | interface report |
-| View, C | an adversary's view and its choices | interface report |
 
 ## Current state
 
-2026-10-16. The literature is swept over IEEE S&P, USENIX Security, CCS, NDSS,
-PoPETs, NeurIPS, ICML, ICLR, CRYPTO, EUROCRYPT and ASIACRYPT for 2023 to 2026.
-`lib/literature/screening.csv` holds every screening decision with its reason.
-364 papers are placed with notes, and 13 of them were dropped after reading,
-with the reason in each note. Four accepted papers have no accessible PDF and
-are listed in `sink/unavailable.md`. `lib/literature/ledger.csv` codes every
-kept paper on the interface, one row per coalition. After the sweep, Salem et
-al. (SCEKPSTZ23, IEEE S&P 2023) was placed by hand at Halil's request, outside
-the inclusion rule, and coded in two rows. Every row except the three HE-OFT
-rows and the two SCEKPSTZ23 rows comes from a coder's reading and has
-`prov: sweep` behind it. Those five come from full readings. The
-citation lookup for prominence is partial, because the OpenAlex budget for the
-day ran out. No direction is chosen.
-
-2026-10-25. The line on formalizing AI security keeps its state in
-`sink/formalizing/STATE.md`, with registers of results, facts, searches and
-problems that span HE-ML and FORMAL_SECURITY. The library now holds 590 papers.
-225 of them were copied on 2026-10-25 from FORMAL_SECURITY's `raw/` and from that
-day's literature scan, each with a note that points to its FORMAL_SECURITY wiki
-page. The top-venue rule above governs which papers the sweep screens and
-codes. It does not limit which papers the library keeps (Halil, 2026-10-25).
-
-## Recorded deferrals
-
-FILL, or delete this section. A thing left out on purpose, with the ruling or
-the issue that records the decision. A reviewer finding that matches a line
-here is a decision and not an oversight.
-
-## Conventions specific to this project
-
-FILL, or delete this section. The general ones are in
-`~/.claude/skills/research/references/conventions.md`.
+2026-11-11. The study starts from three records. The report
+`lib/reports/2026-11-11-halil-he-results-carried-over.pdf` lists the problems,
+results and facts on HE-OFT and threshold CKKS carried from the formalizing
+registers, and the Searches section of `lib/literature/positioning.md` is the
+search log.
+`lib/profs/2026-10-30-meeting/sheet.pdf` is the plan of 30 October on leakage and
+encryption placement in federated fine-tuning, with four experiments. The
+library is empty, and papers are placed as they are read. Under discussion with
+Halil: the axes of the scenario space, the metrics of each goal, and the figure
+style. Nothing of that discussion is fixed here yet.

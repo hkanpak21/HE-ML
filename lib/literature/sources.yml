@@ -1,11 +1,11 @@
 # The field, tracked. Every sweep updates last_sweep so the next one knows
 # where it started. Venue names use the nine values of .paper-meta.yml.
 project: HE-ML
-updated: 2026-10-16
+updated: 2026-11-11
 
 venues:
-  primary: [ieee-sp, usenix-security, acm-ccs, ndss, popets, neurips, icml, iclr, iacr-conferences]
-  watch: [eurosp, satml, csf]   # proposed 2026-10-16, not yet screened
+  primary: [acm-ccs]
+  watch: []
 
 # Research groups worth following, by institution and lead area, never by a
 # single person alone.
@@ -24,6 +24,6 @@ feeds:
 
 # The day each sweep last ran. A null value means it has never run.
 last_sweep:
-  backward: null      # prominence lookup partial, 2026-10-16
+  backward: null
   forward: null
-  venue: 2026-10-16   # 2023 to 2026, eleven venues, see screening.csv
+  venue: null

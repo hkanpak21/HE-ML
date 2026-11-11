@@ -1,0 +1,7 @@
+Entry,Statement,Status
+fact-he-oft-semi-honest-simulation,The record of thm-he-oft-semi-honest-simulation in KSK26.,"Verified, KSK26 read in full by 2026-10-16."
+fact-he-oft-deviating-clients-label-view,The record of thm-he-oft-deviating-clients-bound and thm-he-oft-label-view-ordering in KSK26.,"Verified, full read."
+fact-he-oft-no-deviating-server,The record of thm-he-oft-no-deviating-server in KSK26.,"Verified, full read."
+fact-hhkls26-per-party-smudging-fails,HHKLS26 (ASIACRYPT 2026) prove that independent per-party smudging fails standard simulation security.,Recorded from a sweep coder's extraction. Not read.
+fact-hlss25-per-party-smudging-proof,HLSS25 (CCS 2025) give a proof against deviating decryptors that smudges per party.,Recorded from a sweep coder's extraction. Not read.
+fact-threshold-fhe-active-security-no-ckks,"Active security of threshold FHE decryption was found for thresholdized BFV, BGV and FHEW, and for no variant of CKKS.",Recorded from one search summary. No paper opened.
