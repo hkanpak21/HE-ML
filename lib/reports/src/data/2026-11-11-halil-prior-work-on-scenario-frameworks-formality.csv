@@ -1,0 +1,6 @@
+Formality,Papers,What such a paper proves
+theorem with assumptions,161,a bound on its own method under its own assumptions
+prose,118,an argument with no theorem
+ideal functionality,48,that its protocol reveals nothing beyond a stated ideal functionality
+game,16,an advantage bound in a game it defines
+taxonomy,8,a classification

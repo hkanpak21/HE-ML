@@ -1,0 +1,8 @@
+name,value,source
+LedgerPapers,351,../FORMAL_SECURITY/HE-ML-migrated/lib/literature/ledger.csv
+IdealPapers,48,../FORMAL_SECURITY/HE-ML-migrated/lib/literature/ledger.csv
+GamePapers,16,../FORMAL_SECURITY/HE-ML-migrated/lib/literature/ledger.csv
+Joins,12,"../FORMAL_SECURITY/HE-ML-migrated/lib/literature/ledger.csv, ideal functionality with a DP mechanism coded"
+Taxonomies,30,"FORMAL_SECURITY/exp/docs/reports/2026-08-05-lit-taxonomy-landscape.md, roughly thirty"
+SalemGames,18,FORMAL_SECURITY/HE-ML-migrated/lib/literature/notes/ieee-sp/SCEKPSTZ23.md
+Searches,9,"lib/literature/positioning.md, the rows of 2026-11-11 after the first four"

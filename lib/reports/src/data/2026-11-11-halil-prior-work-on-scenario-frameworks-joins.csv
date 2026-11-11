@@ -1,0 +1,13 @@
+Key,Venue,Setting
+ALZK25,PoPETs 2025,"MPC training (two parties, FHE with label DP)"
+BKP25,ICML 2025,secure aggregation (distributed DP for horizontal FL)
+CPARLS26,IEEE S&P 2026,"MPC training (two-party HE, vertical label partition)"
+FFRWJPD25,CCS 2025,"MPC training, secure aggregation"
+FGSW26,USENIX Security 2026,"MPC training (DP synthetic tabular data, vertical)"
+HMSS25,ASIACRYPT 2025,"multiparty HE (two-party sender-receiver protocol on single-key CKKS, setting set by the batch rule)"
+JRWNC26,PoPETs 2026,vertical FL (MPC training with DP)
+LLLXX24,NDSS 2024,"MPC training (two-party secret sharing with HE and OT, n data owners reduced to sequential two-party interaction)"
+TH26,PoPETs 2026,"secure aggregation (cross-device private FL, DP-FTRL with TEE)"
+TWMJFBBCCC...,CCS 2024,"secure aggregation (two-server, Prio-based, private federated learning and analytics)"
+XZH24,CCS 2024,"MPC training (three-server shuffle model of DP, horizontal FL)"
+XZH25,CCS 2025,"MPC training (three-server secure aggregation, horizontal FL)"

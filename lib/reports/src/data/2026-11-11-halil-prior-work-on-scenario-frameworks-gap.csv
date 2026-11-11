@@ -1,0 +1,7 @@
+Gap,What is missing,Evidence,Whose finding
+no-scenario-coordinates,"No work writes a scenario as the parties, the ideal functionality and the coalition, with a security statement per scenario.","The sweep of roughly thirty taxonomies of 2026-08-05 and the searches of 2026-11-11, all nil.",found by us
+games-one-model,The game frameworks have one challenger training one model.,"Salem et al.~\cite{SCEKPSTZ23}, Sec. VI-D.",stated
+simulation-stops-at-output,Simulation proofs say nothing about what the functionality's output leaks.,The ideal leakage of secure aggregation is the sum~\cite{MOJC23}.,"stated, as the definition"
+joins-per-construction,Protocol security and output leakage are joined only inside single constructions.,"The joined papers of the ledger, and Pentyala et al.",found by us
+privacy-integrity-apart,Privacy and integrity are formalized apart.,"Salem et al. exclude integrity, Wu et al.~\cite{WZLLHL23} exclude privacy.",found by the 2026-08-05 sweep
+no-standard-scenarios,No standard fixes attack scenarios.,The four standards above.,found by us

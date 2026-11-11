@@ -1,0 +1,80 @@
+%%============================================================================
+%% A report. Created by report-new.sh. Do not copy this file by hand.
+%% Compile from the repository root:  report-build.sh lib/reports/src/<this file>
+%%
+%% Two rules the build enforces and you cannot argue with.
+%%   Section 0, when this repository asks for one, lives in
+%%   lib/reports/reflections/<same stem>.tex and the author writes it.
+%%   The PDF is five pages, references and appendix included.
+%%============================================================================
+\documentclass{labreport}
+\lrnoreflection   % lib/reports/src/config.yml says reflection: false
+
+\lrdate{2026-11-11}
+\lrslug{halil-prior-work-on-scenario-frameworks}
+\lrtitle{Prior work on a framework for scenarios of multi-party learning, and the gap}
+\lrauthor{Halil İbrahim Kanpak}
+% \lrissue{FILL}   % the issue this report answers, by its name
+\lrstatus{draft}          % draft | reviewed | final
+% \lrperiod{2026-09-09 to 2026-09-23}
+
+%% Every number in prose is defined here, with the file it came from.
+\lrdefine{LedgerPapers}{351}{lib/reports/src/data/2026-11-11-halil-prior-work-on-scenario-frameworks-facts.csv}
+\lrdefine{IdealPapers}{48}{lib/reports/src/data/2026-11-11-halil-prior-work-on-scenario-frameworks-facts.csv}
+\lrdefine{GamePapers}{16}{lib/reports/src/data/2026-11-11-halil-prior-work-on-scenario-frameworks-facts.csv}
+\lrdefine{Joins}{12}{lib/reports/src/data/2026-11-11-halil-prior-work-on-scenario-frameworks-facts.csv}
+\lrdefine{Taxonomies}{30}{lib/reports/src/data/2026-11-11-halil-prior-work-on-scenario-frameworks-facts.csv}
+\lrdefine{SalemGames}{18}{lib/reports/src/data/2026-11-11-halil-prior-work-on-scenario-frameworks-facts.csv}
+\lrdefine{Searches}{9}{lib/reports/src/data/2026-11-11-halil-prior-work-on-scenario-frameworks-facts.csv}
+
+\begin{document}
+\lrmaketitle
+
+%%----------------------------------------------------------------------------
+\lrscope
+Does a standard or framework fix the scenarios of multi-party learning and state, for each, what a protocol hides and what its released output still leaks?
+The answer draws on the formalizing line's sweep of about \lrv{Taxonomies} taxonomies, its ledger of \lrv{LedgerPapers} multi-party papers, and \lrv{Searches} searches of 2026-11-11 on standards and on frameworks that join the two.
+
+%%----------------------------------------------------------------------------
+\lrresult
+No standard or framework does it, and the place it would fill lies between three bodies of work, each holding one part.
+Taxonomies give the vocabulary of stage, goal, knowledge and capability but prove nothing, and none has an axis for which parties the adversary controls.
+Security games make exact what the adversary can tell, but Salem et al.~\cite{SCEKPSTZ23} state that their \lrv{SalemGames} games have one challenger training one model and do not express concurrent protocols.
+Simulation proofs show that a protocol reveals nothing beyond the output of an ideal functionality~\cite{MOJC23,MWAPR23}, and they take what that output leaks as given.
+The two layers meet only inside single constructions, in \lrv{Joins} of the \lrv{IdealPapers} ledger papers proven against an ideal functionality, each for its own protocol.
+Standards for federated learning, MPC, FHE and DP fix vocabulary and the unit of privacy, and none fixes attack scenarios.
+
+\lrboundary{Only Salem et al., Yeom et al. and HE-OFT were read in full. The other entries rest on sweep notes, abstracts or search snippets, and a limit marked as found by us may be wrong in detail. The ledger counts come from language-model coders of 2026-10-16 and were not re-read, and the full text of IEEE 3652.1 was not seen.}
+
+%%----------------------------------------------------------------------------
+\lrproduced
+\begin{lrfacts}
+  \lrfact{Sources}{the taxonomy sweep of 2026-08-05 and the ledger and notes of the formalizing line, all in \lrpath{FORMAL_SECURITY}, and web searches}
+  \lrfact{Range}{works from 2010 to 2026}
+  \lrfact{Queries}{\lrv{Searches} searches, logged by slug in the Searches section of \lrpath{lib/literature/positioning.md}}
+  \lrfact{Screened}{the \lrv{LedgerPapers} ledger papers counted by formality, and every row of \lrpath{lib/literature/screening.csv}}
+  \lrfact{Artifacts}{the CSVs under this report's stem in \lrpath{lib/reports/src/data/}}
+  \lrfact{Reproduce}{the tables script in \lrpath{lib/reports/src/figures/}, run from the HE-ML root with FORMAL\_SECURITY beside it}
+\end{lrfacts}
+
+%% The tables are floats and land after the Result whatever their place here.
+\input{lib/reports/src/figures/2026-11-11-halil-prior-work-on-scenario-frameworks-bodies.tex}
+\input{lib/reports/src/figures/2026-11-11-halil-prior-work-on-scenario-frameworks-gap.tex}
+\input{lib/reports/src/figures/2026-11-11-halil-prior-work-on-scenario-frameworks-formality.tex}
+\input{lib/reports/src/figures/2026-11-11-halil-prior-work-on-scenario-frameworks-joins.tex}
+
+%%----------------------------------------------------------------------------
+\lrchanges
+The framework Halil asked for is unoccupied, and the paper can therefore claim the framework itself if it reuses the standard objects of the three bodies.
+Positioning against Villa et al.~\cite{VDKMR26}, which the sweep of 2026-08-05 named the closest work, is no longer needed, because its object is an agentic LLM system.
+The closest prior work becomes Salem et al. for the output layer, Li et al.~\cite{LLLKPMW24} for games with several parties, and secure aggregation for the protocol layer.
+The \lrv{Joins} joined constructions are instances the framework must reproduce as special cases.
+
+%%----------------------------------------------------------------------------
+\lrnext
+Read Salem et al. and Li et al. side by side, then the simulation definition of Flamingo, and agree how a scenario is written before any definition is fixed.
+
+\clearpage
+\lrreferences
+
+\end{document}
