@@ -119,6 +119,16 @@ registers, and the Searches section of `lib/literature/positioning.md` is the
 search log.
 `lib/profs/2026-10-30-meeting/sheet.pdf` is the plan of 30 October on leakage and
 encryption placement in federated fine-tuning, with four experiments. The
-library is empty, and papers are placed as they are read. Under discussion with
-Halil: the axes of the scenario space, the metrics of each goal, and the figure
-style. Nothing of that discussion is fixed here yet.
+library is empty, and papers are placed as they are read, with the metadata of
+papers found and not yet read in `lib/literature/screening.csv`.
+`lib/reports/2026-11-11-halil-prior-work-on-scenario-frameworks.pdf` finds no
+standard or framework that fixes the scenarios of multi-party learning.
+
+Agreed with Halil on 2026-11-11. Every setting is written as a trusted party
+that takes the parties' inputs and hands each party a specified output (the
+ideal functionality of MPC), so FedAvg, split learning, vertical training,
+private inference and HE-OFT are different trusted parties. A scenario has
+three parts: the trusted party, the coalition of parties the adversary
+controls, and how the coalition behaves. Still under discussion: the one name
+for the trusted party, the questions asked of a scenario, the metrics of each
+goal, and the figure style.
