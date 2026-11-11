@@ -150,6 +150,25 @@ what it would cost to approximate the oracle by real training.
   `council/2026-10-29-statement-of-the-theory/statement/final.md` and its three
   statements to prove.
 
+## Halil's instructions of 2026-11-10
+
+- The programme, decided at a meeting with the PIs (`lib/profs/rulings.md`,
+  `2026-11-10-theory-first-then-realize`): "create the theoritcal grounds on what
+  we can proof and then try realizing these with HE and or complexity of models
+  capacities". HE-OFT was designed first and proved afterwards, and the theory now
+  comes first: "in case we cannot realize a result we will use Homomorphci
+  encryption at that specific point and try optimizing on where to put the
+  homomorphic encryption".
+- An unrealized result is a finding: "in case theory is failed to realize this
+  opens a research gap not a failure. In such a case we can discuss what are the
+  metrics".
+- The scope is wider than HE-OFT and HE-IFD: "build a more comprehensive theory
+  defining first what are the possible scenarios for example clients may attack
+  server may put a backdoor I mean anything -but of course we need to start
+  somewhere with some constraints we put- then we define what can be the defense
+  objectives and how they will be realized (either a reduction to CKKS or with a
+  attack success metric we define)".
+
 ## Where things are
 
 | Path | Holds | Written by |
