@@ -121,9 +121,10 @@ Standing instructions for agents in this repository, each with who set it and wh
   `check-layout.sh` and `check-claims.py` look only at the top level, so they
   check nothing here until the skill learns the venue folders.
   Halil, 2026-10-16.
-- Push finished work straight to `main`. This repository is Halil's alone, so
-  no pull request is needed. Pushing still needs his ask in the turn.
-  Halil, 2026-10-16.
+- Commit finished work and push it straight to `main`, without asking first.
+  No pull request. "You can push to repo however you like you and I are alone
+  in this repo." Halil, 2026-11-11, replacing his rule of 2026-10-16 that a
+  push needed his ask in the turn.
 - Theory: before any theory work (a definition, a proof, a round, the
   booklet), read `lab/theory/CONTEXT.md` and `lab/theory/STATE.md`, and follow
   them. Halil reads `lib/theory/`, which holds PDFs only, built by
