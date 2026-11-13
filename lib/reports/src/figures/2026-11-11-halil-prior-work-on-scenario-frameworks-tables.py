@@ -113,7 +113,7 @@ bodies = [
      "The protocol reveals nothing beyond the output of an ideal functionality, against a named coalition.",
      "What that output leaks is taken as given, for instance the sum in secure aggregation. A CKKS "
      "instantiation is approximate, so it realizes the functionality only up to an error."],
-    ["Protocol with a mechanism on the output", r"Pentyala et al.~\cite{PRMDMND22}, and the joined ledger papers",
+    ["Protocol with a mechanism on the output", r"Pentyala et al.~\cite{PRMMDND22}, and the joined ledger papers",
      "MPC or HE for the protocol and DP on the released value, in one construction.",
      "Each proof covers its own protocol and functionality. No search found a definitional framework."],
     ["Games in another domain", r"Villa et al.~\cite{VDKMR26}",
