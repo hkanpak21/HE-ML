@@ -131,8 +131,11 @@ Agreed with Halil on 2026-11-11. Every setting is written as an ideal
 functionality, so FedAvg, split learning, vertical training, private inference
 and HE-OFT are different ideal functionalities. A scenario has three parts: the
 ideal functionality, the coalition, and how the coalition behaves. On
-2026-11-13 he fixed the name ideal functionality and proposed the next step:
-define the attacks in the literature, then the ideal functionalities of the
-settings they attack, with an attack allowed under more than one. Still under
-discussion: the questions asked of a scenario, the metrics of each goal, and
-the figure style.
+2026-11-13 he fixed the name ideal functionality and set the next step: define
+the attacks possible in the settings, not those of the literature, then the
+ideal functionalities under which each runs, with an attack allowed under more
+than one but the relation kept neat. The draft is the report
+`lib/reports/2026-11-13-halil-ideal-functionalities-and-attacks.pdf`, with ten
+standard attacks, ten ideal functionalities, and the order that places each
+attack on an up-set. Still under discussion: the questions asked of a
+scenario, the metrics of each goal, and the figure style.

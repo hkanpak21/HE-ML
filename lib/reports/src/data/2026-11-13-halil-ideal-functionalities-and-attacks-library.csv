@@ -1,0 +1,11 @@
+Name,Accepts,The server receives,A client receives,The querier receives
+pooled-training,a dataset from each client,the model trained on the shuffled union,the same model,nothing
+served-model,"a dataset from each client, queries",nothing,nothing,the trained model's answer to each query
+outsourced-training,a dataset from one client,nothing,the model trained on it,nothing
+fedavg-plain,"a dataset or any update from each client, a model for each client each round from the server",every client's update in every round,the model sent to it,nothing
+fedavg-secagg,as fedavg-plain,the sum of the updates in every round,the model sent to it,nothing
+fedavg-final,a dataset or any update from each client,the final model,the average model of every round,nothing
+split-learning,"batches from the client, any gradient at the cut from the server",the activations at the cut and the labels,the gradient at the cut,nothing
+vertical-training,"a feature block of the shared records from each client, the labels and any gradient from the server",every client's embedding,the gradient at its own embedding,nothing
+private-inference,"a model from the server, a query",nothing,nothing,the model's answer to the query
+he-oft,"a dataset, or any head displacement and per-class counts, from each client, up to $Q$ queries~\cite{KSK26}",each client's sample count and the selected arrangement,the selected arrangement,one label per query

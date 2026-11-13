@@ -1,0 +1,190 @@
+%%============================================================================
+%% A report. Created by report-new.sh.
+%% Halil asked on 2026-11-13 for this report without the canonical sections, so
+%% it is compiled by hand in a temporary folder, the way report-build.sh does,
+%% and report-check.py is not run on it.
+%%============================================================================
+\documentclass{labreport}
+\lrnoreflection   % lib/reports/src/config.yml says reflection: false
+
+\lrdate{2026-11-13}
+\lrslug{halil-ideal-functionalities-and-attacks}
+\lrtitle{Ideal functionalities and the attacks they admit}
+\lrauthor{Halil İbrahim Kanpak}
+\lrstatus{draft}
+
+%% Every number in prose is defined here, with the file it came from.
+\lrdefine{AttackModels}{103}{lib/reports/src/data/2026-11-13-halil-ideal-functionalities-and-attacks-facts.csv}
+\lrdefine{NeedUpdate}{40}{lib/reports/src/data/2026-11-13-halil-ideal-functionalities-and-attacks-facts.csv}
+\lrdefine{NeedRound}{30}{lib/reports/src/data/2026-11-13-halil-ideal-functionalities-and-attacks-facts.csv}
+\lrdefine{NeedMore}{70}{lib/reports/src/data/2026-11-13-halil-ideal-functionalities-and-attacks-facts.csv}
+\lrdefine{NeedCut}{12}{lib/reports/src/data/2026-11-13-halil-ideal-functionalities-and-attacks-facts.csv}
+\lrdefine{NeedFinal}{4}{lib/reports/src/data/2026-11-13-halil-ideal-functionalities-and-attacks-facts.csv}
+\lrdefine{NeedDecrypted}{4}{lib/reports/src/data/2026-11-13-halil-ideal-functionalities-and-attacks-facts.csv}
+\lrdefine{NeedRest}{13}{lib/reports/src/data/2026-11-13-halil-ideal-functionalities-and-attacks-facts.csv}
+\lrdefine{SalemGames}{18}{lib/reports/src/data/2026-11-13-halil-ideal-functionalities-and-attacks-facts.csv}
+
+\newcommand{\IF}{\mathcal{F}}
+\newcommand{\IG}{\mathcal{G}}
+
+\begin{document}
+\lrmaketitle
+
+%%----------------------------------------------------------------------------
+\section{What we have}
+
+A setting of learning is an \emph{ideal functionality}, a \emph{scenario} is an ideal functionality with a coalition and the coalition's behavior, and an \emph{attack} is a question asked in a scenario.
+The possible attacks come from the two sides of an ideal functionality that face the coalition, what it hands out and what it accepts, so they are generated from the settings and not collected from papers.
+Ten standard attacks result, in three question kinds, and the library holds ten ideal functionalities, among them FedAvg in three variants, split and vertical learning, private inference and HE-OFT.
+Two ideal functionalities with the same parties are ordered by what they hand a coalition, and an attack's advantage can only grow along that order (proven).
+Each attack is therefore located by its lowest ideal functionalities, so the relation between attacks and ideal functionalities is a family of up-sets and not an arbitrary many-to-many map.
+The lowest ideal functionalities of an attack say where encryption must go to stop it, and the floor of a task, the lowest ideal functionality that still computes it, holds the attacks no encryption stops.
+How much an attack gains where it runs is a separate quantitative question, answered by a bound or by a measurement.
+
+\lrboundary{The definitions are ours, written in the simulation paradigm that secure aggregation is already proven in, and no other reader has checked them. An empirical verdict rests on the ledger's coding of the paper, and of the works cited only Yeom et al., Salem et al. and HE-OFT were read in full.}
+
+%%----------------------------------------------------------------------------
+\section{Scenarios}
+
+The parties are a server, clients $1,\dots,n$ and a querier, and each party $P$ holds an input $x_P$.
+Client $i$ holds a dataset $D_i$, a multiset of records, the server a model or the messages it chooses, and the querier a query.
+For a set $B$ of parties, $x_B$ collects their inputs.
+
+An ideal functionality $\IF$ is one incorruptible party that receives every input and hands each party $P$ an output $\IF_P(x)$.
+It also fixes an \emph{input space} for each party, the set of inputs it accepts from that party.
+A setting that runs in rounds takes a fresh input each round and hands out a sequence of outputs, and $\IF_P(x)$ then denotes the whole sequence.
+The outputs are the side the coalition observes and the input spaces the side through which it acts, and the library below writes both for every setting.
+
+A \emph{coalition} $A$ is the set of parties the adversary controls, and $H$ is the set of the honest parties.
+The coalition's \emph{view} under $\IF$ is $(x_A,\IF_A(x))$, its own inputs and every output handed to one of its members.
+Its \emph{behavior} is one of three.
+\begin{itemize}
+  \item A \emph{semi-honest} coalition supplies its true inputs and only observes.
+  \item An \emph{input-choosing} coalition supplies any inputs its input spaces allow, chosen from what it has seen so far, and aborts where $\IF$ permits it. A protocol secure against malicious coalitions leaves the adversary exactly this power.
+  \item A \emph{deviating} coalition departs from the protocol. Against a protocol secure only for semi-honest coalitions the simulation then says nothing, so such an attack is placed on the protocol and not on $\IF$.
+\end{itemize}
+A scenario is the triple $(\IF,A,b)$ of an ideal functionality, a coalition and a behavior $b$.
+
+A protocol $\pi$ \emph{realizes} $\IF$ against $A$ with error $\epsilon$ when a simulator, given only $(x_A,\IF_A(x))$, produces the coalition's view in $\pi$ up to distance $\epsilon$.
+The distance is taken jointly with the honest outputs and holds for every input $x$, which is the definition secure aggregation is proven against~\cite{MOJC23,MWAPR23}.
+Every question below then gains at most $2\epsilon$ more in $\pi$ than under $\IF$ (proven, since each hypothesis moves the coalition's view by at most $\epsilon$).
+A question therefore splits into a cryptographic layer, the size of $\epsilon$, and an output layer, the advantage under $\IF$, and the rest of this report concerns the output layer.
+Threshold CKKS computes the outputs only approximately, so it realizes a variant of $\IF$ whose outputs carry the CKKS error, and its realization error rests on a smudging hypothesis (heuristic, \lrpath{lib/reports/2026-11-11-halil-he-results-carried-over.pdf}).
+
+%%----------------------------------------------------------------------------
+\section{Questions and the standard attacks}
+
+A question is posed on the honest inputs $x_H$ and the honest outputs, and it comes in one of three kinds.
+\begin{itemize}
+  \item In a \emph{distinguish} question two distributions $\mathcal{D}_0$ and $\mathcal{D}_1$ over $x_H$ are fixed, $x_H$ is drawn from $\mathcal{D}_\beta$ for a hidden bit $\beta$, and the coalition guesses $\beta$ from its view. Its advantage is $\lvert\Pr[\text{guess } 1\mid\beta=1]-\Pr[\text{guess } 1\mid\beta=0]\rvert$.
+  \item In an \emph{invert} question a target function $g$, a loss $\ell$ and a tolerance $\tau$ are fixed, and the coalition wins when its output $y$ satisfies $\ell(y,g(x_H))\le\tau$. Its advantage is its probability of winning minus that of the best guess made from the prior on $x_H$ alone.
+  \item In a \emph{steer} question a target set $T$ of honest outputs is fixed, and an input-choosing coalition picks inputs $x'_A$ from its input spaces. Its advantage is $\Pr[\IF_H(x'_A,x_H)\in T]$ minus the same probability under its true inputs.
+\end{itemize}
+Distinguish and invert questions act through what $\IF$ hands out and steer questions through what it accepts, so a semi-honest coalition has zero steering advantage by definition.
+
+A standard attack is one question kind with one target that the input and output types of the library admit, and Table~\ref{attacks} lists the ten.
+The names are targets, so membership inference in a paper is the membership question asked in that paper's scenario.
+Source keeps the union and every dataset size fixed, because an ideal functionality that hands out the sizes would otherwise answer it outright.
+By construction every honest input type has an invert target and every honest output a steer target.
+Whether the list covers every attack of interest is open, and free-riding is a known case outside it, since it concerns what the coalition contributes.
+
+\input{lib/reports/src/figures/2026-11-13-halil-ideal-functionalities-and-attacks-attacks.tex}
+
+%%----------------------------------------------------------------------------
+\section{The library of ideal functionalities}
+
+Table~\ref{library} writes each setting as an ideal functionality, with what it accepts and what it hands to the server, to a client and to the querier.
+Variants of one setting are different ideal functionalities, and fedavg-plain, fedavg-secagg and fedavg-final differ only in what the server receives.
+The server's input in fedavg-plain and fedavg-secagg is the model it sends each client each round, because deployed protocols let the server choose it.
+Requiring one model for all clients gives a variant with a smaller input space, which a protocol realizes only by checking that every client received the same model.
+The clients' local training is part of $\IF$, so an honest client gives its dataset and $\IF$ computes its update, while an input-choosing client may submit any update.
+In he-oft the head displacement and the per-class counts are computed in the same way, and the server's output is the leakage of the simulation theorem of HE-OFT~\cite{KSK26}.
+The ideal functionality outsourced-training has a single data owner, so the framework also covers settings that are not multi-party.
+
+\input{lib/reports/src/figures/2026-11-13-halil-ideal-functionalities-and-attacks-library.tex}
+
+%%----------------------------------------------------------------------------
+\section{The order, and where an attack runs}
+
+Fix a coalition $A$ and two ideal functionalities $\IF$ and $\IG$ with the same parties and the same honest input spaces.
+$\IF$ is \emph{below} $\IG$ for $A$, written $\IF\preceq_A\IG$, when an efficient map $m$ satisfies
+\[
+  \bigl(x_A,\IF_A(x)\bigr)\;\stackrel{d}{=}\;m\bigl(x_A,\IG_A(x)\bigr)\quad\text{for every input } x,
+\]
+so that the coalition computes its view under $\IF$ from its view under $\IG$.
+If $\IF\preceq_A\IG$, a semi-honest coalition gains no more under $\IF$ than under $\IG$ in any distinguish or invert question (proven, since a strategy under $\IF$ runs under $\IG$ after $m$).
+For a level $\delta$, the ideal functionalities on which an attack's advantage exceeds $\delta$ thus form an up-set, and the attack is located by the minimal elements of that set.
+Steering is ordered by the input spaces instead, because an ideal functionality that computes the same honest outputs and accepts fewer inputs from $A$ admits no more steering (proven, as a maximum over a smaller set).
+
+For a semi-honest server, fedavg-final $\preceq$ fedavg-secagg $\preceq$ fedavg-plain (proven), because the server computes the final model from the round sums and each round sum from the updates.
+The ideal functionality pooled-training is comparable with none of the three, because its output does not depend on how the records are split among the clients and theirs does.
+
+An input-choosing server acts through both sides at once and can move itself up the order.
+Pasquini et al.~\cite{PFA22} send a crafted model to every client but the target, so the round sum under fedavg-secagg equals the target's update, which is what fedavg-plain hands out (empirical).
+The variant with one model for all clients blocks that route, yet Shi et al.~\cite{SWXZSHL25} still reconstruct the records of the union with one crafted model, without attributing them to clients (empirical).
+In the terms of Table~\ref{attacks}, the variant still admits record, and that attack gives no answer to source.
+The order therefore locates an active attack only once the input space is fixed, so the input space is a coordinate of an ideal functionality as much as its outputs are.
+
+%%----------------------------------------------------------------------------
+\section{Where encryption goes, and the floor}
+
+A protocol stops an attack in a scenario when the ideal functionality it realizes lies outside the attack's up-set.
+Encryption and MPC let a protocol realize a lower ideal functionality of the same task, fedavg-secagg in place of fedavg-plain for instance, and each step down costs computation.
+Placing HE is then the choice of the highest ideal functionality of the task, the one with the least encryption, that lies outside the up-set of every attack the deployment must stop.
+
+A task fixes what some party must receive, such as the trained model for the clients or one label per query for the querier.
+Its \emph{floor} is the lowest ideal functionality of the library that still hands that out, and an attack whose up-set contains the floor runs under every protocol for the task.
+Encryption cannot stop such an attack, and what remains is to change the ideal functionality, by DP inside it or by narrowing what it accepts, or to record the leakage as inherent.
+Each attack in a scenario thus gets one of three verdicts at the output layer: zero advantage, where encryption alone suffices, a bound from DP inside the ideal functionality, or no bound, where a measurement or a gap is recorded.
+Table~\ref{cases} gives worked cases.
+
+Source has zero advantage under fedavg-secagg with one full-batch local step weighted by size, because client $i$'s update at round $t$ is the sum of the per-record gradients of $D_i$, so the round sum is
+\[
+  \sum_{i=1}^{n}\sum_{z\in D_i}\nabla L(\theta_t,z)\;=\;\sum_{z\in D_1\uplus\cdots\uplus D_n}\nabla L(\theta_t,z),
+\]
+a function of the union (proven), where $\theta_t$ is the model of round $t$, $L$ the training loss and $\uplus$ the union of multisets.
+Several local steps break the identity, because the update is then a nonlinear function of the client's own records, so the round sum depends on the split.
+
+HE-OFT shows the floor of a task that serves labels.
+Its shared displacement for class $c$ is the count-weighted mean of the clients' displacements $\Delta_{j,c}$ with per-class counts $g_{j,c}$, so a client $a$ that inflates its count moves it at will,
+\[
+  \frac{\sum_{j} g_{j,c}\,\Delta_{j,c}}{\sum_{j} g_{j,c}}\;\longrightarrow\;\Delta_{a,c}\qquad\text{as } g_{a,c}\to\infty
+\]
+(proven, prop-he-oft-count-steering of the carried-over report).
+The counts are inputs he-oft accepts, so encryption leaves this steering in place, and only a variant that bounds the accepted counts removes it.
+
+\input{lib/reports/src/figures/2026-11-13-halil-ideal-functionalities-and-attacks-cases.tex}
+
+%%----------------------------------------------------------------------------
+\section{Published attacks, placed}
+
+The ledger codes, for each of its \lrv{AttackModels} attack threat models, what the attack reads in plaintext, and the least of it gives the lowest ideal functionality of the library under which the attack runs as published (empirical, coded on 2026-10-16 and not re-read).
+Of these, \lrv{NeedUpdate} read a client's own update and \lrv{NeedRound} a per-round sum or model, so an ideal functionality that hands the server only the final model stops these \lrv{NeedMore} as published.
+Another \lrv{NeedCut} read values at a cut, which places them under split-learning and vertical-training.
+Only \lrv{NeedFinal} need no more than the final model or served answers, which puts them in the floor of every training task, and \lrv{NeedDecrypted} read a decrypted value, which attacks the realization and not the ideal functionality.
+The other \lrv{NeedRest} are coded as reading nothing in plaintext or values outside the library, and the placement ignores the input space an attack uses.
+
+%%----------------------------------------------------------------------------
+\section{Prior work}
+
+Table~\ref{prior} lists the works this report compares against, what each fixes in the picture above, and where its PDF is held.
+Each fixes one piece, the vocabulary, the games on one model, the simulation of one protocol or one joint construction, and the gap they leave is the subject of \lrpath{lib/reports/2026-11-11-halil-prior-work-on-scenario-frameworks.pdf}.
+Barreno et al. and the three standards are not held, the first behind the Springer paywall and the others because they are sold.
+
+\input{lib/reports/src/figures/2026-11-13-halil-ideal-functionalities-and-attacks-prior.tex}
+
+%%----------------------------------------------------------------------------
+\section{Open}
+
+\begin{itemize}
+  \item Active coalitions need an order on pairs of outputs and input spaces, and the up-set statement is proven here only for a fixed input space.
+  \item Settings that run in rounds against adaptive coalitions need the order round by round, which the definition on whole output sequences does not give.
+  \item Each ideal functionality should be stated with the noisy output that threshold CKKS computes, so that the realization error concerns the protocol alone.
+  \item The library lacks decentralized learning, fine-tuning with LoRA adapters across parties, and inference with a model split across parties.
+  \item Source under several local steps is open, and it decides whether the example of client A and client B holds for FedAvg as deployed.
+\end{itemize}
+
+
+\lrreferences
+
+\end{document}

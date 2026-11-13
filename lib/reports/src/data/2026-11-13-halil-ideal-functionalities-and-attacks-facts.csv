@@ -1,0 +1,10 @@
+name,value,source
+AttackModels,103,"../FORMAL_SECURITY/HE-ML-migrated/lib/literature/ledger.csv, threat models of papers typed attack"
+NeedUpdate,40,../FORMAL_SECURITY/HE-ML-migrated/lib/literature/ledger.csv
+NeedRound,30,../FORMAL_SECURITY/HE-ML-migrated/lib/literature/ledger.csv
+NeedFinal,4,../FORMAL_SECURITY/HE-ML-migrated/lib/literature/ledger.csv
+NeedDecrypted,4,../FORMAL_SECURITY/HE-ML-migrated/lib/literature/ledger.csv
+NeedCut,12,../FORMAL_SECURITY/HE-ML-migrated/lib/literature/ledger.csv
+NeedRest,13,"../FORMAL_SECURITY/HE-ML-migrated/lib/literature/ledger.csv, nothing in plaintext plus other values"
+NeedMore,70,"../FORMAL_SECURITY/HE-ML-migrated/lib/literature/ledger.csv, own update plus per-round value"
+SalemGames,18,FORMAL_SECURITY/HE-ML-migrated/lib/literature/notes/ieee-sp/SCEKPSTZ23.md

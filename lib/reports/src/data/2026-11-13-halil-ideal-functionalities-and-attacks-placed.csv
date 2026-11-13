@@ -1,0 +1,8 @@
+What it needs in plaintext,The lowest ideal functionality that hands it out,Threat models
+a client's own update,fedavg-plain,40
+a per-round sum or model,fedavg-secagg,30
+values at a cut,"split-learning, vertical-training",12
+only the final model or served answers,"fedavg-final, pooled-training, served-model",4
+a decrypted value,"none, the attack targets the realization",4
+nothing coded in plaintext,"none, the attack targets the protocol or the coding is short",11
+other values,outside the library,2

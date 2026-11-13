@@ -1,0 +1,19 @@
+Work,What it fixes in this picture,PDF folder
+Barreno et al.~\cite{BNJT10},"goal and capability, which become the two interfaces",not held
+Papernot et al.~\cite{PMSW18},the stage of an attack and the adversary's knowledge,ieee-eurosp
+NIST AI 100-2~\cite{VOFADH25},"the names of attacks, privacy and integrity together",nist
+Yeom et al.~\cite{YGFJ18},"membership and attribute games on one model, the DP bound",csf
+Salem et al.~\cite{SCEKPSTZ23},"\lrv{SalemGames} games on one model, the output layer of pooled-training",ieee-sp
+Li et al.~\cite{LLLKPMW24},"games on gradients, the output layer of fedavg-plain",acm-ccs
+Wu et al.~\cite{WZLLHL23},"integrity attacks, the steer kind, with no advantage",arxiv
+Mansouri et al.~\cite{MOJC23},"the ideal functionality of secure aggregation, by coalition",popets
+Ma et al.~\cite{MWAPR23},simulation of secure aggregation over many rounds,ieee-sp
+Morona-M\'{\i}nguez et al.~\cite{MPP26},"averaging under multi-key HE, up to the CKKS error",arxiv
+HE-OFT~\cite{KSK26},"an ideal functionality with stated leakage, and the bound on label queries",arxiv
+Pentyala et al.~\cite{PRMMDND22},MPC for the protocol and DP inside the ideal functionality,arxiv
+Carletti et al.~\cite{CFMPV25},"the threat models of gradient inversion, by role",usenix-security
+Rizzini et al.~\cite{REGB26},"verifiable integrity, which narrows what is accepted",popets
+Desfontaines and Pej\'o~\cite{DP20},"criteria for a list of attacks, exclusive and compatible dimensions",popets
+NIST SP 800-226~\cite{NISTSP800226},the unit of privacy for DP inside an ideal functionality,nist
+Villa et al.~\cite{VDKMR26},"one game for confidentiality, integrity and availability of agentic LLM systems",arxiv
+"IEEE 3652.1~\cite{IEEE3652}, ISO/IEC 4922~\cite{ISO4922}, ISO/IEC 28033~\cite{ISO28033}","the vocabulary of federated learning, MPC and FHE",not held
