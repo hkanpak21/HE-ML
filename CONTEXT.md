@@ -91,6 +91,9 @@ with the formalizing work, and their full ledger is in
 | steer | the goal of choosing inputs so the trained model lands in a target set | poisoning, backdoor, as names |
 | collapse | a weaker adversary attains the stronger one's best value at a fixed goal | equivalence |
 | separation | a construction where the stronger adversary does much better at a fixed goal | gap, as a name |
+| ideal functionality | what a setting computes, written as one incorruptible party that takes the parties' inputs and hands each party a specified output. A protocol realizes it when everything a coalition sees can be simulated from the coalition's inputs and outputs | the trusted party, the oracle, the ideal world |
+| scenario | an ideal functionality, a coalition, and how the coalition behaves | the setting, when the three parts are meant |
+| coalition | the set of parties the adversary controls | the colluders, the attacker set |
 
 ## Symbols
 
@@ -124,11 +127,12 @@ papers found and not yet read in `lib/literature/screening.csv`.
 `lib/reports/2026-11-11-halil-prior-work-on-scenario-frameworks.pdf` finds no
 standard or framework that fixes the scenarios of multi-party learning.
 
-Agreed with Halil on 2026-11-11. Every setting is written as a trusted party
-that takes the parties' inputs and hands each party a specified output (the
-ideal functionality of MPC), so FedAvg, split learning, vertical training,
-private inference and HE-OFT are different trusted parties. A scenario has
-three parts: the trusted party, the coalition of parties the adversary
-controls, and how the coalition behaves. Still under discussion: the one name
-for the trusted party, the questions asked of a scenario, the metrics of each
-goal, and the figure style.
+Agreed with Halil on 2026-11-11. Every setting is written as an ideal
+functionality, so FedAvg, split learning, vertical training, private inference
+and HE-OFT are different ideal functionalities. A scenario has three parts: the
+ideal functionality, the coalition, and how the coalition behaves. On
+2026-11-13 he fixed the name ideal functionality and proposed the next step:
+define the attacks in the literature, then the ideal functionalities of the
+settings they attack, with an attack allowed under more than one. Still under
+discussion: the questions asked of a scenario, the metrics of each goal, and
+the figure style.
